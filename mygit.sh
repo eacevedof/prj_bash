@@ -28,7 +28,7 @@ do
     if [[ isize > 0 ]] 
     then
       echo "commiting"
-      git add --all; git commit -m "mygit.sh"; git push;
+      git add --all; git commit -m "$msg"; git push;
     fi
     exit 0
 
