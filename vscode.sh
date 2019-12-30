@@ -6,12 +6,16 @@
 
 #capturo el primer argumento
 arg1=$1
+echo "arg1: $arg1"
 
 #formo el nombre del proyecto
 prjfolder="prj_$arg1"
 fullpath="/e/projects/$prjfolder"
-# si no hay argumento (nombre del proyecto)
-if [[ -z "$arg1" ]] || [[ $arg1="." ]]; then
+echo $fullpath
+
+# si no hay argumento (nombre del proyecto) o si el argumento es . renombro fullpath
+if [ -z "$arg1" ] || [[ $arg1 == "." ]]; then
+  echo "cambio a dir actual"
   # abro donde estoy
   fullpath=$PWD
 fi
@@ -21,4 +25,5 @@ if [[ ! -d $fullpath ]]; then
   exit 1
 fi
 
+echo "opening vscode with $fullpath"
 code $fullpath
