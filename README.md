@@ -17,6 +17,16 @@ mygit.sh aaa yyyy xx "zz vv ii" 1246 6.689 z v i
 9
 ```
 
+#### **asignar booleanos**
+```s
+# If you want to store the return code from a command in a variable you can do
+
+/bin/true
+ret=$?
+
+# if you want to store the output from a command in a variable you can do
+out=$(/bin/true)
+```
 
 
 

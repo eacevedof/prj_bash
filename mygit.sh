@@ -1,6 +1,10 @@
 #!/bin/sh
 
-echo $#
+# [ -z "foo" ]; r=$?
+#miv='[ $# -gt 0 ]'
+[ $# -gt 0 ] miv=$?
+
+echo "miv" $miv
 
 while [ $# -gt 0 ]; do
 	case "$1" in
