@@ -1,19 +1,14 @@
 #!/bin/sh
 
-echo $1 
-echo $2
-
-read someparam
-echo someparam
-echo $someparam
-
 while [ $# -gt 0 ]; do
 	case "$1" in
-		--m=*)
-			m="${1#*=}"
+		-a=*)
+			a="${1#*=}"
+      echo ${a}
 			;;
-		--arg_1=*)
-			arg_1="${1#*=}"
+		--b=*)
+			b="${1#*=}"
+      echo ${b}
 			;;
 		*)
     printf "***************************\n"
@@ -23,4 +18,5 @@ while [ $# -gt 0 ]; do
 	esac
 	shift
 done
+
 # git add --all; git commit -m "mygit.sh"; git push;
