@@ -19,11 +19,8 @@ do
     m=*)
       m="${1#*=}"
     ;;  
-    -m=*)
-      m="${1#*=}"
-    ;;
-    --m=*)
-      m="${1#*=}"
+    p=*)
+      p="${1#*=}"
     ;;
     *)
 
@@ -31,6 +28,17 @@ do
     isize=${#msg}
     if [[ $isize -gt 0 ]] 
     then
+      # si hay parametro project
+      if [[ ! -z "$p" ]]; then
+        fullpath="/e/projects/prj_$p"
+        if [[ ! -d $fullpath ]]; then 
+          echo "not dir: $fullpath"
+          exit 1
+        fi      
+        cd $fullpath
+      fi
+      echo $PWD
+      echo "..commiting"
       git add --all; git commit -m "$msg"; git push;
       exit 0
     fi

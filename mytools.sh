@@ -4,4 +4,4 @@
 #TO-DO
 
 # crear funcion gt(x,y):boolean
-
+# trim

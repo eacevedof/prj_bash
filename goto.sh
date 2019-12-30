@@ -8,19 +8,19 @@ declare -a projects=(
       "prj_theframework_helpers" "prj_wordpress" "prj_bash"
     )
 
-#echo $1
-input=$1
-project="prj_$input"
-#echo $project
-#exit
+#capturo el primer argumento
+arg1=$1
+#formo el nombre del proyecto
+prjfolder="prj_$arg1"
 
-if [[ " ${projects[@]} " =~ " ${project} " ]]; then
-  #echo "executing cd"
-  fullpath="/e/projects/$project"
-  # echo $fullpath
+#compruebo si existe en el array
+if [[ " ${projects[@]} " =~ " ${prjfolder} " ]]; then
+  #ruta absoluta al proyecto
+  fullpath="/e/projects/$prjfolder"
+  #voy al directorio
   cd $fullpath
+  #refresco el shell de lo contrario no se veria el cambio del directorio en la ventana donde estoy
   exec bash
-  # cd "$(dirname "${fullpath}")"
 else
-  echo "project not found in array"
+  echo "prjfolder $arg1 not found in array"
 fi
