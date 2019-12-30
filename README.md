@@ -39,7 +39,9 @@ out=$(/bin/true)
 # con operador ternario
 # https://stackoverflow.com/questions/3953645/ternary-operator-in-bash
 mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK invirtiendo lo que deuvele test
+mibool=$([[ $# -gt 0 ]] && echo 1 || echo 0) # OK
 
+##########
 # casos NOK
 [[$# -gt 0]];mibool=$? # NO! hay que respetar los espacios entre corchetes
 mibool='[[ $# -gt 0 ]]'  # NO! guarda un string
