@@ -1,12 +1,14 @@
 #!/bin/sh
 
+echo $#
+
 while [ $# -gt 0 ]; do
 	case "$1" in
 		-a=*)
 			a="${1#*=}"
       echo ${a}
 			;;
-		--b=*)
+		-b=*)
 			b="${1#*=}"
       echo ${b}
 			;;
