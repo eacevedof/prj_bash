@@ -8,7 +8,7 @@
 
 
 
-# mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK
+mibool=$([[ $# -gt 0 ]] && echo 1 || echo 0) # OK
 
 # [[$# -gt 0]];mibool=$? # NO! hay que respetar los espacios entre corchetes
 # con operador ternario
