@@ -1,5 +1,6 @@
 # prj_bash
-Bash scripting 
+- Bash scripting 
+- Crear variable de entorno que apunte a esta carpeta
 
 ## TIPS
 ### Obtener el numero de argumentos al llamar al bash
@@ -89,3 +90,10 @@ if [[ ! -z "$p" ]]; then
   echo "no vacia"
 fi
 ```
+
+### TO-DO
+- terminar dockerc.sh
+  - debe permitir lanzar docker-compose dentro de cualquier ruta
+- crear bundle con parametro numero de terminales
+  - el bundle abre vscode y ventanas bash
+  - flag docker para lanzar docker-compose
