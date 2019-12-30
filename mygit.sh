@@ -35,9 +35,9 @@ do
       exit 0
     fi
 
-    printf "***************************\n"
-    printf "* Error: Invalid argument.*\n"
-    printf "***************************\n"
+    printf "*************************************\n"
+    printf "* mygit.sh  Error: Invalid argument.*\n"
+    printf "*************************************\n"
     exit 1
     esac
     shift
