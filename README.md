@@ -1,8 +1,9 @@
 # prj_bash
 Bash scripting 
 
-### **`if then else`**
-- `read mivar` espera el prompt a que se guarde en mivar
+#### **`if then else`**
+- `read mivar` 
+	- espera el prompt a que se escriba algo para que a posteriori se guarde en mivar
 ```s
 echo ' Adivina el valor numerico de la variable'
 read A
