@@ -29,6 +29,7 @@ do
     if [[ $isize -gt 0 ]] 
     then
       # si hay parametro project
+      
       if [[ ! -z "$p" ]]; then
         fullpath="/e/projects/prj_$p"
         if [[ ! -d $fullpath ]]; then 

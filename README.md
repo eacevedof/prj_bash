@@ -83,3 +83,9 @@ do
   exit
 done
 ```
+#### **comprobar si la variable esta vacia**
+```sh
+if [[ ! -z "$p" ]]; then
+  echo "no vacia"
+fi
+```
