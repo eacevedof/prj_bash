@@ -5,8 +5,7 @@ echo "num of params:" $iparams
 (( isargsok = iparams>0 ? 1 : 0 ))
 echo "isargsok" $isargsok
 
-exit
-while [ $# -gt 0 ]; do
+while $isargsok do
 	case "$1" in
 		-a=*)
 			a="${1#*=}"
