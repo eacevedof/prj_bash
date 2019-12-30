@@ -16,11 +16,10 @@ mybash.sh xxx  # devolveria 1
 mygit.sh aaa yyyy xx "zz vv ii" 1246 6.689 z v i
 9
 ```
-
-#### **asignar booleanos**
+### Guardar valores de retorno
+```sh
 ```s
 # If you want to store the return code from a command in a variable you can do
-
 /bin/true
 ret=$?
 
@@ -28,7 +27,26 @@ ret=$?
 out=$(/bin/true)
 ```
 
+#### **asignar booleanos**
+- cuando se compara se usan los corchetes (square brackets) que estos son un atajo a la **función test**
+- asignar una expresion booleana a una variable
+```sh
+# casos OK
+[[ $# -gt 0 ]]; mibool=$? # OK 1 si no hay argumentos 0 en caso contrario
+[[ $# -gt 0 ]];mibool=$? # OK mismo que el anterior
+[[ $# -gt 0 ]]; let mibool=$? # OK similar al anterior
 
+# con operador ternario
+mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK
+
+# casos NOK
+[[$# -gt 0]];mibool=$? # NO! hay que respetar los espacios entre corchetes
+mibool='[[ $# -gt 0 ]]'  # NO! guarda un string
+mibool=$([[ $# -gt 0 ]]) # NO da error pero no se guarda nada
+
+[[$# -gt 0]]; mibool=$? # NO!
+mibool=[[ $# -gt 0 ]];  # NO!
+```
 
 #### **`if then else`**
 - `read mivar` 
