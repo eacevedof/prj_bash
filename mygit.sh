@@ -10,16 +10,16 @@ echo $someparam
 while [ $# -gt 0 ]; do
 	case "$1" in
 		--m=*)
-		  m="${1#*=}"
-		  ;;
+			m="${1#*=}"
+			;;
 		--arg_1=*)
-		  arg_1="${1#*=}"
-		  ;;
+			arg_1="${1#*=}"
+			;;
 		*)
-		  printf "***************************\n"
-		  printf "* Error: Invalid argument.*\n"
-		  printf "***************************\n"
-		  exit 1
+    printf "***************************\n"
+    printf "* Error: Invalid argument.*\n"
+    printf "***************************\n"
+    exit 1
 	esac
 	shift
 done
