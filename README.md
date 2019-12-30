@@ -36,8 +36,8 @@ out=$(/bin/true)
 [[ $# -gt 0 ]];mibool=$? # OK mismo que el anterior
 [[ $# -gt 0 ]]; let mibool=$? # OK similar al anterior
 
-# con operador ternario
-mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK
+#con operador ternario
+mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK invirtiendo lo que deuvele test
 
 # casos NOK
 [[$# -gt 0]];mibool=$? # NO! hay que respetar los espacios entre corchetes
