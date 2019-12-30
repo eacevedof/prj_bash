@@ -11,7 +11,7 @@ arg1=$1
 prjfolder="prj_$arg1"
 fullpath="/e/projects/$prjfolder"
 # si no hay argumento (nombre del proyecto)
-if [[ -z "$arg1" ]]; then
+if [[ -z "$arg1" ]] || [[ $arg1="." ]]; then
   # abro donde estoy
   fullpath=$PWD
 fi
