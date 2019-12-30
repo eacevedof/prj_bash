@@ -15,27 +15,27 @@ fi
 
 while (( isargsok ));
 do
-	case $1 in
-		-m=*)
-			m="${1#*=}"
-			;;
-		--m=*)
-			m="${1#*=}"
-			;;
-		*)
+  case $1 in
+    -m=*)
+      m="${1#*=}"
+    ;;
+    --m=*)
+      m="${1#*=}"
+    ;;
+    *)
+    
     msg=$(echo $m | xargs echo -n)
     isize=${#msg}
     if [[ $isize -gt 0 ]] 
     then
-      echo "commiting"
       git add --all; git commit -m "$msg"; git push;
       exit 0
     fi
-    
+
     printf "***************************\n"
     printf "* Error: Invalid argument.*\n"
     printf "***************************\n"
     exit 1
-	esac
-	shift
+    esac
+    shift
 done
