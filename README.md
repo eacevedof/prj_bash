@@ -18,7 +18,6 @@ mygit.sh aaa yyyy xx "zz vv ii" 1246 6.689 z v i
 ```
 ### Guardar valores de retorno
 ```sh
-```s
 # If you want to store the return code from a command in a variable you can do
 /bin/true
 ret=$?
@@ -41,6 +40,10 @@ out=$(/bin/true)
 # https://stackoverflow.com/questions/3953645/ternary-operator-in-bash
 mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK invirtiendo lo que deuvele test
 mibool=$([[ $# -gt 0 ]] && echo 1 || echo 0) # OK
+
+# No son lo mismo
+(( mibool = $#>0 ? 1 : 0 ))        # OK
+(( mibool = $#>0 ? true : false )) # guarda 0 siempre en mibool
 
 ##########
 # casos NOK

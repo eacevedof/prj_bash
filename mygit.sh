@@ -1,26 +1,37 @@
 #!/bin/sh
-
+# automatiza el push total de la carpeta donde estoy
 let iparams=$#
-echo "num of params:" $iparams
+#echo "num of params:" $iparams
 
-# seteo
+# compruebo si hay argumentos
 (( isargsok = iparams>0 ? 1 : 0 ))
-echo "isargsok" $isargsok
+#echo "isargsok" $isargsok
 
-# while [[ "$isargsok" -eq 1 ]]; # ok
+if (( !isargsok ))
+then 
+  echo "no argumentes passed. Try: -m \"some message\""
+  exit
+fi
+
 while (( isargsok ));
 do
-	case "$1" in
-		-a=*)
-			a="${1#*=}"
-      echo ${a}
-      exit
+	case $1 in
+		-m=*)
+			m="${1#*=}"
 			;;
-		-b=*)
-			b="${1#*=}"
-      echo ${b}
+		--m=*)
+			m="${1#*=}"
 			;;
 		*)
+    msg=$(echo $m | xargs echo -n)
+    isize=${#msg}
+    if [[ isize > 0 ]] 
+    then
+      echo "commiting"
+      git add --all; git commit -m "mygit.sh"; git push;
+    fi
+    exit 0
+
     printf "***************************\n"
     printf "* Error: Invalid argument.*\n"
     printf "***************************\n"
@@ -28,5 +39,3 @@ do
 	esac
 	shift
 done
-
-# git add --all; git commit -m "mygit.sh"; git push;
