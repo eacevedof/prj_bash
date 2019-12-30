@@ -30,6 +30,7 @@ out=$(/bin/true)
 #### **asignar booleanos**
 - cuando se compara se usan los corchetes (square brackets) que estos son un atajo a la **función test**
 - asignar una expresion booleana a una variable
+- **$#** no es un párametro simple, es un comando
 ```sh
 # casos OK
 [[ $# -gt 0 ]]; mibool=$? # OK 1 si no hay argumentos 0 en caso contrario
