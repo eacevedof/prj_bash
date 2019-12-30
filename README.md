@@ -36,7 +36,8 @@ out=$(/bin/true)
 [[ $# -gt 0 ]];mibool=$? # OK mismo que el anterior
 [[ $# -gt 0 ]]; let mibool=$? # OK similar al anterior
 
-#con operador ternario
+# con operador ternario
+# https://stackoverflow.com/questions/3953645/ternary-operator-in-bash
 mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK invirtiendo lo que deuvele test
 
 # casos NOK
@@ -46,6 +47,8 @@ mibool=$([[ $# -gt 0 ]]) # NO da error pero no se guarda nada
 
 [[$# -gt 0]]; mibool=$? # NO!
 mibool=[[ $# -gt 0 ]];  # NO!
+(( mibool = [ $# -gt 0 ] ? 1 : 0 )) # NO
+(( [ $# -gt 0 ] ? (mibool=1) : (mibool=0) )) # NO
 ```
 
 #### **`if then else`**

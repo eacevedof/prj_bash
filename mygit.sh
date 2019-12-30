@@ -3,7 +3,10 @@
 
 # [[ $# -gt 0 ]]; mibool=$? # OK 1 si no hay argumentos 0 en caso contrario
 # [[ $# -gt 0 ]];mibool=$? # OK mismo que el anterior
-[[ $# -gt 0 ]]; let mibool=$? # OK similar al anterior
+# [[ $# -gt 0 ]]; let mibool=$? # OK similar al anterior
+
+
+
 
 # mibool=$([ $# -gt 0 ] && echo 1 || echo 0) # OK
 
