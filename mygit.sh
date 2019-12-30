@@ -16,6 +16,9 @@ fi
 while (( isargsok ));
 do
   case $1 in
+    m=*)
+      m="${1#*=}"
+    ;;  
     -m=*)
       m="${1#*=}"
     ;;
@@ -23,7 +26,7 @@ do
       m="${1#*=}"
     ;;
     *)
-    
+
     msg=$(echo $m | xargs echo -n)
     isize=${#msg}
     if [[ $isize -gt 0 ]] 
