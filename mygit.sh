@@ -25,13 +25,13 @@ do
 		*)
     msg=$(echo $m | xargs echo -n)
     isize=${#msg}
-    if [[ isize > 0 ]] 
+    if [[ $isize -gt 0 ]] 
     then
       echo "commiting"
       git add --all; git commit -m "$msg"; git push;
+      exit 0
     fi
-    exit 0
-
+    
     printf "***************************\n"
     printf "* Error: Invalid argument.*\n"
     printf "***************************\n"
