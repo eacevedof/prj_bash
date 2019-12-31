@@ -15,7 +15,7 @@ fullpath="/e/projects/$prjfolder"
 
 # si no hay argumento (nombre del proyecto) o si el argumento es . renombro fullpath
 if [ -z "$arg1" ] || [[ $arg1 == "." ]]; then
-  echo "cambio a dir actual: arg=$arg1"
+  # echo "cambio a dir actual: arg=$arg1"
   # abro donde estoy
   fullpath=$PWD
 fi
