@@ -7,9 +7,10 @@ prjfolder="prj_$arg1"
 fullpath="/e/projects/$prjfolder"
 
 # si es directorio
-if [[ -d $fullpath ]]; then 
+if [[ -d $fullpath ]]; then
+  # cambia de directorio en la misma ventana
   cd $fullpath
   exec bash
 else
-  echo "prjfolder $fullpath not found in array"
+  echo "folder: $fullpath not found"
 fi

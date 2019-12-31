@@ -58,7 +58,7 @@ if [[ ! -z "$stop" ]]; then
 fi
 
 docker-compose ps
-start bash 
+start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
 
 echo "docker-compose up"
 docker-compose up

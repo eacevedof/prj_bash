@@ -21,10 +21,11 @@ if [[ ! -d $fullpath ]]; then
     exit 1
 fi
 
-cd $fullpath
+# cd $fullpath
 # start sh --login
 # start bash --login
-start bash 
+# start bash 
+start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
 
 # E:\programas\x64\git\bin
 # bash.exe
