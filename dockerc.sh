@@ -46,6 +46,9 @@ if [[ ! -f $ymlpath ]]; then
   exit 1
 fi
 
+# nueva ventana bash
+start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
+
 echo "cd fullpath"
 cd $fullpath
 
@@ -57,10 +60,8 @@ if [[ ! -z "$stop" ]]; then
   exit
 fi
 
-docker-compose ps
-start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
-
 echo "docker-compose up"
+docker-compose ps
 docker-compose up
 
 
