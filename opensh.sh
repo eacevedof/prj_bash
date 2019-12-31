@@ -10,6 +10,12 @@ arg1=$1
 prjfolder="prj_$arg1"
 
 fullpath="/e/projects/$prjfolder"
+if [[ $arg1 == "." ]]; then 
+  fullpath=$PWD
+  # echo "fullpath $fullpath"
+fi
+
+# si no es un dir
 if [[ ! -d $fullpath ]]; then 
     echo "not dir: $fullpath"
     exit 1
