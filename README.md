@@ -91,6 +91,10 @@ if [[ ! -z "$p" ]]; then
 fi
 ```
 
+### info
+- https://ss64.com/bash/
+- https://linux.die.net/man/1/sh
+
 ### TO-DO
 - terminar dockerc.sh
   - debe permitir lanzar docker-compose dentro de cualquier ruta
