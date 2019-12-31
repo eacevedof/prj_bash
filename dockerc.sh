@@ -14,22 +14,23 @@ dcompose[symf02]="$rootpath/prj_docker_imgs/"
 dcompose[xnmp]="$rootpath/prj_docker_imgs/"
 dcompose[xnp]="$rootpath/prj_docker_imgs/"
 
-#capturo el <proyecto>
-arg1=$1
-# echo "arg1:$arg1"
+#capturo el <proyecto> | <stop:1>
+prjkey=$1
+stop=$2
+# echo "prjkey:$prjkey"
 
-if [[ $arg1 == "." ]]; then 
+if [[ $prjkey == "." ]]; then 
   fullpath=$PWD
   # echo "fullpath $fullpath"
 fi
 
 # si ese arg es una clave y tiene un valor
-if [[ ! -z ${dcompose[$arg1]} ]]; then
-  fullpath=${dcompose[$arg1]}$arg1
+if [[ ! -z ${dcompose[$prjkey]} ]]; then
+  fullpath=${dcompose[$prjkey]}$prjkey
 fi
 
 if [[ ! -d $fullpath ]]; then 
-  echo "not dir: $arg1"
+  echo "not dir: $prjkey"
   exit 1
 fi
 
@@ -47,8 +48,19 @@ fi
 
 echo "cd fullpath"
 cd $fullpath
-echo "ejecuto docker-compose up"
+
+if [[ ! -z "$stop" ]]; then
+  echo "docker-compose stop"
+  docker-compose stop
+  docker-compose ps
+  docker-compose images
+  exit
+fi
+
+docker-compose ps
+start bash 
+
+echo "docker-compose up"
 docker-compose up
-exec bash
 
 
