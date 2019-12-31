@@ -14,7 +14,7 @@ if [[ ! -z "$iswinbash" ]]; then
 fi
 
 if [[ ! -z "$containerid" ]]; then
-  # winpty docker exec -it $containerid bash
-  echo "hola"
+  winpty docker exec -it $containerid bash
+  # echo "hola"
 fi
 
