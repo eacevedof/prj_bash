@@ -16,7 +16,7 @@ module = getarg(3)
 
 if module=="udemy":
     if funcname=="index":
-        index()
+        index(argument)
     else:
         pprint("no func found")
         pprint(funcname)
