@@ -14,4 +14,5 @@ argument=$([ -z "$1" ] && echo "" || echo "$1")
 action=$([ -z "$2" ] && echo "index" || echo "$2")
 module=$([ -z "$3" ] && echo "udemy" || echo "$3")
 
+clear
 py $pypath $argument $action $module
