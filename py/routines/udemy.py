@@ -27,13 +27,14 @@ def get_title_min(ipostitle,arpostitl,arclean):
     return strtitle
 
 def index(pathfile):
+    pr("\n - BEGIN - \n\n")
     strcont = file_get_contents(pathfile)
     arlines = strcont.split("\n")
     # quito lineas en blanco
     arclean = list(filter(lambda strline: strline.strip()!="", arlines))
-    pr(arclean,"arclean")
+    #pr(arclean,"arclean")
     arpostitl = get_titles_pos(arclean)
-    pr(arpostitl,"arpostitle")
+    #pr(arpostitl,"arpostitle")
 
     artitles = []
     # trato el titulo de sección
@@ -53,8 +54,9 @@ def index(pathfile):
         else:
             artagged.append(f"### {title}")
 
-    pr(artagged,"artagged")
-
+    # pr(artagged,"artagged")
     newfile = f"{pathfile}.bk"
     strcontent = "\n".join(artagged)
+    pr(strcontent)
     file_put_contents(newfile,strcontent)
+    pr("\n - END - \n")
