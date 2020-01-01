@@ -1,5 +1,5 @@
 # routines.udemy.py
-from tools.tools import *
+from tools.tools import file_get_contents,pr,pd,file_put_contents
 
 def get_titles_pos(arclean):
     arpostitl = []
@@ -36,7 +36,7 @@ def index(pathfile):
     pr(arpostitl,"arpostitle")
 
     artitles = []
-
+    # trato el titulo de sección
     imin = arpostitl[0]
     artitles.append(" ".join(arclean[0:imin]))
     
@@ -54,3 +54,7 @@ def index(pathfile):
             artagged.append(f"### {title}")
 
     pr(artagged,"artagged")
+
+    newfile = f"{pathfile}.bk"
+    strcontent = "\n".join(artagged)
+    file_put_contents(newfile,strcontent)
