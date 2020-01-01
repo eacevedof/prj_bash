@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# py.sh <modulo> <funcion> 
+# py.sh <argument=""> <action=index> <module=udemy>
 
 # el dir de este script (py.sh)
 thisdir=$(dirname "$0")
