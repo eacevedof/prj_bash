@@ -37,15 +37,18 @@ def get_titles_pos(arclean):
     return arpostitl
 
 def get_title_w_min(ipostitle,arpostitl,arclean):
-    pr(arpostitl,"getwmin: arpostitl")
-    pr(arclean,"getwmin: arclean")
-    pr(ipostitle,"getwmin: ipostitle")
+    #pr(arpostitl,"getwmin: arpostitl")
+    #pr(arclean,"getwmin: arclean")
+    #pr(ipostitle,"getwmin: ipostitle")
     idx = arpostitl.index(ipostitle)
 
-    
-    # pr(idx,"idx")
-    iend = arpostitl[idx+1]
-    pr(iend,"iend")
+    # si es el ultimo el limite de clean debe ser el ultimo index
+    if(idx == len(arpostitl)-1):
+        iend = len(arclean)-1
+    else:
+        iend = arpostitl[idx+1]
+
+    #pr(iend,"iend")
     arconcat = []
     for i, strline in enumerate(arclean):
         if(i>=ipostitle and i<=iend):
@@ -62,13 +65,16 @@ def index(pathfile):
     # pprint(arclean)
     arpostitl = get_titles_pos(arclean)
     # pprint(arpostitl)
+    artitles = []
     for i, ipostitle in enumerate(arpostitl):
         # print(f"{i} {ipostitle}")
         strtitle = get_title_w_min(ipostitle, arpostitl, arclean)
-        pr(strtitle,"strtitle")
+        artitles.append(strtitle)
+        #pr(strtitle)
+        #pr(strtitle,"strtitle")
 
 
-
+    pr(artitles,"artitles")
 
 
 
