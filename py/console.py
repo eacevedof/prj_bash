@@ -11,8 +11,8 @@ def getarg(ipos=0):
     return sys.argv[ipos]
 
 argument = getarg(1)
-module = getarg(2)
-funcname = getarg(3)
+funcname = getarg(2)
+module = getarg(3)
 
 if module=="udemy":
     if funcname=="index":

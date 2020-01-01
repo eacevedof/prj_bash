@@ -9,7 +9,7 @@ pypath="$thisdir/py/console.py"
 
 #recupero parametros
 argument=$([ -z "$1" ] && echo "" || echo "$1")
-module=$([ -z "$2" ] && echo "udemy" || echo "$2")
-action=$([ -z "$3" ] && echo "index" || echo "$3")
+action=$([ -z "$2" ] && echo "index" || echo "$2")
+module=$([ -z "$3" ] && echo "udemy" || echo "$3")
 
-py $pypath $argument $module $action
+py $pypath $argument $action $module
