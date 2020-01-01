@@ -1,6 +1,8 @@
 #!/bin/sh
 
 # py.sh <argument=""> <action=index> <module=udemy>
+# ejemplo:
+#   py.sh "C:\Users\ioedu\Desktop\temp.php"
 
 # el dir de este script (py.sh)
 thisdir=$(dirname "$0")
