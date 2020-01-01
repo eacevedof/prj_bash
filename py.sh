@@ -8,7 +8,8 @@ thisdir=$(dirname "$0")
 pypath="$thisdir/py/console.py"
 
 #recupero parametros
-module=$([ -z "$1" ] && echo "udemy" || echo "$1")
-action=$([ -z "$2" ] && echo "index" || echo "$2")
+argument=$([ -z "$1" ] && echo "" || echo "$1")
+module=$([ -z "$2" ] && echo "udemy" || echo "$2")
+action=$([ -z "$3" ] && echo "index" || echo "$3")
 
-py $pypath $module $action
+py $pypath $argument $module $action
