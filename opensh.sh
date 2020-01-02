@@ -25,7 +25,7 @@ fi
 # start sh --login
 # start bash --login
 # start bash
-ech $fullpath
+echo $fullpath
 start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
 
 # E:\programas\x64\git\bin
