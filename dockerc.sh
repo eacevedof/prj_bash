@@ -14,9 +14,9 @@ dcompose[symf02]="$rootpath/prj_docker_imgs/"
 dcompose[xnmp]="$rootpath/prj_docker_imgs/"
 dcompose[xnp]="$rootpath/prj_docker_imgs/"
 
-#capturo el <proyecto> | <stop:1>
+#capturo el <proyecto> | <option:1>
 prjkey=$1
-stop=$2
+option=$2
 # echo "prjkey:$prjkey"
 
 if [[ $prjkey == "." ]]; then 
@@ -46,22 +46,28 @@ if [[ ! -f $ymlpath ]]; then
   exit 1
 fi
 
-# nueva ventana bash
-start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
-
-echo "cd fullpath"
+# echo "cd fullpath"
 cd $fullpath
+clear
 
-if [[ ! -z "$stop" ]]; then
-  echo "docker-compose stop"
-  docker-compose stop
+# los echos son tratados como comandos
+if [[ $option == "down" ]]; then 
+  # echo "option: down"
+  docker-compose down --rmi all
   docker-compose ps
   docker-compose images
   exit
 fi
 
-echo "docker-compose up"
+if [[ $option == "ps" ]]; then 
+  # echo "option: ps"
+  docker-compose ps
+  docker-compose images
+  exit
+fi
+
+# nueva ventana bash
+start E:\\programas\\x64\\git\\git-bash.exe --cd="$fullpath"
+echo "option: up"
 docker-compose ps
-docker-compose up
-
-
+docker-compose up --build
