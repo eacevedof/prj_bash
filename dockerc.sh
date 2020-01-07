@@ -11,6 +11,7 @@ declare -A dcompose
 rootpath="/e/projects"
 dcompose[symf01]="$rootpath/prj_docker_imgs/"
 dcompose[symf02]="$rootpath/prj_docker_imgs/"
+dcompose[symf03]="$rootpath/prj_docker_imgs/"
 dcompose[xnmp]="$rootpath/prj_docker_imgs/"
 dcompose[xnp]="$rootpath/prj_docker_imgs/"
 
