@@ -46,8 +46,6 @@ is_truestr()
 is_win ()
 {
   local strso=$(get_so)
-  # echo "strso: $strso"
-  # if [[ $strso == "windows" ]]; then echo "0";  else echo "1"; fi
   is_truestr $strso "windows"
   
 }
@@ -55,8 +53,7 @@ is_win ()
 is_ios ()
 {
   local strso=$(get_so)
-  # echo "strso: $strso"
-  if [[ $strso == "ios" ]]; then echo "0";  else echo "1"; fi
+  is_truestr $strso "ios"
 }
 
 # is_true "xx" "yy"
@@ -71,5 +68,5 @@ is_ios ()
 
 # is_truestr "xx" "yy"
 
-# is_win
-# is_ios
+is_win
+is_ios
