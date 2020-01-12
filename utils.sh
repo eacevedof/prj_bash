@@ -43,14 +43,26 @@ is_truestr()
   if is_true $1 $2; then echo "0"; else echo "1"; fi
 }
 
-is_win ()
+is_ios()
+{
+  local strso=$(get_so)
+  is_true $strso "ios"
+}
+
+is_win()
+{
+  local strso=$(get_so)
+  is_true $strso "windows" 
+}
+
+is_winstr ()
 {
   local strso=$(get_so)
   is_truestr $strso "windows"
   
 }
 
-is_ios ()
+is_iosstr ()
 {
   local strso=$(get_so)
   is_truestr $strso "ios"
@@ -68,5 +80,11 @@ is_ios ()
 
 # is_truestr "xx" "yy"
 
-echo "win:" $(is_win)
-echo "ios:" $(is_ios)
+if is_ios; then echo "ios"; else echo "dontk"; fi
+if is_win; then echo "win"; else echo "dontk"; fi
+
+#v=${is_win}
+#echo $v
+
+# echo "win:" $(is_win)
+# echo "ios:" $(is_ios)
