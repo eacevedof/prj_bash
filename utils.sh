@@ -80,11 +80,23 @@ is_iosstr ()
 
 # is_truestr "xx" "yy"
 
-if is_ios; then echo "ios"; else echo "dontk"; fi
-if is_win; then echo "win"; else echo "dontk"; fi
+# if is_ios; then echo "ios"; else echo "dontk"; fi
+# if is_win; then echo "win"; else echo "dontk"; fi
 
 #v=${is_win}
 #echo $v
 
 # echo "win:" $(is_win)
 # echo "ios:" $(is_ios)
+
+get_dir()
+{
+  echo $( dirname $1)
+}
+
+is_empty()
+{
+  [ -z "$1" ]
+}
+
+# if ! is_empty "xx"; then echo "empty"; else echo "full"; fi
