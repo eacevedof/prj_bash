@@ -68,5 +68,5 @@ is_ios ()
 
 # is_truestr "xx" "yy"
 
-is_win
-is_ios
+echo "win:" $(is_win)
+echo "ios:" $(is_ios)
