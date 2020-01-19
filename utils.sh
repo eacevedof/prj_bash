@@ -59,7 +59,6 @@ is_winstr ()
 {
   local strso=$(get_so)
   is_truestr $strso "windows"
-  
 }
 
 is_iosstr ()
@@ -100,3 +99,10 @@ is_empty()
 }
 
 # if ! is_empty "xx"; then echo "empty"; else echo "full"; fi
+#if is_ios; then
+  # echo "is ios"
+  # source ~/.zshrc no va pq tiene dependencias de oh-my-zsh.sh
+  # exit
+#fi 
+
+alias py=/usr/local/bin/python3

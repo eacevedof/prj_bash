@@ -8,6 +8,11 @@
 arg1=$1
 # echo "arg1: $arg1"
 
+# import utils.hs
+. "$thisdir/utils.sh"
+
+
+
 #formo el nombre del proyecto
 prjfolder="prj_$arg1"
 fullpath="/e/projects/$prjfolder"

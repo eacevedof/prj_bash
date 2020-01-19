@@ -6,3 +6,6 @@ do
   echo $isargsok
   exit
 done
+
+# import utils.hs
+. "$thisdir/utils.sh"

@@ -3,7 +3,7 @@
 # dockers.sh <cont-NAMES>|<CONTAINER ID> <open new win bash>
 thisdir=$( dirname $0)
 
-# import
+# import utils.hs
 . "$thisdir/utils.sh"
 
 if [ -z "$1" ] || [[ $1 == "-h" ]];
