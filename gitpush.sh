@@ -1,5 +1,10 @@
 #!/bin/sh
 # automatiza el push total de la carpeta donde estoy
+
+# import utils.sh
+thisdir=$(dirname "$0")
+. "$thisdir/utils.sh"
+
 let iparams=$#
 #echo "num of params:" $iparams
 
@@ -32,6 +37,7 @@ do
       
       if [[ ! -z "$p" ]]; then
         fullpath="/e/projects/prj_$p"
+        if is_ios; then fullpath=$PATHPRJ"/prj_$p"; fi
         if [[ ! -d $fullpath ]]; then 
           echo "not dir: $fullpath"
           exit 1
