@@ -34,3 +34,8 @@ def file_put_contents(filename,strdata=""):
             f.write(strdata)
     except IOError:
         return f"no file found: {filename}"
+
+def get_datetime():
+    from datetime import datetime
+    now = datetime.now().strftime("%H:%M:%S")
+    return str(now)

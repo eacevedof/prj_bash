@@ -2,7 +2,6 @@
 
 import sys
 from pprint import pprint
-from routines.udemy import *
 
 # print('Number of arguments:', len(sys.argv), 'arguments.')
 # print('Argument List:', str(sys.argv))
@@ -15,6 +14,14 @@ funcname = getarg(2)
 module = getarg(3)
 
 if module=="udemy":
+    from routines.udemy import *
+    if funcname=="index":
+        index(argument)
+    else:
+        pprint("no func found")
+        pprint(funcname)
+elif module=="dump":
+    from routines.dump import *
     if funcname=="index":
         index(argument)
     else:
