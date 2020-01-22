@@ -37,5 +37,8 @@ def file_put_contents(filename,strdata=""):
 
 def get_datetime():
     from datetime import datetime
-    now = datetime.now().strftime("%H:%M:%S")
-    return str(now)
+    now = datetime.now()
+    now.strftime("%Y-%m-%d %H:%M:%S")
+    pr(now)
+    now = str(now).replace("-","").replace(":","").replace(" ","")
+    return now

@@ -35,9 +35,9 @@ def get_newname(filename,arversion):
     parts = filename.split(".")
     #parts = parts[0] + [".".join(arversion)] + parts[1]
     parts.insert(1,".".join(arversion))
-    # parts.insert(2,)
+    parts.insert(2,get_datetime())
     newname = "_".join(parts)
-    
+
     return newname
 
 def index(project):
