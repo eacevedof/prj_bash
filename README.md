@@ -101,3 +101,6 @@ fi
 - crear bundle con parametro numero de terminales
   - el bundle abre vscode y ventanas bash
   - flag docker para lanzar docker-compose
+
+### Ejemplos:
+- `py.sh gotit index dump`

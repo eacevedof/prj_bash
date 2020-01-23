@@ -1,14 +1,16 @@
 # routines.dump.py
 
+import sys
 import os
 import numpy as np
-from tools.tools import file_get_contents,pr,pd,file_put_contents,get_datetime,copyf
+from tools.tools import file_get_contents,pr,pd,file_put_contents,get_datetime,copyf,die
 
 
 def get_last_backup(path):
     files = []
     for entry in os.scandir(path):
-        files.append(entry.name)
+        if entry.name!=".DS_Store":
+            files.append(entry.name)
 
     if not files:
         return ""
@@ -88,7 +90,7 @@ def index(project):
     arvers = get_version(lastbackup)
     arvers = get_increased(arvers)
     #pr(arvers)
-    newname = get_newname(projects[project]["filename"],arvers)
+    newname = get_newname(projects[project]["filename"],arvers)    
     newbackup =  projects[project]["pathdump"] + newname
 
     i = copyf(filedump,newbackup)

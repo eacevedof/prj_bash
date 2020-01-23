@@ -56,3 +56,8 @@ def copyf(path1,path2):
         return 1
     
     return 0
+
+def die():
+    import sys
+    sys.exit()
+
