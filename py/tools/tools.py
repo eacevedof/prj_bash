@@ -43,3 +43,16 @@ def get_datetime():
     now = str(now).replace("-","").replace(":","").replace(" ","")
     now = now[:-7]
     return now
+
+def copyf(path1,path2):
+    from os import path
+    from shutil import copyfile
+
+    if not path.exists(path1):
+        return 0
+
+    if not path.exists(path2):
+        copyfile(path1, path2)
+        return 1
+    
+    return 0
