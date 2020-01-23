@@ -39,6 +39,7 @@ def get_datetime():
     from datetime import datetime
     now = datetime.now()
     now.strftime("%Y-%m-%d %H:%M:%S")
-    pr(now)
+    # pr(now)
     now = str(now).replace("-","").replace(":","").replace(" ","")
+    now = now[:-7]
     return now
