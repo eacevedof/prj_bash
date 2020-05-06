@@ -11,7 +11,7 @@ thisdir=$(dirname "$0")
 # ruta a mi gestor de consola de python
 pypath=$thisdir"/py/console.py"
 
-# if [ -z "$1" ] || [[ $1 == "-h" ]] tambien func
+# if [ -z "$1" ] || [[ $1 == "-h" ]] # tambien func
 if [ is_empty $1 ] || [[ $1 == "-h" ]]
 then
   echo "\nTry:\n py.sh <argument=""> <action=index> <module=udemy>"

@@ -27,6 +27,13 @@ elif module=="dump":
     else:
         pprint("no func found")
         pprint(funcname)
+elif module=="react":
+    from routines.react import *
+    if funcname=="index":
+        index(argument)
+    else:
+        pprint("no func found")
+        pprint(funcname)        
 else:
-    pprint("no module found")
+    pprint("console.py: no module found")
     print(module)
