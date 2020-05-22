@@ -1,7 +1,8 @@
 # routines.dump.py
 
 """
-
+mueve datos de la carpeta mapeada del contenedor de sqlyog a un proyecto concreto
+hay que configurar el diccionario projects
 """
 
 import sys
@@ -104,10 +105,10 @@ def index(project):
     arvers = get_version(lastbackup)
     arvers = get_increased(arvers)
     # pr(projects[project]["pathdump"]);die()
-    pr(projects[project]["filename"]); #die()
-    pr(arvers); #die()
+    # pr(projects[project]["filename"]); #die()
+    # pr(arvers); #die()
     newname = get_newname(projects[project]["filename"],arvers)
-    pr(newname); die();
+    # pr(newname); die();
     newbackup =  projects[project]["pathdump"] + newname
 
     i = copyf(filedump,newbackup)
