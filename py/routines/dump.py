@@ -10,11 +10,13 @@ ejemplo:
 
 import sys
 import os
+from pprint import pprint
 import numpy as np
 from tools.tools import *
 
 
 def get_last_backup(path):
+    # pr(path);die()
     files = []
     for entry in os.scandir(path):
         if entry.name!=".DS_Store":
@@ -29,14 +31,16 @@ def get_last_backup(path):
 
 
 def get_version(filename):
+    # db_<project>_<timestamp>.sql
     if not filename:
         return []
 
     parts = filename.split("_")
     # pr(parts,"parts")
     lastone = parts[-1].replace(".sql","")
-    #pr(lastone)
+    # pr(lastone); die()
     # v1,v2,v3 = lastone.split(".")
+    # pr(lastone.split("."));die()
     return lastone.split(".")
 
 
@@ -66,7 +70,7 @@ def is_equal(path1, path2):
     return isok
 
 
-def get_newname(filename,arversion):
+def get_newname(filename):
     parts = filename.split(".")
     #parts = parts[0] + [".".join(arversion)] + parts[1]
     #parts.insert(1,".".join(arversion))
@@ -79,27 +83,26 @@ def get_newname(filename,arversion):
 
 def index(project):
     #Ejemplo: py.sh tinymarket index dump
-    pathprj = "/Users/ioedu/projects"
-    pathdumps = "/Users/ioedu/dockercfg/db_dumps"
-
     thisdir = get_dir(__file__)
     pathconfig = get_realpath(thisdir+"/../config/projects.local.json")
-    json = Json(pathconfig)
+    dicjson = Json(pathconfig)
+    dicjson.get_loaded()
+    dicproject = dicjson.get_dictbykey("id",project)
+    # print(json);die()
+    # print(dicproject); die()
+    #pprint(dicproject);die()
     
-
-    projects = {
-            "gotit":{"filename":"db_gotit.sql","pathdump":pathprj+"/prj_gotit_b/db/"},
-            "tinymarket":{"filename":"db_tinymarket.sql","pathdump":pathprj+"/prj_tinymarket/backend_web/db/","dbprod":"dbs433055"}
-        }
-    
-    if not project in projects:
+    if dicproject is None:
         pr(f"project {project} not found","Not copied!")
         return 0
 
-    lastbackup = get_last_backup(projects[project]["pathdump"])
-    # print(lastbackup); return 0
-    filelastbk = projects[project]["pathdump"]+lastbackup
-    filedump = pathdumps + "/" + projects[project]["filename"]
+    lastbackup = get_last_backup(dicproject["db"]["pathdump"])
+    # print(">"+lastbackup); return 0
+    if not lastbackup:
+        lastbackup = dicproject["db"]["filename"]
+
+    filelastbk = dicproject["db"]["pathdump"]+"/"+lastbackup
+    filedump = dicproject["db"]["pathyog"]+"/"+ dicproject["db"]["filename"]
     
     if not is_file(filedump):
         pr(f"file: dump: {filedump} does not exist","Not copied!")
@@ -111,20 +114,32 @@ def index(project):
         pr(f"files: dump: {filedump} and bk: {filelastbk} are the same","Not copied!")
         return 0
 
-    arvers = get_version(lastbackup)
-    arvers = get_increased(arvers)
-    # pr(projects[project]["pathdump"]);die()
-    # pr(projects[project]["filename"]); #die()
+    # arvers es para archivos db_<project>_<v.x.y.z>.sql
+    #arvers = get_version(lastbackup)
+    #arvers = get_increased(arvers)
+    # pr(dicproject["pathdump"]);die()
+    # pr(dicproject["filename"]); #die()
     # pr(arvers); #die()
-    newname = get_newname(projects[project]["filename"],arvers)
+    #newname = get_newname(dicproject["filename"],arvers)
+    newname = get_newname(dicproject["db"]["filename"])
     # pr(newname); die();
-    newbackup =  projects[project]["pathdump"] + newname
+    newbackup =  dicproject["db"]["pathdump"] +"/"+ newname
 
     i = copyf(filedump,newbackup)
     if i==1:
         pr(f"backup copied into: {newbackup}")
     else:
-        pr(f"come error ocurred copying {filedump}")
+        pr(f"some error ocurred copying {filedump}")
+        return 0
+
+    # esto lo comento porque sino el hash siempre sería distinto en is_equal(...)
+
+    #dbprod = {dicproject["db"]["dbprod"]}
+    #pr(f"...updating dbprod:{dbprod}")
+    #dumpcontent = file_get_contents(newbackup)
+    #dumpcontent = dumpcontent.replace(dicproject["db"]["dblocal"],dicproject["db"]["dbprod"])
+    #file_put_contents(newbackup,dumpcontent)
+    pr("process finished!")
 # esto da error de importación de tools
 # if __name__ == "__main__":
 # index("gotit")

@@ -2,9 +2,10 @@
   {
     "id":"tinymarket",
     "db":{
+      "dblocal":"db_tinymarket",
       "filename":"db_tinymarket.sql",
       "pathyog":"/Users/ioedu/dockercfg/db_dumps",
-      "pathdump":"/Users/ioedu/projects/prj_tinymarket/backend_web/db/",
+      "pathdump":"/Users/ioedu/projects/prj_tinymarket/backend_web/db",
       "dbprod":"dbs433055"
     },
     "backend":{
@@ -19,6 +20,7 @@
   {
     "id":"gotit",
     "db":{
+      "dblocal":"db_gotit",
       "filename":"db_gotit.sql",
       "pathyog":"/Users/ioedu/dockercfg/db_dumps",
       "pathdump":"/Users/ioedu/projects/prj_gotit/backend/db/",
