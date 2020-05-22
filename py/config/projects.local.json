@@ -3,8 +3,8 @@
     "id":"tinymarket",
     "db":{
       "filename":"db_tinymarket.sql",
-      "pathdump":"/Users/ioedu/dockercfg/db_dumps",
-      "pathbackup":"/Users/ioedu/projects/prj_tinymarket/backend_web/db/",
+      "pathyog":"/Users/ioedu/dockercfg/db_dumps",
+      "pathdump":"/Users/ioedu/projects/prj_tinymarket/backend_web/db/",
       "dbprod":"dbs433055"
     },
     "backend":{
