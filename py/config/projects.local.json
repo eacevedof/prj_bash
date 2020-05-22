@@ -1,0 +1,19 @@
+[
+  {
+    "id":"tinymarket",
+    "db":{
+      "filename":"db_tinymarket.sql",
+      "pathdump":"/Users/ioedu/dockercfg/db_dumps",
+      "pathbackup":"/Users/ioedu/projects/prj_tinymarket/backend_web/db/",
+      "dbprod":"dbs433055"
+    },
+    "backend":{
+      "local":"/Users/ioedu/projects/prj_tinymarket/backend_web",
+      "prod":""
+    },
+    "frontend":{
+      "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel/build",
+      "prod":""
+    }
+  }
+]
