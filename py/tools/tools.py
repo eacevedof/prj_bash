@@ -57,6 +57,10 @@ def copyf(path1,path2):
     
     return 0
 
+def is_file(pathfile):
+    from os import path
+    return path.exists(pathfile)
+
 def die():
     import sys
     sys.exit()
