@@ -15,5 +15,22 @@
       "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel/build",
       "prod":""
     }
+  },
+  {
+    "id":"gotit",
+    "db":{
+      "filename":"db_gotit.sql",
+      "pathyog":"/Users/ioedu/dockercfg/db_dumps",
+      "pathdump":"/Users/ioedu/projects/prj_gotit/backend/db/",
+      "dbprod":"dbs433055"
+    },
+    "backend":{
+      "local":"/Users/ioedu/projects/prj_gotit_b/backend",
+      "prod":""
+    },
+    "frontend":{
+      "local":"/Users/ioedu/projects/prj_gotit_f/frontend_react/pannel/build",
+      "prod":""
+    }
   }
 ]

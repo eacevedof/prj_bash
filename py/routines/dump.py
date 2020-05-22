@@ -3,12 +3,15 @@
 """
 mueve datos de la carpeta mapeada del contenedor de sqlyog a un proyecto concreto
 hay que configurar el diccionario projects
+
+ejemplo:
+    py.sh tinymarket index dump
 """
 
 import sys
 import os
 import numpy as np
-from tools.tools import file_get_contents,pr,pd,file_put_contents,get_datetime,copyf,die,is_file
+from tools.tools import *
 
 
 def get_last_backup(path):
@@ -78,6 +81,12 @@ def index(project):
     #Ejemplo: py.sh tinymarket index dump
     pathprj = "/Users/ioedu/projects"
     pathdumps = "/Users/ioedu/dockercfg/db_dumps"
+
+    thisdir = get_dir(__file__)
+    pathconfig = get_realpath(thisdir+"/../config/projects.local.json")
+    json = Json(pathconfig)
+    
+
     projects = {
             "gotit":{"filename":"db_gotit.sql","pathdump":pathprj+"/prj_gotit_b/db/"},
             "tinymarket":{"filename":"db_tinymarket.sql","pathdump":pathprj+"/prj_tinymarket/backend_web/db/","dbprod":"dbs433055"}

@@ -1,5 +1,6 @@
 # tools.tools.py
 import sys
+import os
 # from pprint import pprint
 
 def printx(mxvar):
@@ -65,6 +66,12 @@ def die():
     import sys
     sys.exit()
 
+def get_dir(path):
+    realpath = os.path.dirname(os.path.realpath(path))
+    return realpath
+
+def get_realpath(path):
+    return os.path.realpath(path)
 
 class Json:
     
