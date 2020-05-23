@@ -14,15 +14,14 @@ class Sftp:
         print("Sftp: trying to connect...")
         config = self.dicaccess
         host = config["host"]
-        username = config["username"]
-        password = config["password"]
-        port = config["port"] if "port" in config.keys() else 22 # entero
+        del config["path"]
         #print(config);sys.exit()
         try:
             # self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)
-            self.objserver = pysftp.Connection(host=host, username=username, password=password)
+            self.objserver = pysftp.Connection(**config)
             print(f"Sftp: connected to host: {host}")
         except Exception as error:
+            self.objserver = None
             print(f"Sftp: error trying to connect to {host} error: {error}")
 
     def execute(self,strcmd):
@@ -57,8 +56,7 @@ class Sftp:
             return 0
 
         objsrv.chdir(pathdirserv)
-        objsrv.put(pathlocal)
-        
+        objsrv.put(pathlocal)        
     
     def close(self):
         if self.objserver is not None:

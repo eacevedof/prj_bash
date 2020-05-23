@@ -11,7 +11,7 @@
     "backend":{
       "local":"/Users/ioedu/projects/prj_tinymarket/backend_web",
       "prod":{
-        
+     
       }
     },
     "frontend":{
