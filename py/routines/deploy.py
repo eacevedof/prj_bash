@@ -21,6 +21,8 @@ def index(project):
     if dicproject is None:
         pr(f"No deployed: project {project} not found")
         return 0
+
+    
     pr(f"...deploy of {project} has finished")
 
 if __name__ == "__main__":
