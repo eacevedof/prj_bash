@@ -27,7 +27,7 @@ def index(project):
     # la conexión no se hace a un directorio con ruta absoluta sino que 
     # se toma la carpeta de destino como absoluta, esto es para evitar que se tenga acceso a carpetas padres
     # por lo tanto para mi "/" seria equivalente a $HOME
-    sftp = Sftp(dicproject,"backend")
+    sftp = Sftp(dicproject["backend"]["prod"])
     sftp.connect()
     if sftp.is_connected():
         sftp.upload(pathconfig, "/mi_temporal")

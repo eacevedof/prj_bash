@@ -5,20 +5,21 @@ import os
 # https://stackoverflow.com/questions/432385/sftp-in-python-platform-independent
 class Sftp:
     objserver = None
-    pathroot = "/"
 
     def __init__(self, dicaccess):
         print("Sftp initialized...")
         self.dicaccess = dicaccess
 
     def connect(self):
-        dicprod = self.dicaccess[self.trigger]["prod"]
-        host = dicprod["host"]
-        user = dicprod["user"]
-        password = dicprod["password"]
-        path = dicprod["path"]
+        config = self.dicaccess
+        host = config["host"]
+        user = config["user"]
+        password = config["password"]
+        path = config["path"]
+        port = config["port"] if "port" in config.keys() else 22 # entero
 
-        # self.objserver = pysftp.Connection(host=host, username=user, password=password)
+        #self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)
+        
         print(f"connected to:"+str(self.objserver)+f" host: {host}")
 
     def execute(self,strcmd):
