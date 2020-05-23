@@ -1,6 +1,6 @@
 import os
 from ..zipit import zipdir
-from ..sftpit import Sftp
+from ..sftpit import Sftpit
 
 class DeployIonos:
 

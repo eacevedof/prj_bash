@@ -30,3 +30,15 @@ def zipdir(pathdir, pathzip):
 
     ziphandler.close()
 
+
+def zipfilesingle(pathfile, pathzip):
+    if not is_file(pathfile):
+        return print(f"Not zipped: File {pathfile} does not exist")
+
+    if is_file(pathzip):
+        return print(f"Not zipped: File {pathzip} already exists")
+
+    zipfile.ZipFile(pathzip, mode="w").write(pathfile)
+    # print(ziphandler,"ziphandler")
+    #ziphandler.close()
+    

@@ -9,15 +9,21 @@ ejemplo:
 from tools.tools import *
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.sftpit import Sftpit 
+from tools.zipit import zipdir, zipfilesingle
 
 def index(project):
     pr(f"starting deploy of {project}")
 
     pathconfig = get_path_config_json()
+    # print(pathconfig)
+    pathzip = get_dir(pathconfig)+"/"+get_basename(pathconfig,0)+".zip"
+    # print(zipfile); die();
+    zipfilesingle(pathconfig,pathzip)
+    pr("zipdir finised");die()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
-    ppr(dicproject["backend"]["prod"]); # die()
+    # ppr(dicproject["backend"]["prod"]); # die()
     if dicproject is None:
         pr(f"No deployed: project {project} not found")
         return 0

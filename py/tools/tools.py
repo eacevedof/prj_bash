@@ -5,7 +5,6 @@ import json
 from pprint import pprint
 
 def printx(mxvar):
-
     if isinstance(mxvar,list):
         for i, item in enumerate(mxvar):
             print(i," => ",item)
@@ -68,13 +67,26 @@ def is_file(pathfile):
     from os import path
     return path.exists(pathfile)
 
-def die():
+def die(text=""):
     import sys
+    if text!="" :print(text)
     sys.exit()
 
 def get_dir(path):
     realpath = os.path.dirname(os.path.realpath(path))
     return realpath
+
+def get_basename(path,ext=1):
+    import ntpath
+    basename = ntpath.basename(path)
+    #print(basename); die("basename")
+    if ext==1:
+        return basename
+    parts = basename.split(".")
+    del parts[-1]
+    basename = ".".join(parts)
+    return basename
+
 
 def get_realpath(path):
     return os.path.realpath(path)
