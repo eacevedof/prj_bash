@@ -17,6 +17,7 @@ def index(project):
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
+    pr(dicproject)
     if dicproject is None:
         pr(f"No deployed: project {project} not found")
         return 0
