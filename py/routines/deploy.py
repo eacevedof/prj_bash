@@ -13,7 +13,8 @@ from tools.sftpit import Sftp
 def index(project):
     pr(f"starting deploy of {project}")
     thisdir = get_dir(__file__)
-    pathconfig = get_realpath(thisdir+"/../config/projects.local.json")
+    pathjson = thisdir+"/../config/projects.local.json"
+    pathconfig = get_realpath(pathjson)
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
@@ -24,7 +25,10 @@ def index(project):
 
     sftp = Sftp(dicproject,"backend")
     sftp.connect()
-    
+    if sftp.is_connected():
+        sftp.upload(pathjson, "/kunden/homepages/3/d337670657/htdocs/mi_temporal")
+        sftp.close()
+
     pr(f"...deploy of {project} has finished")
 
 if __name__ == "__main__":

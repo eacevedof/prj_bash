@@ -26,7 +26,7 @@ class Sftp:
 #home337670657.1and1-data.host
         # self.objserver = pysftp.Connection(host=host, username=user, password=password)
         
-        print(f"connected to:"+self.objserver)
+        print(f"connected to:"+str(self.objserver)+f" host: {host}")
 
     def execute(self,strcmd):
         objsrv = self.objserver
@@ -45,7 +45,7 @@ class Sftp:
         if objsrv.isfile(fileserver):
             if fr==1:
                 self.execute(f"rm -f {fileserver}")
-        elif:
+        else:
             print(f"sftp: file {pathlocal} not uploaded! file {fileserver}  already exists in server")
             return 0
         
@@ -60,8 +60,10 @@ class Sftp:
     def close(self):
         if self.objserver is not None:
             self.objserver.close
+            self.objserver = None
 
-
+    def is_connected(self):
+        return self.objserver is not None
 
 
 
