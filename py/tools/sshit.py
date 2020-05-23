@@ -15,7 +15,7 @@ class Sshit:
             return 0
 
         host = self.dicaccess["host"],
-        shell = spur.SshShell(self.dicaccess["host"],self.dicaccess["username"],self.dicaccess["password"]):
+        shell = spur.SshShell(self.dicaccess["host"],self.dicaccess["username"],self.dicaccess["password"])
         if not shell:
             print(f"Sshit: not connected to host: {host}")
             return 0
@@ -26,9 +26,9 @@ class Sshit:
         if self.shell is None:
             print(f"Sshit: command {strcmd} not excecuted. Not connected to host")
             return 0
-        shell = self.shell
-        with shell:
-            result = shell.run(strcmd)
+        
+        with self.shell:
+            result = self.shell.run(strcmd)
         print(result.output)
 
     def close(self):
