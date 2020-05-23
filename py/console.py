@@ -33,7 +33,15 @@ elif module=="react":
         index(argument)
     else:
         pprint("no func found")
-        pprint(funcname)        
+        pprint(funcname)   
+
+elif module=="deploy":
+    from routines.deploy import *
+    if funcname=="index":
+        index(argument)
+    else:
+        pprint("no func found")
+        pprint(funcname)                
 else:
     pprint("console.py: no module found")
     print(module)

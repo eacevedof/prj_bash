@@ -85,9 +85,9 @@ def index(project):
     #Ejemplo: py.sh tinymarket index dump
     thisdir = get_dir(__file__)
     pathconfig = get_realpath(thisdir+"/../config/projects.local.json")
-    dicjson = Json(pathconfig)
-    dicjson.get_loaded()
-    dicproject = dicjson.get_dictbykey("id",project)
+    jsonhlp = Json(pathconfig)
+    jsonhlp.get_loaded()
+    dicproject = jsonhlp.get_dictbykey("id",project)
     # print(json);die()
     # print(dicproject); die()
     #pprint(dicproject);die()
