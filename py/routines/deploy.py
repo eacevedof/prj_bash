@@ -12,14 +12,12 @@ from tools.sftpit import Sftp
 
 def index(project):
     pr(f"starting deploy of {project}")
-    thisdir = get_dir(__file__)
-    pathjson = thisdir+"/../config/projects.local.json"
-    pathconfig = get_realpath(pathjson)
-    #pr(pathconfig);die()
+
+    pathconfig = get_path_config_json()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
-    pr(dicproject)
+    ppr(dicproject["backend"]["prod"]); die()
     if dicproject is None:
         pr(f"No deployed: project {project} not found")
         return 0

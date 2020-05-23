@@ -2,7 +2,7 @@
 import sys
 import os
 import json
-# from pprint import pprint
+from pprint import pprint
 
 def printx(mxvar):
 
@@ -16,6 +16,11 @@ def pr(var,title=""):
     if title!="":
         print(title)
     printx(var)
+
+def ppr(var,title=""):
+    if title!="":
+        print(title)
+    pprint(var)    
 
 def pd(var,title=""):
     if title!="":
@@ -73,6 +78,12 @@ def get_dir(path):
 
 def get_realpath(path):
     return os.path.realpath(path)
+
+def get_path_config_json():
+    pathdir = get_dir(__file__)
+    pathjson = pathdir+"/../config/projects.local.json"
+    pathconfig = get_realpath(pathjson)
+    return pathconfig
 
 class Json:
     
