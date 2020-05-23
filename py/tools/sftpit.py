@@ -18,8 +18,7 @@ class Sftp:
         path = config["path"]
         port = config["port"] if "port" in config.keys() else 22 # entero
 
-        #self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)
-        
+        self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)
         print(f"connected to:"+str(self.objserver)+f" host: {host}")
 
     def execute(self,strcmd):
