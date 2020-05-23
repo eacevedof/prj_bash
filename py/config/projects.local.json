@@ -17,10 +17,10 @@
     "frontend":{
       "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel/build",
       "prod":{
-        "host": "",
-        "username":"",
-        "password":"",
-        "path":""
+        "host": "homeXXX.1and1-data.yyy",
+        "username":"u12345677",
+        "password":"SomePassw",
+        "path":"some/path/from-home-dir/"
       }
     }
   },
