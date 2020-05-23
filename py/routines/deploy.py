@@ -19,8 +19,10 @@ def index(project):
     pathzip = get_dir(pathconfig)+"/"+get_basename(pathconfig,0)+".zip"
     # print(zipfile); die();
     # zipfilesingle(pathconfig,pathzip)
-    zipdir("/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor","/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor.zip")
-    pr("zipdir finised");die()
+    pathvendor = "/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor"
+    pathzip = "/Users/ioedu/projects/prj_tinymarket-test/vendor.zip" 
+    zipdir(pathvendor,pathzip)
+    #pr("zipdir finised");die()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
@@ -35,7 +37,7 @@ def index(project):
     sftp = Sftpit(dicproject["backend"]["prod"])
     sftp.connect()
     if sftp.is_connected():
-        sftp.upload(pathconfig, "/mi_temporal")
+        # sftp.upload(pathzip, "/mi_temporal")
         sftp.close()
 
     pr(f"...deploy of {project} has finished")

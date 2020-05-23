@@ -46,7 +46,8 @@ def zipdir(pathdir, pathzip):
     # es decir pathzip
     if is_file(pathzipped) and pathzipped != pathzip:
         os.replace(pathzipped,pathzip)
-        os.remove(pathzipped)
+        # os.remove(pathzipped)
+
 
 def zipfilesingle(pathfile, pathzip):
     # print(f"from: {pathfile} to {pathzip}")
@@ -71,7 +72,7 @@ def zipfilesingle(pathfile, pathzip):
     # es decir pathzip
     if is_file(pathzipped) and pathzipped != pathzip:
         os.replace(pathzipped,pathzip)
-        os.remove(pathzipped)
+        # os.remove(pathzipped)
 
     # zipfile.ZipFile(pathzip, mode="w").write(pathfile) no va
     # print(ziphandler,"ziphandler")
