@@ -1,5 +1,7 @@
 import os
 import zipfile
+import ntpath
+
 
 """
 Example:
@@ -32,13 +34,29 @@ def zipdir(pathdir, pathzip):
 
 
 def zipfilesingle(pathfile, pathzip):
+    print(f"from: {pathfile} to {pathzip}")
     if not is_file(pathfile):
         return print(f"Not zipped: File {pathfile} does not exist")
 
     if is_file(pathzip):
         return print(f"Not zipped: File {pathzip} already exists")
 
-    zipfile.ZipFile(pathzip, mode="w").write(pathfile)
+    pathdirorig = os.path.dirname(os.path.realpath(pathfile))
+    os.chdir(pathdirorig)
+
+    fileorig = ntpath.basename(pathfile)
+    filezip = ntpath.basename(pathzip)
+
+    zipf = zipfile.ZipFile(filezip,"w", zipfile.ZIP_DEFLATED)
+    zipf.write(fileorig)
+    zipf.close()
+
+    pathzipped = pathfile+"/"+filezip 
+    if is_file(pathzipped) and pathzipped != pathzip:
+        os.replace(pathzipped,pathzip)
+        os.remove(pathzipped)
+
+    # zipfile.ZipFile(pathzip, mode="w").write(pathfile) no va
     # print(ziphandler,"ziphandler")
     #ziphandler.close()
     
