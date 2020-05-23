@@ -23,7 +23,6 @@ class Sftp:
         password = dicprod["password"]
         path = dicprod["path"]
 
-#home337670657.1and1-data.host
         # self.objserver = pysftp.Connection(host=host, username=user, password=password)
         
         print(f"connected to:"+str(self.objserver)+f" host: {host}")
