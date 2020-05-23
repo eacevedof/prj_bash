@@ -1,44 +1,52 @@
 import os
 import zipfile
 import ntpath
+import sys
 
 
 """
 Example:
 """
-def is_idr(pathdir):
-    return os.path.isdir(path)
+def is_dir(pathdir):
+    return os.path.isdir(pathdir)
 
 def is_file(pathfile):
     return os.path.exists(pathfile)
 
-# pathdir: dir to zip
-# ziphandler:  zipfile.ZipFile('Python.zip', 'w', zipfile.ZIP_DEFLATED)
-def zipdir_zh(pathdir, ziphandler):
-    # ziph is zipfile handle
-    for root, dirs, files in os.walk(pathdir):
-        for file in files:
-            ziphandler.write(os.path.join(root, file))
 
 # pathdir: path/to/folder/to-be/zipped
 # pathzip: path/to/resulting-file.zip
 def zipdir(pathdir, pathzip):
+
     if not is_dir(pathdir):
-        return print(f"Not zipped: Dir {pathdir} does not exist")
+        return print(f"Not zipped: directory {pathdir} does not exist")
 
     if is_file(pathzip):
         return print(f"Not zipped: File {pathzip} already exists")
 
-    os.chdir(pathdir+"/..")
-    ziphandler = zipfile.ZipFile(pathzip, 'w', zipfile.ZIP_DEFLATED)
-    
+    parentdir = os.path.realpath(pathdir+"/..")
+    print("PARENTDIR: "+parentdir); 
+    # fileorig = ntpath.basename(pathfile)
+    foldertozip = pathdir.split("/")[-1]
+    #print(foldertozip); sys.exit()
+    filezip = ntpath.basename(pathzip)
+
+    os.chdir(parentdir)
+    ziphandler = zipfile.ZipFile(filezip, 'w', zipfile.ZIP_DEFLATED)
     # ziph is zipfile handle
-    for root, dirs, files in os.walk(pathdir):
+    for root, dirs, files in os.walk(foldertozip):
+        print("root:"+root)
         for file in files:
             ziphandler.write(os.path.join(root, file))
 
     ziphandler.close()
 
+    pathzipped = parentdir+"/"+filezip
+    # si existe el comprimido y no es igual a la ruta de destino donde deberia estar moverse 
+    # es decir pathzip
+    if is_file(pathzipped) and pathzipped != pathzip:
+        os.replace(pathzipped,pathzip)
+        os.remove(pathzipped)
 
 def zipfilesingle(pathfile, pathzip):
     # print(f"from: {pathfile} to {pathzip}")
@@ -58,7 +66,9 @@ def zipfilesingle(pathfile, pathzip):
     zipf.write(fileorig)
     zipf.close()
 
-    pathzipped = pathfile+"/"+filezip 
+    pathzipped = pathdirorig+"/"+filezip
+    # si existe el comprimido y no es igual a la ruta de destino donde deberia estar moverse 
+    # es decir pathzip
     if is_file(pathzipped) and pathzipped != pathzip:
         os.replace(pathzipped,pathzip)
         os.remove(pathzipped)

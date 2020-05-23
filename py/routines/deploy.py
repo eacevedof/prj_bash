@@ -18,7 +18,8 @@ def index(project):
     # print(pathconfig)
     pathzip = get_dir(pathconfig)+"/"+get_basename(pathconfig,0)+".zip"
     # print(zipfile); die();
-    zipfilesingle(pathconfig,pathzip)
+    # zipfilesingle(pathconfig,pathzip)
+    zipdir("/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor","/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor.zip")
     pr("zipdir finised");die()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
