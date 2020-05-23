@@ -10,11 +10,19 @@
     },
     "backend":{
       "local":"/Users/ioedu/projects/prj_tinymarket/backend_web",
-      "prod":""
+      "prod":{
+        "user":"",
+        "password":"",
+        "path":""
+      }
     },
     "frontend":{
       "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel/build",
-      "prod":""
+      "prod":{
+        "user":"",
+        "password":"",
+        "path":""
+      }
     }
   },
   {
