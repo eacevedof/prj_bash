@@ -67,6 +67,9 @@ def is_file(pathfile):
     from os import path
     return path.exists(pathfile)
 
+def is_idr(pathdir):
+    return os.path.isdir(path)
+
 def die(text=""):
     import sys
     if text!="" :print(text)

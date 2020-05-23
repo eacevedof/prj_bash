@@ -6,6 +6,9 @@ import ntpath
 """
 Example:
 """
+def is_idr(pathdir):
+    return os.path.isdir(path)
+
 def is_file(pathfile):
     return os.path.exists(pathfile)
 
@@ -20,11 +23,15 @@ def zipdir_zh(pathdir, ziphandler):
 # pathdir: path/to/folder/to-be/zipped
 # pathzip: path/to/resulting-file.zip
 def zipdir(pathdir, pathzip):
-    ziphandler = zipfile.ZipFile(pathzip, 'w', zipfile.ZIP_DEFLATED)
+    if not is_dir(pathdir):
+        return print(f"Not zipped: Dir {pathdir} does not exist")
+
     if is_file(pathzip):
-        ziphandler.close()
         return print(f"Not zipped: File {pathzip} already exists")
 
+    os.chdir(pathdir+"/..")
+    ziphandler = zipfile.ZipFile(pathzip, 'w', zipfile.ZIP_DEFLATED)
+    
     # ziph is zipfile handle
     for root, dirs, files in os.walk(pathdir):
         for file in files:
@@ -34,7 +41,7 @@ def zipdir(pathdir, pathzip):
 
 
 def zipfilesingle(pathfile, pathzip):
-    print(f"from: {pathfile} to {pathzip}")
+    # print(f"from: {pathfile} to {pathzip}")
     if not is_file(pathfile):
         return print(f"Not zipped: File {pathfile} does not exist")
 
