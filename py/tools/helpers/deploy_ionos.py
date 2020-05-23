@@ -1,5 +1,6 @@
 import os
 from ..zipit import zipdir
+from ..sftpit import Sftp
 
 class DeployIonos:
 
@@ -7,6 +8,8 @@ class DeployIonos:
         self.dicproject = dicproject
         pass
 
-    
+    def connect(self):
+        pass
+
 
     

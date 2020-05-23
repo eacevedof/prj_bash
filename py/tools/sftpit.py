@@ -1,5 +1,6 @@
 import pysftp
 import sys
+import os
 
 # https://stackoverflow.com/questions/432385/sftp-in-python-platform-independent
 class Sftp:
@@ -25,7 +26,42 @@ class Sftp:
 #home337670657.1and1-data.host
         # self.objserver = pysftp.Connection(host=host, username=user, password=password)
         
-        print(self.objserver)
+        print(f"connected to:"+self.objserver)
+
+    def execute(self,strcmd):
+        objsrv = self.objserver
+        objsrv.exists(strcmd)
+
+
+    def upload(pathlocal,pathdirserv,fr=1):
+        if not os.path.exists(pathlocal):
+            print(f"sftp: file {pathlocal} not uploaded! file does not exist")
+            return 0
+
+        objsrv = self.objserver
+        filename = os.path.basename(pathlocal)
+        fileserver = pathdirserv +"/"+filename
+
+        if objsrv.isfile(fileserver):
+            if fr==1:
+                self.execute(f"rm -f {fileserver}")
+        elif:
+            print(f"sftp: file {pathlocal} not uploaded! file {fileserver}  already exists in server")
+            return 0
+        
+        if not objsrv.isdir(pathdirserv):
+            print(f"sftp: file {pathlocal} not uploaded! dir {pathdirserv}  does not exist in server")
+            return 0
+
+        objsrv.chdir(pathdirserv)
+        objsrv.put(pathlocal)
+        
+    
+    def close(self):
+        if self.objserver is not None:
+            self.objserver.close
+
+
 
 
 

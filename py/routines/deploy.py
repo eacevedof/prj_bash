@@ -22,6 +22,8 @@ def index(project):
         pr(f"No deployed: project {project} not found")
         return 0
 
+    sftp = Sftp(dicproject,"backend")
+    sftp.connect()
     
     pr(f"...deploy of {project} has finished")
 
