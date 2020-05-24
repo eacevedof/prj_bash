@@ -106,6 +106,10 @@ def get_now():
     hhmmss = now.strftime("%H:%M:%S")
     return hhmmss 
 
+def scandir():
+    return os.listdir()
+         
+
 class Json:
     
     def __init__(self, pathfile=""):
