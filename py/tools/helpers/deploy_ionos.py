@@ -44,7 +44,8 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathupload}")
         ssh.cmd("rm -fr vendor")
         ssh.cmd("unzip vendor.zip -d ./")
-        ssh.cmd("rm -f vendor.zip")
+        # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
+        #ssh.cmd("rm -f vendor.zip")
         ssh.execute()
         ssh.close()
 
@@ -57,6 +58,7 @@ class DeployIonos:
         pathzip = f"{belocal}/vendor.zip"
 
         self._composer_zip(pathvendor,pathzip)
+        #@todo aqui deberia borra e zip que existiera antes del upload
         self._composer_upload(pathzip, pathremote) # sftp
         self._composer_unzip(pathremote) # ssh
         os.remove(pathzip)
