@@ -107,7 +107,7 @@ def get_now():
     return hhmmss 
 
 def scandir(pathfoler):
-    pr(f"pathfolder: {pathfoler}")
+    # pr(f"pathfolder: {pathfoler}")
     # return [f for f in os.listdir(pathfoler) if os.path.isfile(f)]
     
     f = []

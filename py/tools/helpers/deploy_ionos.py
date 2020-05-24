@@ -8,7 +8,6 @@ class DeployIonos:
 
     def __init__(self, dicproject):
         self.dicproject = dicproject
-        pass
 
     def _get_sshaccess(self):
         return self.dicproject["backend"]["prod"]
@@ -60,6 +59,7 @@ class DeployIonos:
         self._composer_zip(pathvendor,pathzip)
         self._composer_upload(pathzip, pathremote) # sftp
         self._composer_unzip(pathremote) # ssh
+        os.remove(pathzip)
 
     def backend(self):
         pass
