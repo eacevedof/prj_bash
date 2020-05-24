@@ -2,6 +2,7 @@ import sys
 from getpass import getpass
 import paramiko
 
+# http://46.101.4.154/Art%C3%ADculos%20t%C3%A9cnicos/Python/Paramiko%20-%20Conexiones%20SSH%20y%20SFTP.pdf
 class Sshit:
 
     shell = None
@@ -31,11 +32,19 @@ class Sshit:
         #print(f"Sshit: connected to host: {host}")
         return self.shell
 
+    def _print_cmd(self,indata,outdata,error):
+        print(f"\nindata : {indata}")
+        print(f"\noutdata: {outdata}")
+        print(f"\nerror: {error}")
+
     def command(self,strcmd):
         shell = self.shell
         indata, outdata, error = shell.exec_command(strcmd)
-        print(outdata.read())
+        self._print_cmd(indata,outdata,error)
+        #print(outdata.read())
         # self.close()
 
     def close(self):
+        host = self.dicaccess["host"]
+        print(f"clossing connection to: {host}")
         self.shell.close()
