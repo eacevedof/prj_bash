@@ -29,7 +29,7 @@ class Sftpit:
         objsrv.exists(strcmd)
 
     def upload(self, pathlocal,pathdirserv,fr=1):
-        filesize: os.path.getsize(path)
+        filesize = os.path.getsize(pathlocal)
         print(f"Sftpit: trying to upload {pathlocal} ({filesize})...")
         if self.objserver is None:
             host = self.dicaccess["host"]
