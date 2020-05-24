@@ -19,13 +19,13 @@ def is_file(pathfile):
 def zipdir(pathdir, pathzip):
 
     if not is_dir(pathdir):
-        return print(f"Not zipped: directory {pathdir} does not exist")
+        return print(f"zipit: Not zipped: directory {pathdir} does not exist")
 
     if is_file(pathzip):
-        return print(f"Not zipped: File {pathzip} already exists")
+        return print(f"zipit: Not zipped: File {pathzip} already exists")
 
     parentdir = os.path.realpath(pathdir+"/..")
-    print("PARENTDIR: "+parentdir); 
+    # print("PARENTDIR: "+parentdir); 
     # fileorig = ntpath.basename(pathfile)
     foldertozip = pathdir.split("/")[-1]
     #print(foldertozip); sys.exit()
@@ -35,7 +35,7 @@ def zipdir(pathdir, pathzip):
     ziphandler = zipfile.ZipFile(filezip, 'w', zipfile.ZIP_DEFLATED)
     # ziph is zipfile handle
     for root, dirs, files in os.walk(foldertozip):
-        print("root:"+root)
+        #print("root:"+root)
         for file in files:
             ziphandler.write(os.path.join(root, file))
 
@@ -52,10 +52,10 @@ def zipdir(pathdir, pathzip):
 def zipfilesingle(pathfile, pathzip):
     # print(f"from: {pathfile} to {pathzip}")
     if not is_file(pathfile):
-        return print(f"Not zipped: File {pathfile} does not exist")
+        return print(f"zipit: Not zipped: File {pathfile} does not exist")
 
     if is_file(pathzip):
-        return print(f"Not zipped: File {pathzip} already exists")
+        return print(f"zipit: Not zipped: File {pathzip} already exists")
 
     pathdirorig = os.path.dirname(os.path.realpath(pathfile))
     os.chdir(pathdirorig)

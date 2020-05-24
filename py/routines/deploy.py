@@ -22,7 +22,7 @@ def index(project):
     # zipfilesingle(pathconfig,pathzip)
     pathvendor = "/Users/ioedu/projects/prj_tinymarket-test/backend_web/vendor"
     pathzip = "/Users/ioedu/projects/prj_tinymarket-test/vendor.zip" 
-    #zipdir(pathvendor,pathzip)
+    zipdir(pathvendor,pathzip)
     #pr("zipdir finised");die()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
@@ -40,12 +40,13 @@ def index(project):
     sftp = Sftpit(dicaccess)
     sftp.connect()
     if sftp.is_connected():
-        sftp.upload(pathzip, "/mi_temporal")
+        sftp.upload(pathzip, "/www/dom_theframework.es/tinymarket.theframework.es/backend_web")
         sftp.close()
 
     ssh = Sshit(dicaccess)
     ssh.connect()
-    ssh.command("cd $HOME/mi_temporal")
+    ssh.command("cd $HOME/www/dom_theframework.es/tinymarket.theframework.es/backend_web")
+    ssh.command("rm -fr vendor")
     ssh.command("unzip vendor.zip -d ./")
     ssh.execute()
     ssh.close()

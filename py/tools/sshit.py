@@ -41,10 +41,10 @@ class Sshit:
         #print(f"\noutdata: {outdata.read()}")
         #print(f"\nerror: {error.read()}")
         cleaned = self._cleanresponse(outdata.read())
-        print(f"output: {cleaned}")
+        print(f"Sshit: output: {cleaned}")
         cleaned = self._cleanresponse(error.read())
         if cleaned != "":
-            print(f"error: {cleaned}")
+            print(f"Sshit: error: {cleaned}")
 
     def command(self, strcmd):
         self.commands.append(strcmd)
@@ -58,7 +58,7 @@ class Sshit:
             shell = self.shell
             strcmd = self._get_unique_cmd()
             prcmd = strcmd.replace(";","\n\t")
-            print(f"cmd: {prcmd}")
+            print(f"Sshit: cmd: {prcmd}")
             # shell.exec_command abre una instancia nueva por eso hay que contactenar los comandos
             indata, outdata, error = shell.exec_command(strcmd)
             self._print_cmd(indata,outdata,error)
@@ -66,7 +66,7 @@ class Sshit:
     def close(self):
         if self.is_connected():
             host = self.dicaccess["host"]
-            print(f"clossing connection to: {host}")
+            print(f"Sshit: clossing connection to: {host}")
             self.shell.close()
 
     def clear(self):
