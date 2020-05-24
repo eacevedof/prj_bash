@@ -19,6 +19,7 @@ def index(project):
         pr(f"No deployed: project {project} not found")
         return 0
 
+    # ppr(dicproject,"DICPROJECT RECUPERADO")
     ionos = DeployIonos(dicproject)
     ionos.gitpull()
     ionos.composer()

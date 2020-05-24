@@ -1,6 +1,7 @@
 import pysftp
 import sys
 import os
+import copy
 
 # https://stackoverflow.com/questions/432385/sftp-in-python-platform-independent
 class Sftpit:
@@ -12,7 +13,7 @@ class Sftpit:
 
     def connect(self):
         print("Sftpit: trying to connect...")
-        config = self.dicaccess
+        config = copy.deepcopy(self.dicaccess)
         host = config["host"]
         del config["path"]
         #print(config);sys.exit()
