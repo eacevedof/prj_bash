@@ -46,7 +46,7 @@ class Sshit:
         if cleaned != "":
             print(f"Sshit: error: {cleaned}")
 
-    def command(self, strcmd):
+    def cmd(self, strcmd):
         self.commands.append(strcmd)
 
     def _get_unique_cmd(self):
