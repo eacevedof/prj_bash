@@ -21,7 +21,7 @@ def index(project):
         return 0
 
     ionos = DeployIonos(dicproject)
-    #ionos.gitpull()
+    ionos.gitpull()
     #ionos.composer()
     #ionos.db()
     timeend = get_now()
