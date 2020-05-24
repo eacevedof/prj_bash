@@ -1,8 +1,8 @@
 import os
-from ..tools.tools import *
-from ..tools.sftpit import Sftpit
-from ..tools.sshit import Sshit
-from ..tools.zipit import zipdir, zipfilesingle
+from tools.tools import *
+from tools.sftpit import Sftpit
+from tools.sshit import Sshit
+from tools.zipit import zipdir, zipfilesingle
 
 class DeployIonos:
 
@@ -11,7 +11,7 @@ class DeployIonos:
         pass
 
     def _get_sshaccess(self):
-        return = self.dicproject["backend"]["prod"]
+        return self.dicproject["backend"]["prod"]
 
     def gitpull(self):
         dicaccess = self._get_sshaccess()

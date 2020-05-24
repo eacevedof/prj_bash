@@ -6,6 +6,7 @@ ejemplo:
     py.sh tinymarket index deploy
 """
 from tools.helpers.deploy_ionos import DeployIonos
+from tools.tools import *
 
 def index(project):
     timeini = get_now()
