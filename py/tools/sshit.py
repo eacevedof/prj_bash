@@ -7,6 +7,7 @@ class Sshit:
 
     shell = None
     dicaccess = None
+    commands = []
 
     def __init__(self, dicaccess):
         print("Sshit: initializing...")
@@ -45,10 +46,20 @@ class Sshit:
         if cleaned != "":
             print(f"error: {cleaned}")
 
-    def command(self,strcmd):
+    def command(self, strcmd):
+        self.commands.append(strcmd)
+
+    def _get_unique_cmd(self):
+        cmdunique = "; ".join(self.commands)
+        return cmdunique
+
+    def execute(self):
         if self.is_connected():
             shell = self.shell
-            print(f"cmd: {strcmd}")
+            strcmd = self._get_unique_cmd()
+            prcmd = strcmd.replace(";","\n\t")
+            print(f"cmd: {prcmd}")
+            # shell.exec_command abre una instancia nueva por eso hay que contactenar los comandos
             indata, outdata, error = shell.exec_command(strcmd)
             self._print_cmd(indata,outdata,error)
 
@@ -58,6 +69,8 @@ class Sshit:
             print(f"clossing connection to: {host}")
             self.shell.close()
 
+    def clear(self):
+        self.commands = []
 
     def is_connected(self):
         return self.shell is not None            

@@ -38,21 +38,17 @@ def index(project):
     dicaccess = dicproject["backend"]["prod"]
     # ppr(dicaccess);die("access")
     sftp = Sftpit(dicaccess)
-    # sftp.connect()
+    #sftp.connect()
     if sftp.is_connected():
         # sftp.upload(pathzip, "/mi_temporal")
         sftp.close()
 
     ssh = Sshit(dicaccess)
     ssh.connect()
-    ssh.command("ls")
-    ssh.command("pwd")
-    ssh.command("echo $PATH")
-    #ssh.command(["ls", "pwd"])
+    ssh.command("cd $HOME/mi_temporal")
+    ssh.command("unzip vendor.zip -d ./")
+    ssh.execute()
     ssh.close()
-    # ssh.command(["echo", "-n", "hello"])
-    # ssh.command(["ls","-lat"])
-
     pr(f"...deploy of {project} has finished")
 
 if __name__ == "__main__":
