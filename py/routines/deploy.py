@@ -12,8 +12,10 @@ from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 
+
 def index(project):
-    pr(f"starting deploy of {project}")
+    timeini = get_now()
+    pr(f"starting deploy of {project}. {timeini}")
 
     pathconfig = get_path_config_json()
     # print(pathconfig)
@@ -46,14 +48,15 @@ def index(project):
     ssh = Sshit(dicaccess)
     ssh.connect()
     ssh.cmd("cd $HOME/www/dom_theframework.es/tinymarket.theframework.es/backend_web")
-    #ssh.cmd("rm -f vendor.zip")
-    ssh.cmd("git pull")
     ssh.cmd("rm -fr vendor")
     ssh.cmd("unzip vendor.zip -d ./")
     ssh.cmd("rm -f vendor.zip")
+    ssh.cmd("git pull")
     ssh.execute()
     ssh.close()
-    pr(f"...deploy of {project} has finished")
+
+    timeend = get_now()
+    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
 if __name__ == "__main__":
     index("tinymarket")

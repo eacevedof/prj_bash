@@ -3,6 +3,7 @@ import sys
 import os
 import json
 from pprint import pprint
+from datetime import datetime
 
 def printx(mxvar):
     if isinstance(mxvar,list):
@@ -99,6 +100,11 @@ def get_path_config_json():
     pathjson = pathdir+"/../config/projects.local.json"
     pathconfig = get_realpath(pathjson)
     return pathconfig
+
+def get_now():
+    now = datetime.now()
+    hhmmss = now.strftime("%H:%M:%S")
+    return hhmmss 
 
 class Json:
     
