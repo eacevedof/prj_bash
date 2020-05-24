@@ -38,9 +38,9 @@ def index(project):
     dicaccess = dicproject["backend"]["prod"]
     # ppr(dicaccess);die("access")
     sftp = Sftpit(dicaccess)
-    #sftp.connect()
+    sftp.connect()
     if sftp.is_connected():
-        # sftp.upload(pathzip, "/mi_temporal")
+        sftp.upload(pathzip, "/mi_temporal")
         sftp.close()
 
     ssh = Sshit(dicaccess)
