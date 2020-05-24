@@ -6,7 +6,9 @@
       "filename":"db_tinymarket.sql",
       "pathyog":"/Users/ioedu/dockercfg/db_dumps",
       "pathdump":"/Users/ioedu/projects/prj_tinymarket/backend_web/db",
-      "dbprod":"dbs433055"
+      "prod":{
+
+      }
     },
     "backend":{
       "local":"/Users/ioedu/projects/prj_tinymarket/backend_web",
@@ -31,7 +33,13 @@
       "filename":"db_gotit.sql",
       "pathyog":"/Users/ioedu/dockercfg/db_dumps",
       "pathdump":"/Users/ioedu/projects/prj_gotit/backend/db/",
-      "dbprod":"dbs433055"
+      "prod":{
+        "server":"your remote server ip or name",
+        "port":"3306",
+        "database":"remote db name",
+        "user":"remote db user",
+        "password":"remote db password"
+      }
     },
     "backend":{
       "local":"/Users/ioedu/projects/prj_gotit_b/backend",
