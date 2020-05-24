@@ -73,4 +73,6 @@ class Sshit:
         self.commands = []
 
     def is_connected(self):
-        return self.shell is not None            
+        return self.shell is not None
+
+#end

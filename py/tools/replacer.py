@@ -33,7 +33,7 @@ def replace():
     pathtarget = args[3] if 2 < argslen else ""
     #print("pathtarget: "+pathtarget)
 
-    print("search: "+search +", replace: "+replace +"pathtarget: "+pathtarget)
+    print("search: "+search +", replace: "+replace +", pathtarget: "+pathtarget)
 
     if not is_file(pathtarget):
         print("file not found "+pathtarget)
