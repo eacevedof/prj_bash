@@ -15,36 +15,49 @@ class Sshit:
     def connect(self):
         if self.dicaccess is None:
             print(f"Sshit: no acces data supplied")
-            return 0
+            return None
 
         host = self.dicaccess["host"]
 
         self.shell = paramiko.SSHClient()
-        # print(self.shell); sys.exit()
-
-        #if "sshkey" in self.dicaccess.keys():
         self.shell.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        self.shell.connect(self.dicaccess["host"],22,self.dicaccess["username"],self.dicaccess["password"])
 
-        if not self.shell:
-            print(f"Sshit: not connected to host: {host}")
-            return 0
-        #print(f"Sshit: connected to host: {host}")
-        return self.shell
+        try:
+            print(f"Sshit: ...trying to connect to {host}")
+            self.shell.connect(self.dicaccess["host"],22,self.dicaccess["username"],self.dicaccess["password"])       
+        except Exception as error:
+            self.shell = None
+            print(f"Sshit: not connected to host: {host}. error: {error}")
 
-    def _print_cmd(self,indata,outdata,error):
-        print(f"\nindata : {indata}")
-        print(f"\noutdata: {outdata}")
-        print(f"\nerror: {error}")
+
+    def _cleanresponse(self,strrespose):
+        strrespose = strrespose.decode()
+        strclenaed = strrespose.replace("b'","").replace("\\\\n'","")
+        return strclenaed
+
+    def _print_cmd(self,indata,outdata,error):       
+        #print(f"\nindata : {indata}")
+        #print(f"\noutdata: {outdata.read()}")
+        #print(f"\nerror: {error.read()}")
+        cleaned = self._cleanresponse(outdata.read())
+        print(f"output: {cleaned}")
+        cleaned = self._cleanresponse(error.read())
+        if cleaned != "":
+            print(f"error: {cleaned}")
 
     def command(self,strcmd):
-        shell = self.shell
-        indata, outdata, error = shell.exec_command(strcmd)
-        self._print_cmd(indata,outdata,error)
-        #print(outdata.read())
-        # self.close()
+        if self.is_connected():
+            shell = self.shell
+            print(f"cmd: {strcmd}")
+            indata, outdata, error = shell.exec_command(strcmd)
+            self._print_cmd(indata,outdata,error)
 
     def close(self):
-        host = self.dicaccess["host"]
-        print(f"clossing connection to: {host}")
-        self.shell.close()
+        if self.is_connected():
+            host = self.dicaccess["host"]
+            print(f"clossing connection to: {host}")
+            self.shell.close()
+
+
+    def is_connected(self):
+        return self.shell is not None            
