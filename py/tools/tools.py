@@ -106,8 +106,17 @@ def get_now():
     hhmmss = now.strftime("%H:%M:%S")
     return hhmmss 
 
-def scandir():
-    return os.listdir()
+def scandir(pathfoler):
+    pr(f"pathfolder: {pathfoler}")
+    # return [f for f in os.listdir(pathfoler) if os.path.isfile(f)]
+    
+    f = []
+    for entry in os.scandir(pathfoler):
+        #print(entry)
+        #if entry.is_file():
+        if entry.name != ".DS_Store":
+            f.append(entry.name)
+    return f
          
 
 class Json:

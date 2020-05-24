@@ -69,8 +69,10 @@ class DeployIonos:
 
     def _get_maxdbfile(self):
         belocal = self.dicproject["backend"]["local"]
-        pathdb = f"{belocal}/db"        
-        files = scandir(pathdb).sort(reverse = True)
+        pathdb = f"{belocal}/db"
+        files = scandir(pathdb)
+        files.sort(reverse = True) # order by desc
+        #pr(files);pr(pathdb); die("pathdb")
         return files[0]
 
     def db(self):
