@@ -1,4 +1,6 @@
-import spur
+import sys
+from getpass import getpass
+import paramiko
 
 class Sshit:
 
@@ -14,23 +16,26 @@ class Sshit:
             print(f"Sshit: no acces data supplied")
             return 0
 
-        host = self.dicaccess["host"],
-        shell = spur.SshShell(self.dicaccess["host"],self.dicaccess["username"],self.dicaccess["password"])
-        if not shell:
+        host = self.dicaccess["host"]
+
+        self.shell = paramiko.SSHClient()
+        # print(self.shell); sys.exit()
+
+        #if "sshkey" in self.dicaccess.keys():
+        self.shell.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.shell.connect(self.dicaccess["host"],22,self.dicaccess["username"],self.dicaccess["password"])
+
+        if not self.shell:
             print(f"Sshit: not connected to host: {host}")
             return 0
-        self.shell = shell
-        print(f"Sshit: connected to host: {host}")
+        #print(f"Sshit: connected to host: {host}")
+        return self.shell
 
     def command(self,strcmd):
-        if self.shell is None:
-            print(f"Sshit: command {strcmd} not excecuted. Not connected to host")
-            return 0
-        
-        with self.shell:
-            result = self.shell.run(strcmd)
-        print(result.output)
+        shell = self.shell
+        indata, outdata, error = shell.exec_command(strcmd)
+        print(outdata.read())
+        # self.close()
 
     def close(self):
-        if self.shell is not None:
-            pass
+        self.shell.close()

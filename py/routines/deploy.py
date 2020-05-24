@@ -45,11 +45,11 @@ def index(project):
 
     ssh = Sshit(dicaccess)
     ssh.connect()
-    #ssh.command(["echo", "-n", "hello"])
-    # ssh.command(["sh", "-c", "pwd"])
-    # ssh.command(["sh", "-c", "ls | grep bananas"])
-    ssh.command(["ls", "pwd"])
-
+    ssh.command("ls")
+    ssh.command("pwd")
+    ssh.command("echo $PATH")
+    #ssh.command(["ls", "pwd"])
+    ssh.close()
     # ssh.command(["echo", "-n", "hello"])
     # ssh.command(["ls","-lat"])
 
