@@ -15,7 +15,7 @@ class DeployIonos:
 
     def gitpull(self):
         pathremote = self.dicproject["backend"]["prod"]["path"]
-        
+
         dicaccess = self._get_sshaccess()
         ssh = Sshit(dicaccess)
         ssh.connect()
@@ -42,7 +42,7 @@ class DeployIonos:
         dicaccess = self._get_sshaccess()
         ssh = Sshit(dicaccess)
         ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathremote}")
+        ssh.cmd(f"cd $HOME/{pathupload}")
         ssh.cmd("rm -fr vendor")
         ssh.cmd("unzip vendor.zip -d ./")
         ssh.cmd("rm -f vendor.zip")
