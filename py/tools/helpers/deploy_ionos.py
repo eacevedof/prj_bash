@@ -9,13 +9,17 @@ class DeployIonos:
     def __init__(self, dicproject):
         self.dicproject = dicproject
 
-    def _get_sshaccess(self):
+    def _get_sshaccess_back(self):
         return self.dicproject["backend"]["prod"]
+
+    def _get_sshaccess_front(self):
+        return self.dicproject["frontend"]["prod"]
+
 
     def gitpull(self):
         pathremote = self.dicproject["backend"]["prod"]["path"]
 
-        dicaccess = self._get_sshaccess()
+        dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
@@ -30,7 +34,7 @@ class DeployIonos:
         # la conexión no se hace a un directorio con ruta absoluta sino que 
         # se toma la carpeta de destino como absoluta, esto es para evitar que se tenga acceso a carpetas padres
         # por lo tanto para mi "/" seria equivalente a $HOME
-        dicaccess = self._get_sshaccess()
+        dicaccess = self._get_sshaccess_back()
         sftp = Sftpit(dicaccess)
         sftp.connect()
         if sftp.is_connected():
@@ -38,7 +42,7 @@ class DeployIonos:
             sftp.close()
 
     def _composer_unzip(self,pathupload):
-        dicaccess = self._get_sshaccess()
+        dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathupload}")
@@ -63,11 +67,47 @@ class DeployIonos:
         self._composer_unzip(pathremote) # ssh
         os.remove(pathzip)
 
+
     def backend(self):
-        pass
+        self.gitpull()
+        self.composer()
+        self.dbrestore()
+
+    # frontend
+    def _build_zip(self, pathfrom, pathto):
+        zipdir(pathfrom, pathto)
+
+    def _build_upload(self, pathfrom, pathto):
+        dicaccess = self._get_sshaccess_front()
+        sftp = Sftpit(dicaccess)
+        sftp.connect()
+        if sftp.is_connected():
+            sftp.upload(pathfrom, pathto)
+            sftp.close()
+
+    def _build_unzip(self,pathupload):
+        dicaccess = self._get_sshaccess_front()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathupload}")
+        ssh.cmd("rm -fr build")
+        ssh.cmd("unzip build.zip -d ./")
+        # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
+        #ssh.cmd("rm -f vendor.zip")
+        ssh.execute()
+        ssh.close()
 
     def frontend(self):
-        pass
+        belocal = self.dicproject["frontend"]["local"]
+        pathremote = self.dicproject["frontend"]["prod"]["path"]
+
+        pathbuild = f"{belocal}/build"
+        pathzip = f"{belocal}/build.zip"
+
+        self._build_zip(pathbuild, pathzip)
+        self._build_upload(pathzip, pathremote)
+        self._build_unzip(pathremote)
+
 
     def _get_maxdbfile(self):
         belocal = self.dicproject["backend"]["local"]
@@ -77,7 +117,7 @@ class DeployIonos:
         #pr(files);pr(pathdb); die("pathdb")
         return files[0]
 
-    def db(self):
+    def dbrestore(self):
         lastdbdump = self._get_maxdbfile()
         localdbname = self.dicproject["db"]["dblocal"]
         pathremote = self.dicproject["backend"]["prod"]["path"]
@@ -87,7 +127,7 @@ class DeployIonos:
         dbuser = self.dicproject["db"]["prod"]["user"]
         dbpassword = self.dicproject["db"]["prod"]["password"]
 
-        dicaccess = self._get_sshaccess()
+        dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()        
         ssh.cmd(f"cd $HOME/{pathremote}/db")
@@ -95,6 +135,8 @@ class DeployIonos:
         ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
         ssh.cmd(f"mysql --host={dbserver} --user={dbuser} --password={dbpassword} {dbname} < $HOME/{pathremote}/db/temp.sql")
         ssh.cmd("rm temp.sql")
+        ssh.cmd(f"cd $HOME/{pathremote}")
+        ssh.cmd(f"rm -fr var/cache")
         ssh.execute()
         ssh.close()
     
