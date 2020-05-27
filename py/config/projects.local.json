@@ -7,22 +7,29 @@
       "pathyog":"/Users/ioedu/dockercfg/db_dumps",
       "pathdump":"/Users/ioedu/projects/prj_tinymarket/backend_web/db",
       "prod":{
-
+        "server":"db5000452636.hosting-data.io",
+        "port":"3306",
+        "database":"dbs433055",
+        "user":"dbu261283",
+        "password":"Tm1234@Mysql"
       }
     },
     "backend":{
       "local":"/Users/ioedu/projects/prj_tinymarket/backend_web",
       "prod":{
-
+        "host":"home337670657.1and1-data.host",
+        "username":"u59669765",
+        "password":"Uitgevrij$44$",
+        "path":"www/dom_theframework.es/tinymarket.theframework.es/backend_web"
       }
     },
     "frontend":{
-      "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel/build",
+      "local":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/pannel",
       "prod":{
-        "host": "homeXXX.1and1-data.yyy",
-        "username":"u12345677",
-        "password":"SomePassw",
-        "path":"some/path/from-home-dir/"
+        "host":"home337670657.1and1-data.host",
+        "username":"u59669765",
+        "password":"Uitgevrij$44$",
+        "path":"www/dom_elchalanaruba.com/shop.elchalanaruba.com"
       }
     }
   },

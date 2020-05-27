@@ -1,8 +1,10 @@
 import os
+import time
 from tools.tools import *
 from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
+
 
 class DeployIonos:
 
@@ -70,10 +72,12 @@ class DeployIonos:
 
     def backend(self):
         self.gitpull()
-        self.composer()
+        #self.composer()
         self.dbrestore()
 
-    # frontend
+#====================================================================
+# frontend
+#====================================================================    
     def _build_zip(self, pathfrom, pathto):
         zipdir(pathfrom, pathto)
 
@@ -89,13 +93,29 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_front()
         ssh = Sshit(dicaccess)
         ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathupload}")
+        pathup = f"$HOME/{pathupload}"
+        print(f"upload path: {pathup}")
+        ssh.cmd(f"cd {pathup}")
         ssh.cmd("rm -fr build")
         ssh.cmd("unzip build.zip -d ./")
         # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
         #ssh.cmd("rm -f vendor.zip")
         ssh.execute()
         ssh.close()
+
+    def _rm_oldzip(self,pathupload):
+        dicaccess = self._get_sshaccess_front()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathupload}")
+        # esto da error, se ejecuta despues de la subida, se queda el contexto abierto y se ejecuta al final
+        # en el otro excecute
+        # ssh.cmd("rm -fr build.zip")
+        ssh.execute()
+        ssh.close()
+        time.sleep(5)
+        # print("end remove zip")
+
 
     def frontend(self):
         belocal = self.dicproject["frontend"]["local"]
@@ -104,6 +124,8 @@ class DeployIonos:
         pathbuild = f"{belocal}/build"
         pathzip = f"{belocal}/build.zip"
 
+        # este no me vale, me elimina el zip juste despues de haberlo subido
+        # self._rm_oldzip(pathremote)
         self._build_zip(pathbuild, pathzip)
         self._build_upload(pathzip, pathremote)
         self._build_unzip(pathremote)

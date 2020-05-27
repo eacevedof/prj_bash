@@ -21,7 +21,7 @@ def index(project):
 
     # ppr(dicproject,"DICPROJECT RECUPERADO")
     ionos = DeployIonos(dicproject)
-    # ionos.backend()
+    #ionos.backend()
     ionos.frontend()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
