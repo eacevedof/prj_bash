@@ -7,8 +7,9 @@ def index():
        
     ejemplo:
         <prject-id> esta en el config/json
-        py.sh <project-id> index deploy
+        py.sh deploy.<function> <project-id>
         py.sh deploy tinymarket
+        py.sh deploy.frontbuild tinymarket
         py.sh deploy.composer tinymarket
         py.sh deploy.dbrestore tinymarket
     """)
