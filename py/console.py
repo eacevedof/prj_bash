@@ -24,7 +24,7 @@ strparam = getarg(2)
 if modulefunc=="--help" or modulefunc=="-help" or modulefunc=="-h":
     from help import index
     index()
-    die("\n\t--- END HELP ---")
+    sys.exit()
     # die(f"Wrong argument 1 passed: {modulefunc} must be: <module>.<function>")
 
 armodfunc = [s.strip() for s in modulefunc.split(".")]
@@ -33,12 +33,14 @@ module = armodfunc[0]
 function = armodfunc[1] if len(armodfunc)>1 else "index"
 
 def run():
-    #importlib.import_module("routines",f"{module}.*")
-    # importlib.import_module(".routines",f"{module}.*")
-    # importlib.import_module(f"routines.{module}")
-    imodule = import_module(f"routines.{module}")
-    func = getattr(imodule,function)
-    func(strparam)
-    die(f" -- END --")
+    #importlib.import_module("routines",f"{module}.*") nok
+    # importlib.import_module(".routines",f"{module}.*") nok
+    # importlib.import_module(f"routines.{module}") nok
+    try:
+        imodule = import_module(f"routines.{module}")
+        func = getattr(imodule,function)
+        func(strparam)
+    except Exception as error:
+        die(f" error: {error}")
 
 run()

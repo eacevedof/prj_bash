@@ -53,5 +53,4 @@ def index():
 
     strhelp = "\n".join(arhelp)
     print(strhelp)
-
-
+    print("\n\t --- END HELP MENU ---")
