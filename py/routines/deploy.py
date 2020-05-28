@@ -5,13 +5,14 @@ module: deploy
 ejemplo:
     <prject-id> esta en el config/json
     py.sh <project-id> index deploy
-    py.sh deploy tinymarket
+    py.sh deploy tinymarket  #full deploy front and back
     py.sh deploy.composer tinymarket
     py.sh deploy.dbrestore tinymarket
 """
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.tools import *
 
+# py.sh deploy.composer tinymarket
 def composer(project):
     timeini = get_now()
     pr(f"deply.composer: of {project}. {timeini}")
@@ -26,7 +27,7 @@ def composer(project):
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
-
+# py.sh deploy.dbrestore tinymarket
 def dbrestore(project):
     timeini = get_now()
     pr(f"deply.dbrestore: of {project}. {timeini}")
@@ -42,6 +43,7 @@ def dbrestore(project):
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
 
+# py.sh deploy.frontbuild tinymarket
 def frontbuild(project):
     timeini = get_now()
     pr(f"frontbuild.dbrestore: of {project}. {timeini}")
@@ -56,8 +58,8 @@ def frontbuild(project):
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
-
-def full(project):
+# py.sh deploy tinymarket
+def index(project):
     timeini = get_now()
     pr(f"starting deploy of {project}. {timeini}")
 
@@ -72,6 +74,3 @@ def full(project):
     ionos.frontend()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
-
-if __name__ == "__main__":
-    index("tinymarket")
