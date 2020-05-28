@@ -21,8 +21,12 @@ def getarg(ipos=0):
 modulefunc = getarg(1)
 strparam = getarg(2)
 
-if modulefunc=="":
-    die(f"Wrong argument 1 passed: {modulefunc} must be: <module>.<function>")
+if modulefunc=="--help":
+    from help import index
+    index()
+    die("\n\t--- END HELP ---")
+    # die(f"Wrong argument 1 passed: {modulefunc} must be: <module>.<function>")
+
 
 armodfunc = [s.strip() for s in modulefunc.split(".")]
 
@@ -37,6 +41,7 @@ def run():
     func = getattr(imodule,function)
     func(strparam)
     die(f" -- END --")
+
 run()
 
 if module=="udemy":
