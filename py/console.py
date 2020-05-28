@@ -42,37 +42,3 @@ def run():
     die(f" -- END --")
 
 run()
-
-if module=="udemy":
-    from routines.udemy import *
-    if funcname=="index":
-        index(argument)
-    else:
-        pprint("no func found")
-        pprint(funcname)
-elif module=="dump":
-    from routines.dump import *
-    if funcname=="index":
-        index(argument)
-    else:
-        pprint("no func found")
-        pprint(funcname)
-elif module=="react":
-    from routines.react import *
-    if funcname=="index":
-        index(argument)
-    else:
-        pprint("no func found")
-        pprint(funcname)   
-
-elif module=="deploy":
-    from routines.deploy import *
-    if funcname=="index":
-        index(argument)
-    else:
-        eval(f"{funcname}('{argument}')")
-        #pprint("no func found")
-        pprint(funcname)
-else:
-    pprint("console.py: no module found")
-    print(module)
