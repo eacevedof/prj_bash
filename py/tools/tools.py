@@ -119,6 +119,14 @@ def scandir(pathfoler):
     return f
          
 
+def get_dicconfig(project):
+    pathconfig = get_path_config_json()
+    jsonhlp = Json(pathconfig)
+    jsonhlp.load_data()
+    dicproject = jsonhlp.get_dictbykey("id",project)
+    return dicproject
+
+
 class Json:
     
     def __init__(self, pathfile=""):

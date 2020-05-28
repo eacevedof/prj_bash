@@ -72,7 +72,7 @@ class DeployIonos:
 
     def backend(self):
         self.gitpull()
-        #self.composer()
+        self.composer()
         self.dbrestore()
 
 #====================================================================
