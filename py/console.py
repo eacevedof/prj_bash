@@ -21,7 +21,7 @@ def getarg(ipos=0):
 modulefunc = getarg(1)
 strparam = getarg(2)
 
-if modulefunc=="--help" or modulefunc=="-help":
+if modulefunc=="--help" or modulefunc=="-help" or modulefunc=="-h":
     from help import index
     index()
     die("\n\t--- END HELP ---")
