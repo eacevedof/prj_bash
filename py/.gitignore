@@ -127,4 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-py/config/projects.local.json
+/config/projects.local.json
