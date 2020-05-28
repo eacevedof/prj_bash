@@ -1,11 +1,13 @@
 """
-hace el deploy de un proyecto en local en prod
+module: deploy
+- hace el deploy de un proyecto en local en prod
+    
 ejemplo:
     <prject-id> esta en el config/json
     py.sh <project-id> index deploy
-    py.sh tinymarket index deploy
-    py.sh tinymarket composer deploy
-    py.sh tinymarket dbrestore deploy
+    py.sh deploy tinymarket
+    py.sh deploy.composer tinymarket
+    py.sh deploy.dbrestore tinymarket
 """
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.tools import *

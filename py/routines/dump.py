@@ -5,7 +5,7 @@ mueve datos de la carpeta mapeada del contenedor de sqlyog a un proyecto concret
 hay que configurar el diccionario projects
 
 ejemplo:
-    py.sh tinymarket index dump
+    py.sh dump tinymarket
 """
 
 import sys

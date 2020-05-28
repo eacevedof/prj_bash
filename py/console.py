@@ -21,12 +21,11 @@ def getarg(ipos=0):
 modulefunc = getarg(1)
 strparam = getarg(2)
 
-if modulefunc=="--help":
+if modulefunc=="--help" or modulefunc=="-help":
     from help import index
     index()
     die("\n\t--- END HELP ---")
     # die(f"Wrong argument 1 passed: {modulefunc} must be: <module>.<function>")
-
 
 armodfunc = [s.strip() for s in modulefunc.split(".")]
 
