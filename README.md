@@ -103,4 +103,4 @@ fi
   - flag docker para lanzar docker-compose
 
 ### Ejemplos:
-- `py.sh gotit index dump`
+- ~`py.sh gotit index dump`~
