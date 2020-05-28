@@ -1,4 +1,9 @@
 # routines.udemy.py
+"""
+py.sh udemy "/Users/ioedu/Desktop/temp.php"
+py.sh udemy.index "/Users/ioedu/Desktop/temp.php"
+"""
+
 from tools.tools import file_get_contents,pr,pd,file_put_contents
 
 def get_titles_pos(arclean):

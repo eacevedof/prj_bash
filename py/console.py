@@ -22,14 +22,12 @@ modulefunc = getarg(1)
 strparam = getarg(2)
 
 if modulefunc=="":
-    die("No argument 1 (module.func) is empty")
-
-armodfunc = [s.strip() for s in modulefunc.split(".")]
-if len(armodfunc) != 2:
     die(f"Wrong argument 1 passed: {modulefunc} must be: <module>.<function>")
 
+armodfunc = [s.strip() for s in modulefunc.split(".")]
+
 module = armodfunc[0]
-function = armodfunc[1]
+function = armodfunc[1] if len(armodfunc)>1 else "index"
 
 def run():
     #importlib.import_module("routines",f"{module}.*")
