@@ -32,7 +32,7 @@ module = armodfunc[0]
 function = armodfunc[1]
 
 def run():
-    eval(f"from routines.{module} import *")
+    importlib.import_module(f"routines.{module}.*")
     eval(f"{function}('{strparam}')")
     die(f" -- END --")
 
