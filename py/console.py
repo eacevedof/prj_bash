@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-import importlib
+from importlib import import_module
 from pprint import pprint
 
 # print('Number of arguments:', len(sys.argv), 'arguments.')
@@ -32,10 +32,13 @@ module = armodfunc[0]
 function = armodfunc[1]
 
 def run():
-    importlib.import_module(f"routines.{module}.*")
-    eval(f"{function}('{strparam}')")
+    #importlib.import_module("routines",f"{module}.*")
+    # importlib.import_module(".routines",f"{module}.*")
+    # importlib.import_module(f"routines.{module}")
+    imodule = import_module(f"routines.{module}")
+    func = getattr(imodule,function)
+    func(strparam)
     die(f" -- END --")
-
 run()
 
 if module=="udemy":
