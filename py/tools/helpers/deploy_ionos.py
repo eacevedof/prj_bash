@@ -17,18 +17,60 @@ class DeployIonos:
     def _get_sshaccess_front(self):
         return self.dicproject["frontend"]["prod"]
 
+    def _build_zip(self, pathfrom, pathto):
+        zipdir(pathfrom, pathto)
 
-    def gitpull(self):
+    # no va!!
+    def _rm_oldzip(self,pathupload):
+        dicaccess = self._get_sshaccess_front()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathupload}")
+        # esto da error, se ejecuta despues de la subida, se queda el contexto abierto y se ejecuta al final
+        # en el otro excecute
+        # ssh.cmd("rm -fr build.zip")
+        ssh.execute()
+        ssh.close()
+        time.sleep(5)
+        # print("end remove zip")
+
+#====================================================================
+# db
+#====================================================================    
+    def _get_maxdbfile(self):
+        belocal = self.dicproject["backend"]["local"]
+        pathdb = f"{belocal}/db"
+        files = scandir(pathdb)
+        files.sort(reverse = True) # order by desc
+        #pr(files);pr(pathdb); die("pathdb")
+        return files[0]
+
+    def dbrestore(self):
+        lastdbdump = self._get_maxdbfile()
+        localdbname = self.dicproject["db"]["dblocal"]
         pathremote = self.dicproject["backend"]["prod"]["path"]
+        # remote db
+        dbname = self.dicproject["db"]["prod"]["database"]
+        dbserver = self.dicproject["db"]["prod"]["server"]
+        dbuser = self.dicproject["db"]["prod"]["user"]
+        dbpassword = self.dicproject["db"]["prod"]["password"]
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
-        ssh.connect()
+        ssh.connect()        
+        ssh.cmd(f"cd $HOME/{pathremote}/db")
+        ssh.cmd(f"cp {lastdbdump} temp.sql")
+        ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
+        ssh.cmd(f"mysql --host={dbserver} --user={dbuser} --password={dbpassword} {dbname} < $HOME/{pathremote}/db/temp.sql")
+        ssh.cmd("rm temp.sql")
         ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd("git pull")
+        ssh.cmd(f"rm -fr var/cache")
         ssh.execute()
         ssh.close()
-
+    
+#====================================================================
+# backend
+#====================================================================    
     def _composer_zip(self, pathfrom, pathto):
         zipdir(pathfrom, pathto)
 
@@ -69,6 +111,16 @@ class DeployIonos:
         self._composer_unzip(pathremote) # ssh
         os.remove(pathzip)
 
+    def gitpull(self):
+        pathremote = self.dicproject["backend"]["prod"]["path"]
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathremote}")
+        ssh.cmd("git pull")
+        ssh.execute()
+        ssh.close()
 
     def backend(self):
         self.gitpull()
@@ -77,10 +129,7 @@ class DeployIonos:
 
 #====================================================================
 # frontend
-#====================================================================    
-    def _build_zip(self, pathfrom, pathto):
-        zipdir(pathfrom, pathto)
-
+#====================================================================
     def _build_upload(self, pathfrom, pathto):
         dicaccess = self._get_sshaccess_front()
         sftp = Sftpit(dicaccess)
@@ -103,20 +152,6 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def _rm_oldzip(self,pathupload):
-        dicaccess = self._get_sshaccess_front()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathupload}")
-        # esto da error, se ejecuta despues de la subida, se queda el contexto abierto y se ejecuta al final
-        # en el otro excecute
-        # ssh.cmd("rm -fr build.zip")
-        ssh.execute()
-        ssh.close()
-        time.sleep(5)
-        # print("end remove zip")
-
-
     def frontend(self):
         belocal = self.dicproject["frontend"]["local"]
         pathremote = self.dicproject["frontend"]["prod"]["path"]
@@ -130,35 +165,3 @@ class DeployIonos:
         self._build_upload(pathzip, pathremote)
         self._build_unzip(pathremote)
 
-
-    def _get_maxdbfile(self):
-        belocal = self.dicproject["backend"]["local"]
-        pathdb = f"{belocal}/db"
-        files = scandir(pathdb)
-        files.sort(reverse = True) # order by desc
-        #pr(files);pr(pathdb); die("pathdb")
-        return files[0]
-
-    def dbrestore(self):
-        lastdbdump = self._get_maxdbfile()
-        localdbname = self.dicproject["db"]["dblocal"]
-        pathremote = self.dicproject["backend"]["prod"]["path"]
-        # remote db
-        dbname = self.dicproject["db"]["prod"]["database"]
-        dbserver = self.dicproject["db"]["prod"]["server"]
-        dbuser = self.dicproject["db"]["prod"]["user"]
-        dbpassword = self.dicproject["db"]["prod"]["password"]
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()        
-        ssh.cmd(f"cd $HOME/{pathremote}/db")
-        ssh.cmd(f"cp {lastdbdump} temp.sql")
-        ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
-        ssh.cmd(f"mysql --host={dbserver} --user={dbuser} --password={dbpassword} {dbname} < $HOME/{pathremote}/db/temp.sql")
-        ssh.cmd("rm temp.sql")
-        ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd(f"rm -fr var/cache")
-        ssh.execute()
-        ssh.close()
-    
