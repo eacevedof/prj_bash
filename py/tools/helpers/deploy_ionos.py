@@ -130,6 +130,9 @@ class DeployIonos:
 #====================================================================
 # frontend
 #====================================================================
+    def _npmbuild(self, pathlocal):
+        sh(f"cd {pathlocal}; sh -ac '. .env.build; node ./scripts/build-non-split.js;'; rm build.zip")
+
     def _build_upload(self, pathfrom, pathto):
         dicaccess = self._get_sshaccess_front()
         sftp = Sftpit(dicaccess)
@@ -161,6 +164,7 @@ class DeployIonos:
 
         # este no me vale, me elimina el zip juste despues de haberlo subido
         # self._rm_oldzip(pathremote)
+        self._npmbuild(belocal)
         self._build_zip(pathbuild, pathzip)
         self._build_upload(pathzip, pathremote)
         self._build_unzip(pathremote)

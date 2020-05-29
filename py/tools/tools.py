@@ -159,3 +159,9 @@ class Json:
     def reset(self):
         self.pathfile = ""
         self.data = []
+
+def sh(strcmd):
+    try:
+        os.system(strcmd)
+    except Exception as error:
+        print(f"tools.sh: error: {error}")
