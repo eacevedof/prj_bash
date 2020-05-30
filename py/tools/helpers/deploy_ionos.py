@@ -17,9 +17,9 @@ class DeployIonos:
     def _get_sshaccess_front(self):
         return self.dicproject["frontend"]["prod"]
 
-    def _build_zip(self, pathfrom, pathto):
-        zipdir(pathfrom, pathto)
-
+    def _get_sshaccess_front(self):
+        return self.dicproject["pictures"]["prod"]
+        
     # no va!!
     def _rm_oldzip(self,pathupload):
         dicaccess = self._get_sshaccess_front()
@@ -126,10 +126,51 @@ class DeployIonos:
         self.gitpull()
         self.composer()
         self.dbrestore()
+#====================================================================
+# pictures
+#====================================================================
+    def _pictures_zip(self, pathfrom, pathto):
+        zipdir(pathfrom, pathto)
+
+    def _pictures_upload(self, pathfrom, pathto):
+        dicaccess = self._get_sshaccess_front()
+        sftp = Sftpit(dicaccess)
+        sftp.connect()
+        if sftp.is_connected():
+            sftp.upload(pathfrom, pathto)
+            sftp.close()
+
+    def _pictures_unzip(self,pathupload):
+        dicaccess = self._get_sshaccess_front()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        pathup = f"$HOME/{pathupload}"
+        print(f"upload path: {pathup}")
+        ssh.cmd(f"cd {pathup}")
+        ssh.cmd("rm -fr build")
+        ssh.cmd("unzip pictures.zip -d ./")
+        # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
+        #ssh.cmd("rm -f vendor.zip")
+        ssh.execute()
+        ssh.close()
+
+    def pictures(self):
+        belocal = self.dicproject["pictures"]["local"]
+        pathremote = self.dicproject["pictures"]["prod"]["path"]
+
+        pathpictures = f"{belocal}/pictures"
+        pathzip = f"{belocal}/pictures.zip"
+
+        self._pictures_zip(pathpictures, pathzip)
+        self._pictures_upload(pathzip, pathremote)
+        self._pictures_unzip(pathremote)
 
 #====================================================================
 # frontend
 #====================================================================
+    def _build_zip(self, pathfrom, pathto):
+        zipdir(pathfrom, pathto)
+
     def _npmbuild(self, pathlocal):
         sh(f"cd {pathlocal}; sh -ac '. .env.build; node ./scripts/build-non-split.js;'; rm build.zip")
 

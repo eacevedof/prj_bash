@@ -15,7 +15,7 @@ from tools.tools import *
 # py.sh deploy.composer tinymarket
 def composer(project):
     timeini = get_now()
-    pr(f"deply.composer: of {project}. {timeini}")
+    pr(f"deploy.composer: of {project}. {timeini}")
 
     dicproject = get_dicconfig(project)
     if dicproject is None:
@@ -30,7 +30,7 @@ def composer(project):
 # py.sh deploy.dbrestore tinymarket
 def dbrestore(project):
     timeini = get_now()
-    pr(f"deply.dbrestore: of {project}. {timeini}")
+    pr(f"deploy.dbrestore: of {project}. {timeini}")
 
     dicproject = get_dicconfig(project)
     if dicproject is None:
@@ -42,11 +42,10 @@ def dbrestore(project):
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
-
-# py.sh deploy.frontbuild tinymarket
-def frontbuild(project):
+# py.sh deploy.pictures tinymarket
+def pictures(project):
     timeini = get_now()
-    pr(f"frontbuild.dbrestore: of {project}. {timeini}")
+    pr(f"deploy.pictures: of {project}. {timeini}")
 
     dicproject = get_dicconfig(project)
     if dicproject is None:
@@ -57,6 +56,22 @@ def frontbuild(project):
     ionos.frontend()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+
+# py.sh deploy.frontbuild tinymarket
+def frontbuild(project):
+    timeini = get_now()
+    pr(f"deploy.frontbuild: of {project}. {timeini}")
+
+    dicproject = get_dicconfig(project)
+    if dicproject is None:
+        pr(f"No deployed: project {project} not found")
+        return 0
+
+    ionos = DeployIonos(dicproject)
+    ionos.frontend()
+    timeend = get_now()
+    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+
 
 # py.sh deploy tinymarket
 def index(project):
