@@ -53,7 +53,7 @@ def pictures(project):
         return 0
 
     ionos = DeployIonos(dicproject)
-    ionos.frontend()
+    ionos.pictures()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -87,5 +87,6 @@ def index(project):
     ionos = DeployIonos(dicproject)
     ionos.backend()
     ionos.frontend()
+    ionos.pictures()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")

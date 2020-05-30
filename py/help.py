@@ -12,6 +12,7 @@ def index():
         py.sh deploy.frontbuild tinymarket
         py.sh deploy.composer tinymarket
         py.sh deploy.dbrestore tinymarket
+        py.sh deploy.pictures tinymarket
     """)
 
     arhelp.append("""
