@@ -46,6 +46,8 @@ class DeployIonos:
         return files[0]
 
     def dbrestore(self):
+        # necesito la copia en prod, cuidadin pq se sube todo el código
+        # self.gitpull()
         lastdbdump = self._get_maxdbfile()
         localdbname = self.dicproject["db"]["dblocal"]
         pathremote = self.dicproject["backend"]["prod"]["path"]
