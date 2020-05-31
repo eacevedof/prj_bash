@@ -82,26 +82,19 @@ def get_newname(filename):
 
 
 def index(project):
-    #Ejemplo: py.sh tinymarket index dump
-    thisdir = get_dir(__file__)
-    pathconfig = get_realpath(thisdir+"/../config/projects.local.json")
-    jsonhlp = Json(pathconfig)
-    jsonhlp.get_loaded()
-    dicproject = jsonhlp.get_dictbykey("id",project)
-    # print(json);die()
-    # print(dicproject); die()
-    #pprint(dicproject);die()
+    dicproject = get_dicconfig(project)
     
     if dicproject is None:
         pr(f"project {project} not found","Not copied!")
         return 0
 
-    lastbackup = get_last_backup(dicproject["db"]["pathdump"])
+    pathdump = dicproject["db"]["pathdump"]
+    lastbackup = get_last_backup(pathdump)
     # print(">"+lastbackup); return 0
     if not lastbackup:
         lastbackup = dicproject["db"]["filename"]
 
-    filelastbk = dicproject["db"]["pathdump"]+"/"+lastbackup
+    filelastbk = pathdump+"/"+lastbackup
     filedump = dicproject["db"]["pathyog"]+"/"+ dicproject["db"]["filename"]
     
     if not is_file(filedump):
@@ -123,11 +116,13 @@ def index(project):
     #newname = get_newname(dicproject["filename"],arvers)
     newname = get_newname(dicproject["db"]["filename"])
     # pr(newname); die();
-    newbackup =  dicproject["db"]["pathdump"] +"/"+ newname
+    newbackup =  pathdump +"/"+ newname
 
     i = copyf(filedump,newbackup)
     if i==1:
         pr(f"backup copied into: {newbackup}")
+        sh(f"cd {pathdump}; git add .; git commit -m 'dump.py: db {newname}'; git push;")
+        pr(f"db pushed to repo")
     else:
         pr(f"some error ocurred copying {filedump}")
         return 0
