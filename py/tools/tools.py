@@ -91,6 +91,8 @@ def get_basename(path,ext=1):
     basename = ".".join(parts)
     return basename
 
+def get_currdir():
+    return os.getcwd()
 
 def get_realpath(path):
     return os.path.realpath(path)
