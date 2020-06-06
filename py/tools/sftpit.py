@@ -63,6 +63,7 @@ class Sftpit:
         print(f"Sftpit: upload of {pathlocal} finished")
     
     def download(self,pathfrom,pathto):
+        print(f"Sftpit: downloading from:{pathfrom} to:{pathto}")
         objsrv = self.objserver
         objsrv.get(pathfrom, pathto)
 

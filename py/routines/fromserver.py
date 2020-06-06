@@ -21,7 +21,7 @@ def index(project):
         user = dicproject["db"]["prod"]["user"]
         password = dicproject["db"]["prod"]["password"]
         database = dicproject["db"]["prod"]["database"]
-        now = get_now()
+        now = get_datetime()
         dbfile = dicproject["db"]["dblocal"]
         dbfile = f"{dbfile}_{now}.sql"
 
