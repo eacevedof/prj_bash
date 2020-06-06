@@ -46,6 +46,16 @@ def index():
         py.sh udemy "/Users/ioedu/Desktop/temp.php"
     """)      
 
+    arhelp.append("""
+    module: fromserver
+    - Recupera algun recurso del servidor
+    - Por el momento solo un backup de la bd
+    - Todo se hace con config/projects.json
+
+    ejemplo:
+        py.sh fromserver.database tinymarket
+    """)          
+
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
