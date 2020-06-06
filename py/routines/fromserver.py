@@ -32,7 +32,7 @@ def database(project):
 
         sftp.download(pathfrom, pathto)
         sftp.close()
-        pathreplacer = get_realpath(get_currdir()+"/py/tools/replacer.py")
+        pathreplacer = get_realpath(get_dir(__file__)+"/../tools/replacer.py")
 
         cmd = f"python {pathreplacer} {database} {dblocal} {pathto}"
         sh(cmd)
