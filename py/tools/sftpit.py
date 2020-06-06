@@ -26,6 +26,7 @@ class Sftpit:
             print(f"Sftpit: error trying to connect to {host} error: {error}")
 
     def execute(self,strcmd):
+        print(f"Sftpit: executing: {strcmd}")
         objsrv = self.objserver
         objsrv.execute(strcmd)
 

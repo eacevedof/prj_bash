@@ -25,9 +25,10 @@ def index(project):
         dbfile = dicproject["db"]["dblocal"]
         dbfile = f"{dbfile}_{now}.sql"
 
-        cmd = f"cd backup_bd; mi_mysqldump --no-tablespaces --host={host} --user={user} --password={password} {database} > {dbfile}"
+        cmd = f"cd backup_bd; mysqldump --no-tablespaces --host={host} --user={user} --password={password} {database} > {dbfile}"
         sftp.execute(cmd)
-        pathto = dicproject["db"]["pathyog"]+"/"+dbfile
         pathfrom = f"backup_bd/{dbfile}"
+        pathto = dicproject["db"]["pathyog"]+"/prod_"+dbfile
+
         sftp.download(pathfrom, pathto)
         sftp.close()
