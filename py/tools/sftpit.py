@@ -27,7 +27,7 @@ class Sftpit:
 
     def execute(self,strcmd):
         objsrv = self.objserver
-        objsrv.exists(strcmd)
+        objsrv.execute(strcmd)
 
     def upload(self, pathlocal,pathdirserv,fr=1):
         filesize = os.path.getsize(pathlocal)
@@ -62,6 +62,10 @@ class Sftpit:
         objsrv.put(pathlocal)
         print(f"Sftpit: upload of {pathlocal} finished")
     
+    def download(self,pathfrom,pathto):
+        objsrv = self.objserver
+        objsrv.get(pathfrom, pathto)
+
     def close(self):
         if self.objserver is not None:
             self.objserver.close
