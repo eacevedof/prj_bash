@@ -17,7 +17,7 @@ class DeployIonos:
     def _get_sshaccess_front(self):
         return self.dicproject["frontend"]["prod"]
 
-    def _get_sshaccess_front(self):
+    def _get_sshaccess_pictures(self):
         return self.dicproject["pictures"]["prod"]
         
     # no va!!
@@ -135,7 +135,7 @@ class DeployIonos:
         zipdir(pathfrom, pathto)
 
     def _pictures_upload(self, pathfrom, pathto):
-        dicaccess = self._get_sshaccess_front()
+        dicaccess = self._get_sshaccess_pictures()
         sftp = Sftpit(dicaccess)
         sftp.connect()
         if sftp.is_connected():
@@ -143,7 +143,7 @@ class DeployIonos:
             sftp.close()
 
     def _pictures_unzip(self,pathupload):
-        dicaccess = self._get_sshaccess_front()
+        dicaccess = self._get_sshaccess_pictures()
         ssh = Sshit(dicaccess)
         ssh.connect()
         pathup = f"$HOME/{pathupload}"
@@ -174,7 +174,12 @@ class DeployIonos:
         zipdir(pathfrom, pathto)
 
     def _npmbuild(self, pathlocal):
-        sh(f"cd {pathlocal}; sh -ac '. .env.build; node ./scripts/build-non-split.js;'; rm build.zip")
+        if is_dir(pathlocal+"/build"):
+            # react
+            sh(f"cd {pathlocal}; sh -ac '. .env.build; node ./scripts/build-non-split.js;'; rm build.zip")
+        elif is_dir(pathlocal+"/dist"):
+            # vue
+            sh(f"cd {pathlocal}; npm run build; rm build.zip")
 
     def _build_upload(self, pathfrom, pathto):
         dicaccess = self._get_sshaccess_front()
@@ -193,6 +198,8 @@ class DeployIonos:
         ssh.cmd(f"cd {pathup}")
         ssh.cmd("rm -fr build")
         ssh.cmd("unzip build.zip -d ./")
+        # en caso de vue se descomprime como dist
+        ssh.cmd("mv dist build")
         # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
         #ssh.cmd("rm -f vendor.zip")
         ssh.execute()
@@ -204,6 +211,9 @@ class DeployIonos:
 
         pathbuild = f"{belocal}/build"
         pathzip = f"{belocal}/build.zip"
+        if is_dir(belocal+"/dist"):
+            pathbuild = f"{belocal}/dist"
+            pathzip = f"{belocal}/build.zip"
 
         # este no me vale, me elimina el zip juste despues de haberlo subido
         # self._rm_oldzip(pathremote)
