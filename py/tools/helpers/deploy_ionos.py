@@ -211,12 +211,21 @@ class DeployIonos:
 
         pathbuild = f"{belocal}/build"
         pathzip = f"{belocal}/build.zip"
+
+        # el caso de vue
         if is_dir(belocal+"/dist"):
             pathbuild = f"{belocal}/dist"
             pathzip = f"{belocal}/build.zip"
 
         # este no me vale, me elimina el zip juste despues de haberlo subido
         # self._rm_oldzip(pathremote)
+        
+        # if is_file(pathzip): 
+            # sh(f"echo removing: {pathzip} \n")
+            # sh(f"rm {pathzip}")
+            # sh(f"echo removed: {pathzip} \n")
+        
+        # return
         self._npmbuild(belocal)
         self._build_zip(pathbuild, pathzip)
         self._build_upload(pathzip, pathremote)
