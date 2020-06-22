@@ -170,6 +170,9 @@ class DeployIonos:
 #====================================================================
 # frontend
 #====================================================================
+    def _isvue(self,pathlocal):
+        return is_file(pathlocal+"/src/App.vue")
+
     def _build_zip(self, pathfrom, pathto):
         zipdir(pathfrom, pathto)
 
@@ -177,7 +180,7 @@ class DeployIonos:
         if is_dir(pathlocal+"/build"):
             # react
             sh(f"cd {pathlocal}; sh -ac '. .env.build; node ./scripts/build-non-split.js;'; rm build.zip")
-        elif is_dir(pathlocal+"/dist"):
+        elif self._isvue(pathlocal):
             # vue
             sh(f"cd {pathlocal}; npm run build; rm build.zip")
 
@@ -213,18 +216,13 @@ class DeployIonos:
         pathzip = f"{belocal}/build.zip"
 
         # el caso de vue
-        if is_dir(belocal+"/dist"):
+        if self._isvue(belocal):
             pathbuild = f"{belocal}/dist"
             pathzip = f"{belocal}/build.zip"
 
         # este no me vale, me elimina el zip juste despues de haberlo subido
         # self._rm_oldzip(pathremote)
-        
-        # if is_file(pathzip): 
-            # sh(f"echo removing: {pathzip} \n")
-            # sh(f"rm {pathzip}")
-            # sh(f"echo removed: {pathzip} \n")
-        
+            
         # return
         self._npmbuild(belocal)
         self._build_zip(pathbuild, pathzip)
