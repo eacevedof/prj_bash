@@ -44,6 +44,7 @@ def get_lines_to_remove(content):
             numlines.append(i)      # name=fieldname
             numlines.append(i+1)    # */
             numlines.append(i+2)    # private $fieldName
+            numlines.append(i+3)    # line en blanco
 
     distinct = set(numlines)
     unique = (list(distinct))
@@ -98,11 +99,12 @@ def index(pathentities):
     entities = get_files(pathentities)
     for filename in entities:
         pathentity = pathentities+"/"+filename
-        pathsave = pathentities+"/"+filename.replace(".php",".clean")
+        fileclean = filename.replace(".php",".clean")
+        pathsave = pathentities+"/"+fileclean
         # pd(pathsave,"pathsave")
         content = get_cleaned_entity(pathentity)
         file_put_contents(pathsave, content)
-        die()
+        pr(f"file processed: {fileclean}\n")
 
     pr("process finished!")
 # esto da error de importación de tools
