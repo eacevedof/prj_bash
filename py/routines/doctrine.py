@@ -65,7 +65,7 @@ def replace_empty_comment(content):
     arlines = content.split("\n")
     rmvedlines = []
     for i,strline in enumerate(arlines):
-        if strline.strip()==="*":
+        if strline.strip()=="*":
             continue
         rmvedlines.append(strline)
     return "\n".join(rmvedlines)    
