@@ -29,7 +29,7 @@ def has_unused_field(strline):
         ,"is_erpsent","is_enabled","i","code_erp","description","code_cache",
     ]
     for field in arunused:
-        if strline.find(field)!= -1:
+        if strline.find(f"Column(name=\"{field}\", type=")!= -1:
             return True
     return False
 
@@ -44,7 +44,10 @@ def get_lines_to_remove(content):
             numlines.append(i)      # name=fieldname
             numlines.append(i+1)    # */
             numlines.append(i+2)    # private $fieldName
-    return numlines
+
+    distinct = set(numlines)
+    unique = (list(distinct))
+    return unique
 
 
 def get_without_unused_fields(content):
