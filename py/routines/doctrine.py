@@ -2,7 +2,7 @@
 
 """
 Limpia las entidades autogeneradas con doctrine usando el comando:
-    php bin/console --env=local doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="AppPromotion"
+    php bin/console --env=local doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="AppPromotionUser"
 
 ejemplo:
     py.sh doctrine <path-entities>
@@ -74,22 +74,29 @@ def replace_empty_comment(content):
 def replace_null(content):
     return content.replace("'NULL'","null")
 
+def replace_char0(content):
+    return content.replace("'0'","0")
+
 def replace_float(content):
     return content.replace("'0.000'","0")
 
 def replace_singlequot(content):
     newcontent = content.replace("\\''","'")
     newcontent = newcontent.replace("'\\'","'")
-    
     return newcontent
+
+def replace_namespace(content):
+    return content.replace("namespace App\Entity;","namespace App\Entity\App;\nuse App\Entity\BaseEntity;")
 
 def get_cleaned_entity(pathentity):
     content = file_get_contents(pathentity)
     content = get_without_unused_fields(content)
+    content = replace_namespace(content)
     content = replace_empty_comment(content)
     content = replace_null(content)
     content = replace_float(content)
     content = replace_singlequot(content)
+    content = replace_char0(content)
     # ppr(content,f"content of: {pathentity}")
     return content
 
