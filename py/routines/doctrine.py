@@ -23,10 +23,17 @@ def get_files(path):
             entities.append(file)
     return entities
 
+def proces_entity(pathentity):
+    content = file_get_contents(pathentity)
+    ppr(content,f"content of: {pathentity}")
+
 def index(pathentities):
     pr(f"doctrine.py path={pathentities}")
-    files = get_files(pathentities)
-    ppr(files)
+    entities = get_files(pathentities)
+    for php in entities:
+        pathentity = pathentities+"/"+php
+        proces_entity(pathentity)
+        die()
 
     pr("process finished!")
 # esto da error de importación de tools

@@ -28,6 +28,9 @@ def pd(var,title=""):
     printx(var)
     sys.exit()
 
+def die():
+    sys.exit()
+
 def file_get_contents(filename):
     try:
         with open(filename) as f:
