@@ -49,6 +49,8 @@ def get_lines_to_remove(content):
 
 def get_without_unused_fields(content):
     idxremove = get_lines_to_remove(content)
+    ppr(idxremove,"lines to remove")
+    die()
     arlines = content.split("\n")
     rmvedlines = []
     for i,strline in enumerate(arlines):
