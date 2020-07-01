@@ -103,7 +103,7 @@ def add_divider(content):
 
 def replace_closingbracket(content):
     closing = "\n\n\n}"
-    return content.replace(closing,"}")
+    return content.replace(closing,"\n}")
 
 def get_cleaned_entity(pathentity):
     content = file_get_contents(pathentity)
