@@ -61,6 +61,15 @@ def get_without_unused_fields(content):
         rmvedlines.append(strline)
     return "\n".join(rmvedlines)
 
+def replace_empty_comment(content):
+    arlines = content.split("\n")
+    rmvedlines = []
+    for i,strline in enumerate(arlines):
+        if strline.strip()==="*":
+            continue
+        rmvedlines.append(strline)
+    return "\n".join(rmvedlines)    
+
 def replace_null(content):
     return content.replace("'NULL'","null")
 
@@ -76,6 +85,7 @@ def replace_singlequot(content):
 def proces_entity(pathentity):
     content = file_get_contents(pathentity)
     content = get_without_unused_fields(content)
+    content = replace_empty_comment(content)
     content = replace_null(content)
     content = replace_float(content)
     content = replace_singlequot(content)
