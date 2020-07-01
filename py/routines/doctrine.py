@@ -52,23 +52,23 @@ def get_lines_to_remove(content):
 
 def get_without_unused_fields(content):
     arremove = get_lines_to_remove(content)
-    # ppr(arremove,"lines to remove")
+    ppr(arremove,"lines to remove")
     arlines = content.split("\n")
-    rmvedlines = []
+    newlines = []
     for i,strline in enumerate(arlines):
         if i in arremove:
             continue
-        rmvedlines.append(strline)
-    return "\n".join(rmvedlines)
+        newlines.append(strline)
+    return "\n".join(newlines)
 
 def replace_empty_comment(content):
     arlines = content.split("\n")
-    rmvedlines = []
+    newlines = []
     for i,strline in enumerate(arlines):
         if strline.strip()=="*":
             continue
-        rmvedlines.append(strline)
-    return "\n".join(rmvedlines)    
+        newlines.append(strline)
+    return "\n".join(newlines)    
 
 def replace_null(content):
     return content.replace("'NULL'","null")
@@ -84,7 +84,7 @@ def replace_singlequot(content):
 
 def get_cleaned_entity(pathentity):
     content = file_get_contents(pathentity)
-    # content = get_without_unused_fields(content)
+    content = get_without_unused_fields(content)
     content = replace_empty_comment(content)
     content = replace_null(content)
     content = replace_float(content)
