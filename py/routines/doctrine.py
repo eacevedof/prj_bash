@@ -23,14 +23,39 @@ def get_files(path):
             entities.append(file)
     return entities
 
-
-def remove_unused_fields(content):
+def has_unused_field(strline):
     arunused = [
         "processflag","insert_platform","insert_user","insert_date","update_platform","update_user","update_date","delete_platform","delete_user","delete_date","cru_csvnote"
-        ,"is_erpsent","is_enabled","i","code_erp","description","code_cache","","","","",""
+        ,"is_erpsent","is_enabled","i","code_erp","description","code_cache",
     ]
+    for field in arunused:
+        if strline.find(field)!= -1:
+            return True
+    return False
 
-    return content
+def get_lines_to_remove(content):
+    arlines = content.split("\n")
+    numlines = []
+    for i,strline in enumerate(arlines):
+        if has_unused_field(strline):
+            numlines.append(i-3)    # /**
+            numlines.append(i-2)    # @var tipo
+            numlines.append(i-1)    # * <en blanco>
+            numlines.append(i)      # name=fieldname
+            numlines.append(i+1)    # */
+            numlines.append(i+2)    # private $fieldName
+    return numlines
+
+
+def get_without_unused_fields(content):
+    idxremove = get_lines_to_remove(content)
+    arlines = content.split("\n")
+    rmvedlines = []
+    for i,strline in enumerate(arlines):
+        if i in idxremove:
+            continue
+        rmvedlines.append(strline)
+    return "\n".join(rmvedlines)
 
 def replace_null(content):
     return content.replace("'NULL'","null")
@@ -46,7 +71,7 @@ def replace_singlequot(content):
 
 def proces_entity(pathentity):
     content = file_get_contents(pathentity)
-    content = remove_unused_fields(content)
+    content = get_without_unused_fields(content)
     content = replace_null(content)
     content = replace_float(content)
     content = replace_singlequot(content)
