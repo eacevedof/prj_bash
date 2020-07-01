@@ -52,7 +52,7 @@ def get_lines_to_remove(content):
 
 def get_without_unused_fields(content):
     arremove = get_lines_to_remove(content)
-    ppr(arremove,"lines to remove")
+    # ppr(arremove,"lines to remove")
     arlines = content.split("\n")
     newlines = []
     for i,strline in enumerate(arlines):
