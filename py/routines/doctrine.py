@@ -23,13 +23,35 @@ def get_files(path):
             entities.append(file)
     return entities
 
+
+def remove_unused_fields(content):
+    arunused = [
+        "processflag","insert_platform","insert_user","insert_date","update_platform","update_user","update_date","delete_platform","delete_user","delete_date","cru_csvnote"
+        ,"is_erpsent","is_enabled","i","code_erp","description","code_cache","","","","",""
+    ]
+
+    return content
+
 def replace_null(content):
     return content.replace("'NULL'","null")
 
+def replace_float(content):
+    return content.replace("'0.000'","0")
+
+def replace_singlequot(content):
+    newcontent = content.replace("\\''","'")
+    newcontent = newcontent.replace("'\\'","'")
+    
+    return newcontent
+
 def proces_entity(pathentity):
     content = file_get_contents(pathentity)
+    content = remove_unused_fields(content)
     content = replace_null(content)
+    content = replace_float(content)
+    content = replace_singlequot(content)
     ppr(content,f"content of: {pathentity}")
+
 
 def index(pathentities):
     pr(f"doctrine.py path={pathentities}")
