@@ -23,8 +23,12 @@ def get_files(path):
             entities.append(file)
     return entities
 
+def replace_null(content):
+    return content.replace("'NULL'","null")
+
 def proces_entity(pathentity):
     content = file_get_contents(pathentity)
+    content = replace_null(content)
     ppr(content,f"content of: {pathentity}")
 
 def index(pathentities):
