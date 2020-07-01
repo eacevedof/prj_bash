@@ -17,7 +17,11 @@ from tools.tools import *
 
 def get_files(path):
     files = scandir(path)
-
+    entities = []
+    for file in files:
+        if file.find(".php") != -1:
+            entities.append(file)
+    return entities
 
 def index(pathentities):
     pr(f"doctrine.py path={pathentities}")
