@@ -88,6 +88,27 @@ def replace_singlequot(content):
 def replace_namespace(content):
     return content.replace("namespace App\Entity;","namespace App\Entity\App;\nuse App\Entity\BaseEntity;")
 
+def add_divider(content):
+    arlines = content.split("\n")
+    divider = """
+//======================================================================================================================
+//======================================================================================================================
+//======================================================================================================================
+    """
+    ilast = len(arlines)-4
+    for i in range(len(arlines)):
+        if i==ilast:
+            arlines.insert(i,divider)
+    return "\n".join(arlines)
+
+def replace_closingbracket(content):
+    closing = """
+
+    
+    }
+    """
+    return content.replace(closing,"}")
+
 def get_cleaned_entity(pathentity):
     content = file_get_contents(pathentity)
     content = get_without_unused_fields(content)
@@ -97,6 +118,8 @@ def get_cleaned_entity(pathentity):
     content = replace_float(content)
     content = replace_singlequot(content)
     content = replace_char0(content)
+    content = add_divider(content)
+    content = replace_closingbracket(content)
     # ppr(content,f"content of: {pathentity}")
     return content
 
