@@ -87,8 +87,8 @@ def get_cleaned_entity(pathentity):
     # content = get_without_unused_fields(content)
     content = replace_empty_comment(content)
     content = replace_null(content)
-    # content = replace_float(content)
-    # content = replace_singlequot(content)
+    content = replace_float(content)
+    content = replace_singlequot(content)
     # ppr(content,f"content of: {pathentity}")
     return content
 
