@@ -56,6 +56,16 @@ def index():
         py.sh fromserver.database tinymarket
     """)          
 
+    arhelp.append("""
+    module: doctrine
+    - Limpia las entidades autogeneradas con doctrine usando el comando:
+        php bin/console --env=local doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="AppPromotion"
+    - Generará un fichero .clean
+    
+    ejemplo:
+        py.sh doctrine <path-entities>
+        py.sh doctrine "$HOME/projects/prj_doblerr/backend_web/src/Entity"
+    """)
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
