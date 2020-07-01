@@ -97,9 +97,12 @@ def get_cleaned_entity(pathentity):
 def index(pathentities):
     pr(f"doctrine.py path={pathentities}")
     entities = get_files(pathentities)
+    skip = ["BaseEntity.php","User.php"]
     for filename in entities:
+        if filename in skip:
+            continue
         pathentity = pathentities+"/"+filename
-        fileclean = filename.replace(".php",".clean")
+        fileclean = "_"+filename.replace(".php",".clean")
         pathsave = pathentities+"/"+fileclean
         # pd(pathsave,"pathsave")
         content = get_cleaned_entity(pathentity)
