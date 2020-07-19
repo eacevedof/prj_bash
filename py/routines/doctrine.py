@@ -2,7 +2,8 @@
 
 """
 Limpia las entidades autogeneradas con doctrine usando el comando:
-    php bin/console --env=local doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="AppPromotionUser"
+    php bin/console --env=local doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="AppPromotionsSubscriptions"; 
+    py.sh doctrine "$HOME/projects/prj_doblerr/backend_web/src/Entity";
 
 ejemplo:
     py.sh doctrine <path-entities>
