@@ -47,7 +47,8 @@ else
     #   end tell
     # END;
   fi
-  docker exec -it $containerid bash
+  # docker exec --user="root" -it <container_name> /bin/bash
+  docker exec --user="root" -it $containerid bash
   exit 0
 fi
 
