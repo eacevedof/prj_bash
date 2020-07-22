@@ -36,20 +36,30 @@ def index(pathfile):
     # print(config)
     pathbuild = get_key(config,"PATH_BUILD")
     pathpublic = get_key(config,"PATH_PUBLIC")
+    pathcache = get_key(config,"PATH_CACHE")
     pathtwig = get_key(config,"PATH_INDEX_TWIG")
 
-    print("...removing pathpublic: "+pathpublic)
-    shutil.rmtree(pathpublic)
-    print("...copying pathbuild: "+pathbuild)
-    shutil.copytree(pathbuild, pathpublic)
-    print("...removing index.html")
-    os.remove(pathpublic+"/index.html")
-    # print("...changing name of asset-manifest.json")
-    # os.rename(pathpublic+"/asset-manifest.json", pathpublic+"/manifest.json")
-    print("...copying index.html to twig: "+pathtwig)
-    shutil.copyfile(pathbuild+"/index.html", pathtwig)
-    print("process end")
+    if pathpublic!="":
+        print("...removing pathpublic: "+pathpublic)
+        shutil.rmtree(pathpublic)
 
+        if pathbuild!="":
+            print("...copying pathbuild: "+pathbuild)
+            shutil.copytree(pathbuild, pathpublic)
+
+    if pathpublic!="":
+        print("...removing index.html")
+        os.remove(pathpublic+"/index.html")
+
+    if pathtwig!="" and pathbuild != "":
+        print("...copying index.html to twig: "+pathtwig)
+        shutil.copyfile(pathbuild+"/index.html", pathtwig)
+
+    if pathcache!="" and is_dir(pathcache):
+        print("...removing cache")
+        shutil.rmtree(pathcache)
+    
+    print("py.sh react process finished")
 
     # obtener la configuracion de .pysh
     # copiar contenido de PATH_BUILD a PATH_PUBLIC
