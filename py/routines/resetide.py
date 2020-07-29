@@ -2,9 +2,10 @@
 
 #1. Terminate your JetBrains application
 
-#2. Remove all *.key files in ~/Library/Application Support/JetBrains/eval/ folder (esta es la ruta correcta)
+#2. Remove all *.key files in /Users/<user>/Library/Application Support/JetBrains/PhpStorm2020.1/eval 
 
-#3. remove ~/Library/Application Support/JetBrains/options/options.xml ok
+#3. remove /Users/<user>/Library/"Application Support"/JetBrains/PhpStorm2020.1/options/options.xml (esto no existe)
+    # cd /Users/<user>/Library/"Application Support"/JetBrains/PhpStorm2020.1/options
     
 #4. Remove any Jetbrains related keys in ~/Library/Preferences/com.apple.java.util.prefs.plist (ok)
 
