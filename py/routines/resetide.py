@@ -1,4 +1,5 @@
 # https://tsukie.com/en/technologies/how-to-reset-trial-time-for-jetbrains-products/
+# https://trello.com/c/dUy29phH/2-resetear-periodo-de-evaluacion-phpstorm
 
 #1. Terminate your JetBrains application
 
