@@ -1,7 +1,7 @@
 # routines.react.py
 # py.sh "/Users/ioedu/projects/prj_doblerr/frontend_react/pannel/.pysh" index react
 print("routines.react.py")
-from tools.tools import file_get_contents,pr,pd,file_put_contents
+from tools.tools import file_get_contents,pr,pd,file_put_contents,is_dir
 import shutil
 import os
 
@@ -59,7 +59,7 @@ def index(pathfile):
         print("...removing cache")
         shutil.rmtree(pathcache)
     
-    print("py.sh react process finished")
+    print(f"\npy.sh react {pathfile} \n\t- process finished!")
 
     # obtener la configuracion de .pysh
     # copiar contenido de PATH_BUILD a PATH_PUBLIC
