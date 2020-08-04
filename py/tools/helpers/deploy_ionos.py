@@ -208,6 +208,18 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
+    def _build_rename(self, pathupload):
+        dicaccess = self._get_sshaccess_front()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        pathup = f"$HOME/{pathupload}"
+        print(f"upload path: {pathup}")
+        ssh.cmd(f"cd {pathup}")
+        ssh.cmd(f"mv ./build ./react")
+        ssh.cmd("rm -f build.zip")
+        ssh.execute()
+        ssh.close()        
+
     def frontend(self):
         belocal = self.dicproject["frontend"]["local"]
         pathremote = self.dicproject["frontend"]["prod"]["path"]
@@ -229,24 +241,28 @@ class DeployIonos:
         self._build_upload(pathzip, pathremote)
         self._build_unzip(pathremote)
 
+    def _build_remove(self, arfiles):
+        belocal = self.dicproject["frontendembed"]["local"]
+        pathbuild = f"{belocal}/build"
+        for file in arfiles:
+            sh(f"rm -f {pathbuild}/{file}")
+
     def frontendembed(self):
         belocal = self.dicproject["frontendembed"]["local"]
         pathremote = self.dicproject["frontendembed"]["prod"]["path"]
 
-        pathbuild = f"{belocal}/build/static"
-        pathzip = f"{belocal}/static.zip"
-
-        # el caso de vue
-        if self._isvue(belocal):
-            pathbuild = f"{belocal}/dist"
-            pathzip = f"{belocal}/build.zip"
+        pathbuild = f"{belocal}/build"
+        pathzip = f"{belocal}/build.zip"
 
         # este no me vale, me elimina el zip juste despues de haberlo subido
         # self._rm_oldzip(pathremote)
             
         # return
+        sh(f"rm -f {pathzip}")
         self._npmbuild(belocal)
+        self._build_remove(["index.html",".htaccess"])
         self._build_zip(pathbuild, pathzip)
         self._build_upload(pathzip, pathremote)
-        self._build_unzip(pathremote,"static")
+        self._build_unzip(pathremote)
+        self._build_rename(pathremote)
 
