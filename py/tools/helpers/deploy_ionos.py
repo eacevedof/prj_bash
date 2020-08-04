@@ -192,17 +192,17 @@ class DeployIonos:
             sftp.upload(pathfrom, pathto)
             sftp.close()
 
-    def _build_unzip(self,pathupload):
+    def _build_unzip(self,pathupload,name="build"):
         dicaccess = self._get_sshaccess_front()
         ssh = Sshit(dicaccess)
         ssh.connect()
         pathup = f"$HOME/{pathupload}"
         print(f"upload path: {pathup}")
         ssh.cmd(f"cd {pathup}")
-        ssh.cmd("rm -fr build")
-        ssh.cmd("unzip build.zip -d ./")
+        ssh.cmd(f"rm -fr {name}")
+        ssh.cmd(f"unzip {name}.zip -d ./")
         # en caso de vue se descomprime como dist
-        ssh.cmd("mv dist build")
+        ssh.cmd(f"mv dist {name}")
         # no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
         #ssh.cmd("rm -f vendor.zip")
         ssh.execute()
@@ -228,4 +228,25 @@ class DeployIonos:
         self._build_zip(pathbuild, pathzip)
         self._build_upload(pathzip, pathremote)
         self._build_unzip(pathremote)
+
+    def frontendembed(self):
+        belocal = self.dicproject["frontendembed"]["local"]
+        pathremote = self.dicproject["frontendembed"]["prod"]["path"]
+
+        pathbuild = f"{belocal}/build/static"
+        pathzip = f"{belocal}/static.zip"
+
+        # el caso de vue
+        if self._isvue(belocal):
+            pathbuild = f"{belocal}/dist"
+            pathzip = f"{belocal}/build.zip"
+
+        # este no me vale, me elimina el zip juste despues de haberlo subido
+        # self._rm_oldzip(pathremote)
+            
+        # return
+        self._npmbuild(belocal)
+        self._build_zip(pathbuild, pathzip)
+        self._build_upload(pathzip, pathremote)
+        self._build_unzip(pathremote,"static")
 

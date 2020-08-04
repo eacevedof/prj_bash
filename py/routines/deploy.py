@@ -73,6 +73,22 @@ def frontbuild(project):
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
+# py.sh deploy.frontbuildembed tinymarket
+def frontbuildembed(project):
+    timeini = get_now()
+    pr(f"deploy.frontbuildembed: of {project}. {timeini}")
+
+    dicproject = get_dicconfig(project)
+    if dicproject is None:
+        pr(f"No deployed: project {project} not found")
+        return 0
+
+    
+    ionos = DeployIonos(dicproject)
+    ionos.frontendembed()
+    timeend = get_now()
+    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+
 
 # py.sh deploy tinymarket
 def index(project):

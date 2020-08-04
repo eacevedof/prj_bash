@@ -10,6 +10,7 @@ def index():
         py.sh deploy.<function> <project-id>
         py.sh deploy tinymarket
         py.sh deploy.frontbuild tinymarket
+        py.sh deploy.frontbuildembed tinymarket  #solo los assets
         py.sh deploy.composer tinymarket
         py.sh deploy.dbrestore tinymarket
         py.sh deploy.pictures tinymarket
