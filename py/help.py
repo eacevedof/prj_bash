@@ -67,6 +67,18 @@ def index():
         py.sh doctrine <path-entities>
         py.sh doctrine "$HOME/projects/prj_doblerr/backend_web/src/Entity"
     """)
+
+    arhelp.append("""
+    module: images
+    - Hace tratamiento de imagenes
+    - reduce:
+        Hace una reducción en resolución a 150 x 150 ppp en la misma carpeta
+    
+    ejemplo:
+        py.sh images.reduce <path-folder-images>
+        py.sh image.reduce $PWD
+        py.sh images.reduce /Users/ioedu/Downloads/ech-nuevas
+    """)    
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
