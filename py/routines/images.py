@@ -1,6 +1,6 @@
 # routines.image.py
-# py.sh images.reduce <PATH>
-# py.sh images.reduce /Users/ioedu/Downloads/ech-nuevas
+# py.sh images.reducedpi <PATH>
+# py.sh images.reducedpi /Users/ioedu/Downloads/ech-nuevas
 print("routines.image.py")
 from tools.tools import is_dir, scandir, get_now, pr
 import shutil
@@ -19,16 +19,14 @@ def is_extensionok(filename):
     return False
 
 
-def reduce(pathfolder):
+def reducedpi(pathfolder, resolution=100):
     print("process")
     timeini = get_now()
-    pr(f"image.reduce: of {pathfolder}. {timeini}")
+    pr(f"image.reducedpi: of {pathfolder}. {timeini}")
 
     if not is_dir(pathfolder):
         return die(f"Error pathfolder {pathfolder} is not a directory")
 
-    #pr(pathfolder)
-    resolution=150
     files = scandir(pathfolder)
     
     for filename in files:
@@ -36,7 +34,7 @@ def reduce(pathfolder):
         if not is_extensionok(filename):
             continue
         pathfile = f"{pathfolder}/{filename}"
-        extension = os.path.splitext(filename)[1]
+        extension = os.path.splitext(filename)[1].replace(".","")
         pathfilenew = os.path.splitext(pathfile)[0]
 
         pathfilenew = f"{pathfilenew}-{resolution}x{resolution}.{extension}"

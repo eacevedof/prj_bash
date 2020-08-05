@@ -75,9 +75,9 @@ def index():
         Hace una reducción en resolución a 150 x 150 ppp en la misma carpeta
     
     ejemplo:
-        py.sh images.reduce <path-folder-images>
-        py.sh image.reduce $PWD
-        py.sh images.reduce /Users/ioedu/Downloads/ech-nuevas
+        py.sh images.reducedpi <path-folder-images> <dpi=100 default>
+        py.sh images.reducedpi $PWD 150
+        py.sh images.reducedpi /Users/ioedu/Downloads/ech-nuevas 150
     """)    
     #arhelp.append("""
     #module: get-pip  
