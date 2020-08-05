@@ -20,7 +20,7 @@ def is_extensionok(filename):
 
 
 def reducedpi(pathfolder, resolution=100):
-    print("process")
+    print(f"process: pathfolder={pathfolder}, resolution={resolution}")
     timeini = get_now()
     pr(f"image.reducedpi: of {pathfolder}. {timeini}")
 
@@ -30,15 +30,17 @@ def reducedpi(pathfolder, resolution=100):
     files = scandir(pathfolder)
     
     for filename in files:
-        pr(filename)
-        if not is_extensionok(filename):
-            continue
+        pr(f"handling: {filename}")
+
         pathfile = f"{pathfolder}/{filename}"
+        if not is_extensionok(filename) or is_dir(pathfile):
+            continue
+        
         extension = os.path.splitext(filename)[1].replace(".","")
         pathfilenew = os.path.splitext(pathfile)[0]
 
         pathfilenew = f"{pathfilenew}-{resolution}x{resolution}.{extension}"
-        pr(pathfilenew)
+        pr(f"generated file: {pathfilenew}")
         objimg = Image.open(pathfile)
         objimg.save(pathfilenew, dpi=(resolution,resolution))
 
