@@ -1,7 +1,7 @@
 # routines.image.py
 # py.sh images.reducedpi <PATH>
 # py.sh images.reducedpi /Users/ioedu/Downloads/ech-nuevas
-print("routines.image.py")
+#print("routines.images.py")
 from tools.tools import is_dir, scandir, get_now, pr
 import shutil
 import os
