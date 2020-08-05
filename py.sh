@@ -13,17 +13,10 @@ thisdir=$(dirname "$0")
 pypath=$thisdir"/py/console.py"
 
 args=("$@")
-# if [ -z "$1" ] || [[ $1 == "-h" ]] # tambien func
-if [ is_empty $1 ] || [[ $1 == "-h" ]]
-then
-  echo "\nTry:\n py.sh <module=[in routines folder]>.<action=[any function index() by default]> <argument="">"
-  echo "examples:\n py.sh udemy \"C:\Users\ioedu\Desktop\\\\temp.php\" #windows"
-  echo " py.sh udemy \"/Users/ioedu/Desktop/temp.php\" #mac\n"
-  exit 0
-fi
+
 
 #recupero parametros
-argument=$([ -z "$1" ] && echo "" || echo "$1")  #module.action
+#argument=$([ -z "$1" ] && echo "" || echo "$1")  #module.action
 # action=$([ -z "$2" ] && echo "index" || echo "$2")  #index
 # module=$([ -z "$3" ] && echo "udemy" || echo "$3")
 clear

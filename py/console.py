@@ -48,13 +48,14 @@ module = armodfunc[0]
 strfuncname = armodfunc[1] if len(armodfunc)>1 else "index"
 
 def run():
+    if get_nargs() < 2:
+        die("\n\tWrong request!!. \n\tError: Missing arguments!. \n\tTry: \n\t  py.sh -h to check manual")
 
     #importlib.import_module("routines",f"{module}.*") nok
     # importlib.import_module(".routines",f"{module}.*") nok
     # importlib.import_module(f"routines.{module}") nok
     try:
-        #print("argv")
-        #pprint(sys.argv); die("-- end argv--")
+        print("argv"); pprint(sys.argv); die("-- end argv--")
         imodule = import_module(f"routines.{module}")
         func = getattr(imodule, strfuncname)
         iparams = get_numparams(func)
