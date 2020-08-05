@@ -4,6 +4,7 @@ import os
 import json
 from pprint import pprint
 from datetime import datetime
+import ntpath
 
 def printx(mxvar):
     if isinstance(mxvar,list):
@@ -111,18 +112,26 @@ def get_now():
     hhmmss = now.strftime("%H:%M:%S")
     return hhmmss 
 
-def scandir(pathfoler):
-    # pr(f"pathfolder: {pathfoler}")
-    # return [f for f in os.listdir(pathfoler) if os.path.isfile(f)]
+def scandir(pathfolder):
+    # pr(f"pathfolder: {pathfolder}")
+    # return [f for f in os.listdir(pathfolder) if os.path.isfile(f)]
     
     f = []
-    for entry in os.scandir(pathfoler):
+    for entry in os.scandir(pathfolder):
         #print(entry)
         #if entry.is_file():
         if entry.name != ".DS_Store":
             f.append(entry.name)
     return f
          
+def mkdir(pathfolder):
+    try:
+        if not is_dir(pathfolder):
+            os.mkdir(pathfolder)
+    except OSError:
+        print ("Creation of the directory %s failed" % pathfolder)
+    else:
+        print ("Successfully created the directory %s " % pathfolder)
 
 def get_dicconfig(project):
     pathconfig = get_path_config_json()
@@ -130,6 +139,10 @@ def get_dicconfig(project):
     jsonhlp.load_data()
     dicproject = jsonhlp.get_dictbykey("id",project)
     return dicproject
+
+def get_basename(pathfile):
+    head, tail = ntpath.split(pathfile)
+    return tail or ntpath.basename(head)
 
 
 class Json:

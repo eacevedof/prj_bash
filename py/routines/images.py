@@ -2,7 +2,7 @@
 # py.sh images.reducedpi <PATH>
 # py.sh images.reducedpi /Users/ioedu/Downloads/ech-nuevas
 #print("routines.images.py")
-from tools.tools import is_dir, scandir, get_now, pr
+from tools.tools import is_dir, scandir, get_now, pr, mkdir, get_basename
 import shutil
 import os
 
@@ -20,15 +20,19 @@ def is_extensionok(filename):
 
 
 def reducedpi(pathfolder, resolution=100):
-    print(f"process: pathfolder={pathfolder}, resolution={resolution}")
+    resolution=int(resolution)
     timeini = get_now()
-    pr(f"image.reducedpi: of {pathfolder}. {timeini}")
+    pr(f"image.reducedpi: {timeini}")
+    print(f"process: pathfolder={pathfolder}, resolution={resolution}")    
 
     if not is_dir(pathfolder):
         return die(f"Error pathfolder {pathfolder} is not a directory")
 
     files = scandir(pathfolder)
-    
+    newfolder = f"{pathfolder}/res_{resolution}x{resolution}"
+    if files:
+        mkdir(newfolder)
+
     for filename in files:
         pr(f"handling: {filename}")
 
@@ -38,8 +42,10 @@ def reducedpi(pathfolder, resolution=100):
         
         extension = os.path.splitext(filename)[1].replace(".","")
         pathfilenew = os.path.splitext(pathfile)[0]
-
-        pathfilenew = f"{pathfilenew}-{resolution}x{resolution}.{extension}"
+        
+        pathfilenew = get_basename(pathfilenew)
+        pathfilenew = f"{newfolder}/{pathfilenew}-{resolution}x{resolution}.{extension}"
+        
         pr(f"generated file: {pathfilenew}")
         objimg = Image.open(pathfile)
         objimg.save(pathfilenew, dpi=(resolution,resolution))
