@@ -215,6 +215,8 @@ class DeployIonos:
         pathup = f"$HOME/{pathupload}"
         print(f"upload path: {pathup}")
         ssh.cmd(f"cd {pathup}")
+        # elimino todo lo anterior
+        ssh.cmd("rm -fr ./react")
         ssh.cmd(f"mv ./build ./react")
         ssh.cmd("rm -f build.zip")
         ssh.execute()
