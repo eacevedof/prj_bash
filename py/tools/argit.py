@@ -31,4 +31,3 @@ def get_funcname():
 def showhelp():
     from help import index
     index()
-    die("end help")

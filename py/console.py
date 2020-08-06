@@ -12,6 +12,7 @@ def die(strmsg):
 modulename = get_modulename()
 if modulename=="--help" or modulename=="-help" or modulename=="-h":
     showhelp()
+    sys.exit()
 
 def run():
     if get_nargs() < 2:
