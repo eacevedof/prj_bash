@@ -8,7 +8,7 @@ import os
 import requests
 
 def get_token(urllogin):
-    r = requests.post(urllogin, data={"user":"fulanito","password":"menganitox"}, headers={"Origin":"http://localhost:3000"})
+    r = requests.post(urllogin, data={"user":"fulanito","password":"menganitox"}, headers={"Origin":"http://xxx:3000"})
     dic = json.loads(r.text)
     return dic["data"]["token"]
 
