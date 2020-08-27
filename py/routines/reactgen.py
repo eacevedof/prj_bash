@@ -8,9 +8,23 @@ import os
 import requests
 
 def get_token(urllogin):
-    r = requests.post(urllogin, data={"user":"fulanito","password":"menganitox"}, headers={"Origin":"http://xxx:3000"})
+    r = requests.post(urllogin, data={"user":"fulanito","password":"menganitox"}, headers={"Origin":"http://localhost:3000"})
+    #return r.text
     dic = json.loads(r.text)
-    return dic["data"]["token"]
+    if bool(dic["data"]):
+        return dic["data"]["token"]
+    
+    pr(dic["errors"])
+    return ""
+
+def get_fields(urltable, token):
+    r = requests.post(urltable, data={"apify-usertoken":token}, headers={"Origin":"http://localhost:3000"})
+    dic = json.loads(r.text)
+    if bool(dic["data"]):
+        return dic["data"]
+
+    pr(dic["errors"])
+    return None
 
 # conectar con la bd
 def get_tpl():
@@ -42,7 +56,11 @@ def index(table):
     pr(dictpl,"dictpl")
 
     token = get_token(dictpl["endpoint-login"])
-    pr(token,"token")
+    #pr(token,"token")
+    urltable = dictpl["endpoint-fields"].replace("%table%",table)
+    fields = get_fields(urltable, token)
+
+    pr(fields,"fields")
 
     paththemp = dictpl["pathtemp"]
     #copydir(dictpl["pathmodule"], paththemp)
