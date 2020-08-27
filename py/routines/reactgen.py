@@ -1,7 +1,7 @@
 # routines.reactgen.py
 # py.sh reactgen <dbname> <table>
 
-from tools.tools import is_dir, scandir, get_now, pr, mkdir, get_basename
+from tools.tools import scandir, get_datetime, pr, copydir
 import shutil
 import os
 
@@ -10,13 +10,19 @@ def get_tpl():
     tpl = {
         "pathmodule":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/restrict/src/modules/product"
     }
+    h, t = os.path.split(tpl["pathmodule"])
+    now = get_datetime()
+    tpl["pathtemp"] = f"{h}/{now}"
     return tpl
 
 
 def index(db, table):
-    pr(db,"db")
-    pr(table,"table")
     # módulo plantilla
     dictpl = get_tpl()
-    pr(dictpl)
-    
+    pr(dictpl,"dictpl")
+
+    paththemp = dictpl["pathtemp"]
+    copydir(dictpl["pathmodule"], paththemp)
+    #pr(dictpl)
+    files = scandir(paththemp)
+    pr(files,f"files en {pathtemp}")
