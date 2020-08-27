@@ -5,18 +5,33 @@ from tools.tools import scandir, get_datetime, pr, copydir
 import shutil
 import os
 
+def get_token():
+    pass
 # conectar con la bd
 def get_tpl():
     tpl = {
-        "pathmodule":"/Users/ioedu/projects/prj_tinymarket_front/frontend_react/restrict/src/modules/product"
+        "endpoint-login": "http://localhost:10000/apifiy/security/login"
+        "endpoint-fields": "http://localhost:10000/apify/fields/c4/db-tinymarket/%table%"
+        "pathmodule" : "/Users/ioedu/projects/prj_tinymarket_front/frontend_react/restrict/src/modules/product",
+        "entity": "product",
+        "entity-singular": "Product",
+        "entity-plural": "Products",
     }
     h, t = os.path.split(tpl["pathmodule"])
     now = get_datetime()
     tpl["pathtemp"] = f"{h}/{now}"
     return tpl
 
+def get_dest():
+    tpl = {
+        "entity": "product",
+        "entity-singular": "Product",
+        "entity-plural": "Prooducts",
+    }
+    return tpl
 
-def index(db, table):
+
+def index(table):
     # módulo plantilla
     dictpl = get_tpl()
     pr(dictpl,"dictpl")
