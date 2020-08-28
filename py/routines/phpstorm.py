@@ -2,14 +2,15 @@
 from tools.tools import pr, shsudo,die
 
 dicconf = {
-    "pathcache1": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.1", # PhpStorm2020 # ls -lat | grep Jet existe la carpeta PhpStorm
+    "pathcache1": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.2", # PhpStorm2020 # ls -lat | grep Jet existe la carpeta PhpStorm
+    # aqui se crea otra carpeta PhpStorm2020.2 para lo nuevo instalado
 
     "pathphp": "'/Users/ioedu/Library/Application Support/PhpStorm'",  #webview
 
     "pathappsup1": "'/Users/ioedu/Library/Application Support/JetBrains/consentOptions'", #flag accepted
-    "pathappsup2": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/eval'", #eval key
-    "pathappsup3": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/phpstorm.vmoptions'",
-    # "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/options'", # en duda, creo que hace falta
+    "pathappsup2": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/eval'", #eval key
+    "pathappsup3": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/phpstorm.vmoptions'",
+    # "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/options'", # en duda, creo que hace falta
 
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathprefs1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
@@ -28,7 +29,7 @@ sudopass = ""
 
 def rmdir(pathdir):
     cmd = f"rm -fr {pathdir}"
-    pr(cmd,"rmdir:)
+    pr(cmd,"rmdir:")
     shsudo(cmd, sudopass)
 
 def rmdirall(pathfolder):
@@ -54,13 +55,14 @@ def index(supass):
     rmdirall(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
-    rmdirall(dicconf["pathappsup4"])
+    #rmdirall(dicconf["pathappsup4"])
 
     rmfile(dicconf["pathprefs1"])
     rmfile(dicconf["pathprefs2"])
     rmfile(dicconf["pathprefs3"])
 
     pathmanual = dicconf["pathxmlmanual"]
-    pr(pathmanual,"Hay que editar esto manualmente")
+    pr(pathmanual,"\n\tHay que editar esto manualmente y GUARDAR\n\t")
+    print("\n end phpstorm")
 
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
