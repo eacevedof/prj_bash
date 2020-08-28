@@ -1,4 +1,5 @@
-from tools.tools import pr, sh
+
+from tools.tools import pr, shsudo,die
 
 dicconf = {
     "pathcache1": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.1", # PhpStorm2020 # ls -lat | grep Jet existe la carpeta PhpStorm
@@ -22,23 +23,35 @@ dicconf = {
     "pathxmlmanual": "/Users/ioedu/Library/Preferences/com.apple.java.util.prefs.plist", #manual quitar entradas jetbrains 
 }
 
+sudopass = ""
+
 def rmdir(pathdir):
     cmd = f"rm -fr {pathdir}"
     pr(cmd,"rmdir:")
-    sh(cmd)
+    shsudo(cmd, sudopass)
 
 def rmdirall(pathfolder):
     cmd = f"rm -f {pathfolder}/*"
     pr(cmd,"rmdirall:")
-    sh(cmd)
+    shsudo(cmd, sudopass)
 
 def rmfile(pathfile):
     cmd = f"rm -f {pathfile}"
     pr(cmd,"rmfile:")
-    sh(cmd)    
+    shsudo(cmd, sudopass)    
 
-def index():
+def index(supass):
+    if not supass:
+        pr("No sudo pass")
+        die()
+
+    sudopass = supass
+    pr(sudopass,"sudopass")
+
     rmdir(dicconf["pathcache1"])
+    die()
+
+
     rmdirall(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
