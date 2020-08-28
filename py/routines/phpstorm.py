@@ -1,14 +1,14 @@
-from tools.tools import pr
+from tools.tools import pr, sh
 
 dicconf = {
-    "pathcache": "/Users/ioedu/Library/Caches/", # PhpStorm2020 # ls -lat | grep Jet
+    "pathcache1": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.1", # PhpStorm2020 # ls -lat | grep Jet existe la carpeta PhpStorm
 
     "pathphp": "/Users/ioedu/Library/Application Support/PhpStorm",  #webview
 
     #"pathjet1": "/Users/ioedu/Library/Application Support/JetBrains", #evaluation key
     "pathjet2": "/Users/ioedu/Library/Application Support/JetBrains/consentOptions", #flag accepted
     "pathjet3": "/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/eval", #eval key
-
+    "pathjet4": "/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/phpstorm.vmoptions"
 
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathplist1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
@@ -24,4 +24,9 @@ dicconf = {
 }
 
 def index():
-    pr("hola")
+    path = dicconf["pathcache1"]
+    cmd = f"rm -fr {path}"
+    pr(cmd,"pathcache1")
+    # sh(cmd)
+
+    
