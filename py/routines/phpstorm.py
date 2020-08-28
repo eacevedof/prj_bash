@@ -9,6 +9,7 @@ dicconf = {
     "pathappsup1": "'/Users/ioedu/Library/Application Support/JetBrains/consentOptions'", #flag accepted
     "pathappsup2": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/eval'", #eval key
     "pathappsup3": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/phpstorm.vmoptions'",
+    "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/options'",
 
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathprefs1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
@@ -53,6 +54,7 @@ def index(supass):
     rmdirall(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
+    rmdirall(dicconf["pathappsup4"])
 
     rmfile(dicconf["pathprefs1"])
     rmfile(dicconf["pathprefs2"])
@@ -60,3 +62,5 @@ def index(supass):
 
     pathmanual = dicconf["pathxmlmanual"]
     pr(pathmanual,"Hay que editar esto manualmente")
+
+    # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
