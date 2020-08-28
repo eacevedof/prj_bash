@@ -202,7 +202,8 @@ def shsudo(strcmd, passw):
         # sudocmd = f"sudo -S %s"%(strcmd)
         #sudocmd = f"sudo -S {strcmd}"
         #os.popen(sudocmd,"w").write(passw)
-        p = os.system('echo %s|sudo -S %s' % (passw, strcmd))
+        r = os.system('echo %s|sudo -S %s' % (passw, strcmd))
+        pr(r,"sudo result")
 
     except Exception as error:
         print(f"tools.sh: error: {error}")

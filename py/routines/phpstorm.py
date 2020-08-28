@@ -27,7 +27,7 @@ sudopass = ""
 
 def rmdir(pathdir):
     cmd = f"rm -fr {pathdir}"
-    pr(cmd,"rmdir:")
+    pr(cmd,"rmdir: xxx "+sudopass+" xxxx")
     shsudo(cmd, sudopass)
 
 def rmdirall(pathfolder):
@@ -45,13 +45,11 @@ def index(supass):
         pr("No sudo pass")
         die()
 
+    global sudopass
     sudopass = supass
     pr(sudopass,"sudopass")
 
     rmdir(dicconf["pathcache1"])
-    die()
-
-
     rmdirall(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
