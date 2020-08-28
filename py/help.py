@@ -78,7 +78,17 @@ def index():
         py.sh images.reducedpi <path-folder-images> <dpi=100 default>
         py.sh images.reducedpi $PWD 150
         py.sh images.reducedpi /Users/ioedu/Downloads/ech-nuevas 150
-    """)    
+    """)   
+    
+    arhelp.append("""
+    module: phpstorm
+    - Resetea phpstorm para evitar bug de ventanas bailando
+    - reduce:
+        A veces se solapan las ventanas y si deseas seleccionar alguna no puedes porque salta a la otra y a la inversa ^^
+    
+    ejemplo:
+        py.sh phpstorm <sudo-password>
+    """)       
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
