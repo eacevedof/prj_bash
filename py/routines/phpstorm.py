@@ -25,17 +25,17 @@ dicconf = {
 def rmdir(pathdir):
     cmd = f"rm -fr {pathdir}"
     pr(cmd,"rmdir:")
-    # sh(cmd)
+    sh(cmd)
 
 def rmdirall(pathfolder):
     cmd = f"rm -f {pathfolder}/*"
-    pr(cmd,"rmdirall")
-    # sh(cmd)
+    pr(cmd,"rmdirall:")
+    sh(cmd)
 
 def rmfile(pathfile):
     cmd = f"rm -f {pathfile}"
-    pr(cmd,"rmfile")
-    # sh(cmd)    
+    pr(cmd,"rmfile:")
+    sh(cmd)    
 
 def index():
     rmdir(dicconf["pathcache1"])
