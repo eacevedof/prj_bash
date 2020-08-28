@@ -56,7 +56,7 @@ def pictures(project):
     ionos = DeployIonos(dicproject)
     ionos.pictures()
     timeend = get_now()
-    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+    pr(f"...deploy pictures of {project} has finished. ini:{timeini} - end:{timeend}")
 
 # py.sh deploy.frontbuild tinymarket
 def frontbuild(project):
@@ -71,7 +71,7 @@ def frontbuild(project):
     ionos = DeployIonos(dicproject)
     ionos.frontend()
     timeend = get_now()
-    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+    pr(f"...deploy frontbuild of {project} has finished. ini:{timeini} - end:{timeend}")
 
 # py.sh deploy.frontbuildembed tinymarket
 def frontbuildembed(project):
@@ -87,8 +87,36 @@ def frontbuildembed(project):
     ionos = DeployIonos(dicproject)
     ionos.frontendembed()
     timeend = get_now()
-    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+    pr(f"...deploy frontbuildembed of {project} has finished. ini:{timeini} - end:{timeend}")
 
+
+def backend(project):
+    timeini = get_now()
+    pr(f"deploy.backend: of {project}. {timeini}")
+
+    dicproject = get_dicconfig(project)
+    if dicproject is None:
+        pr(f"No deployed: project {project} not found")
+        return 0
+    
+    ionos = DeployIonos(dicproject)
+    ionos.backend()
+    timeend = get_now()
+    pr(f"...deploy backend of {project} has finished. ini:{timeini} - end:{timeend}")
+
+def codeonly(project):    
+    timeini = get_now()
+    pr(f"deploy.codeonly: of {project}. {timeini}")
+
+    dicproject = get_dicconfig(project)
+    if dicproject is None:
+        pr(f"No deployed codeonly: project {project} not found")
+        return 0
+    
+    ionos = DeployIonos(dicproject)
+    ionos.gitpull(True)
+    timeend = get_now()
+    pr(f"...deploy codeonly of {project} has finished. ini:{timeini} - end:{timeend}")
 
 # py.sh deploy tinymarket
 def index(project):

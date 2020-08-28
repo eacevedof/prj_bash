@@ -113,7 +113,7 @@ class DeployIonos:
         self._composer_unzip(pathremote) # ssh
         os.remove(pathzip)
 
-    def gitpull(self):
+    def gitpull(self, rmcache=False):
         pathremote = self.dicproject["backend"]["prod"]["path"]
 
         dicaccess = self._get_sshaccess_back()
@@ -121,6 +121,8 @@ class DeployIonos:
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd("git pull")
+        if rmcache:
+            ssh.cmd(f"rm -fr var/cache")
         ssh.execute()
         ssh.close()
 
