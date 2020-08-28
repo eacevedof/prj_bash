@@ -7,7 +7,7 @@ dicconf = {
 
     "pathappsup1": "/Users/ioedu/Library/Application Support/JetBrains/consentOptions", #flag accepted
     "pathappsup2": "/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/eval", #eval key
-    "pathappsup3": "/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/phpstorm.vmoptions"
+    "pathappsup3": "/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.1/phpstorm.vmoptions",
 
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathprefs1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
