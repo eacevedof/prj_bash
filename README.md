@@ -96,11 +96,13 @@ fi
 - https://linux.die.net/man/1/sh
 
 ### TO-DO
+- En py.sh hay que crear un flag de delpoy -prod y que por defecto se despliegue en test
 - terminar dockerc.sh
   - debe permitir lanzar docker-compose dentro de cualquier ruta
 - crear bundle con parametro numero de terminales
   - el bundle abre vscode y ventanas bash
   - flag docker para lanzar docker-compose
+
 
 ### Ejemplos:
 - ~`py.sh gotit index dump`~
