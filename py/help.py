@@ -12,7 +12,7 @@ def index():
         py.sh deploy tinymarket
         py.sh deploy.frontbuild tinymarket
         py.sh deploy.frontbuildembed tinymarket  #solo los assets
-        py.sh deploy.composer tinymarket
+        py.sh deploy.composer tinymarket    #solo capreta vendor
         py.sh deploy.dbrestore tinymarket
         py.sh deploy.pictures tinymarket
 
