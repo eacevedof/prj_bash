@@ -59,6 +59,8 @@ def index():
 
     ejemplo:
         py.sh fromserver.database tinymarket
+        py.sh fromserver.download <path-file-in-server> 
+        py.sh fromserver.download "./backup_codigo/20111008eduardoaf.com.tgz"
     """)          
 
     arhelp.append("""

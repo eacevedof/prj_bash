@@ -37,6 +37,7 @@ def database(project):
         cmd = f"python {pathreplacer} {database} {dblocal} {pathto}"
         sh(cmd)
 
+# ejemplo: py.sh fromserver.download "./backup_codigo/20111008eduardoaf.com.tgz"
 def download(pathfom):
     if not pathfom:
         return "No pathfrom provided"

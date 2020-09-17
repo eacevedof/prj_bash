@@ -1,6 +1,8 @@
 # prj_bash
 - Bash scripting 
-- Crear variable de entorno que apunte a esta carpeta
+
+## PY.SH
+- [help comandos](https://github.com/eacevedof/prj_bash/blob/master/py/help.py)
 
 ## TIPS
 ### Obtener el numero de argumentos al llamar al bash
@@ -103,6 +105,3 @@ fi
   - el bundle abre vscode y ventanas bash
   - flag docker para lanzar docker-compose
 
-
-### Ejemplos:
-- ~`py.sh gotit index dump`~
