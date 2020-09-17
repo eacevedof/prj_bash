@@ -157,6 +157,23 @@ def get_basename(pathfile):
     head, tail = ntpath.split(pathfile)
     return tail or ntpath.basename(head)
 
+def sh(strcmd):
+    try:
+        os.system(strcmd)
+    except Exception as error:
+        print(f"tools.sh: error: {error}")
+
+def shsudo(strcmd, passw):
+    try:
+        # sudocmd = f"sudo -S %s"%(strcmd)
+        #sudocmd = f"sudo -S {strcmd}"
+        #os.popen(sudocmd,"w").write(passw)
+        r = os.system('echo %s|sudo -S %s' % (passw, strcmd))
+        # pr(r,"sudo result")
+
+    except Exception as error:
+        print(f"tools.sh: error: {error}")
+        
 
 class Json:
     
@@ -190,20 +207,3 @@ class Json:
     def reset(self):
         self.pathfile = ""
         self.data = []
-
-def sh(strcmd):
-    try:
-        os.system(strcmd)
-    except Exception as error:
-        print(f"tools.sh: error: {error}")
-
-def shsudo(strcmd, passw):
-    try:
-        # sudocmd = f"sudo -S %s"%(strcmd)
-        #sudocmd = f"sudo -S {strcmd}"
-        #os.popen(sudocmd,"w").write(passw)
-        r = os.system('echo %s|sudo -S %s' % (passw, strcmd))
-        # pr(r,"sudo result")
-
-    except Exception as error:
-        print(f"tools.sh: error: {error}")

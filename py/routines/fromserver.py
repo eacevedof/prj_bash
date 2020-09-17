@@ -36,3 +36,28 @@ def database(project):
 
         cmd = f"python {pathreplacer} {database} {dblocal} {pathto}"
         sh(cmd)
+
+def download(pathfom):
+    if not pathfom:
+        return "No pathfrom provided"
+
+    project = "eduardoaf"
+    dicproject = get_dicconfig(project)
+    dicaccess = dicproject["backend"]["prod"]
+    # pd(dicaccess);
+    sftp = Sftpit(dicaccess)
+    sftp.connect()
+    if sftp.is_connected():
+        print("downloading: \n"+pathfom)
+        host = dicproject["db"]["prod"]["server"]
+        user = dicproject["db"]["prod"]["user"]
+        password = dicproject["db"]["prod"]["password"]
+        database = dicproject["db"]["prod"]["database"]
+        
+        filename = get_basename(pathfom)
+        pathto = dicproject["db"]["pathyog"]+"/"+filename
+
+        sftp.download(pathfom, pathto)
+        sftp.close()
+        print(f"download process finished in path: {pathto}")
+        
