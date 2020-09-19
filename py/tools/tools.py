@@ -32,19 +32,19 @@ def pd(var,title=""):
 def die():
     sys.exit()
 
-def file_get_contents(filename):
+def file_get_contents(pathfile):
     try:
-        with open(filename) as f:
+        with open(pathfile) as f:
             return f.read()
     except IOError:
-        return f"no file found: {filename}"
+        return f"no file found: {pathfile}"
 
-def file_put_contents(filename,strdata=""):
+def file_put_contents(pathfile, strdata=""):
     try:
-        with open(filename, 'w') as f:
+        with open(pathfile, 'w') as f:
             f.write(strdata)
     except IOError:
-        return f"no file found: {filename}"
+        return f"no file found: {pathfile}"
 
 def get_datetime():
     from datetime import datetime
