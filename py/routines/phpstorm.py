@@ -5,7 +5,6 @@ version = "PhpStorm2020.2"
 
 dicconf = {
     "pathcache1": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.2", # PhpStorm2020 # ls -lat | grep Jet existe la carpeta PhpStorm
-    "pathcache2": "/Users/ioedu/Library/Caches/JetBrains/PhpStorm2020.2/port.lock",
     # aqui se crea otra carpeta PhpStorm2020.2 para lo nuevo instalado
 
     "pathphp": "'/Users/ioedu/Library/Application Support/PhpStorm'",  #webview
@@ -16,6 +15,7 @@ dicconf = {
     # "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/options'", # en duda, creo que hace falta
     "pathappsup5": "'/Users/ioedu/Library/Application Support/JetBrains/bl'",
     "pathappsup6": "'/Users/ioedu/Library/Application Support/JetBrains/crl'",
+    "pathappsup7": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/port.lock'", 
 
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathprefs1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
@@ -59,16 +59,15 @@ def index(supass):
     pr(sudopass,"sudopass")
 
     rmdir(dicconf["pathcache1"])
-    rmfile(dicconf["pathcache2"])
+    
 
-
-    rmdirall(dicconf["pathappsup1"])
+    rmdir(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
     #rmdirall(dicconf["pathappsup4"])
     rmfile(dicconf["pathappsup5"])
     rmfile(dicconf["pathappsup6"])
-
+    rmfile(dicconf["pathappsup7"])
 
     rmfile(dicconf["pathprefs1"])
     rmfile(dicconf["pathprefs2"])
