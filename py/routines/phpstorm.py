@@ -1,4 +1,4 @@
-
+from datetime import datetime
 from tools.tools import pr, shsudo,die
 
 version = "PhpStorm2020.2"
@@ -38,7 +38,14 @@ dicconf = {
     #"pathapps1": "/Applications/PhpStorm.app/"
 }
 
+nowts = datetime.today().strftime('%Y%m%d-%H%M%S')
 sudopass = ""
+
+def mvdir(pathdir)
+    global nowts
+    cmd = f"mv {pathdir}_{nowts}"
+    pr(cmd,"mvdir:")
+    shsudo(cmd, sudopass)
 
 def rmdir(pathdir):
     cmd = f"rm -fr {pathdir}"
@@ -70,7 +77,7 @@ def index(supass):
     rmdir(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
-    #rmdirall(dicconf["pathappsup4"])
+    mvdir(dicconf["pathappsup4"]) #options
     rmfile(dicconf["pathappsup5"])
     rmfile(dicconf["pathappsup6"])
     rmfile(dicconf["pathappsup7"])
@@ -174,4 +181,13 @@ def index(supass):
     - se actualiza recentprojects.xml
     - se crea notifications.xml (al desactivar la inspeccion de dockerfile)
         <notification groupId="Docker: Dockerfile detection" displayType="NONE" shouldLog="false" />
+
+BACKUP:
+- archivo: 
+    aqui habría que tocar los timestamp
+    /Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/options/recentProjects.xml
+
+- carpeta: 
+    es donde apunta el archivo anterior
+    /Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/workspace/
 """
