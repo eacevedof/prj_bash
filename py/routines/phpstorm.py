@@ -60,7 +60,7 @@ def index(supass):
 
     rmdir(dicconf["pathcache1"])
     
-
+    
     rmdir(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
