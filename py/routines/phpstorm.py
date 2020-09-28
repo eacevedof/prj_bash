@@ -1,6 +1,8 @@
 from datetime import datetime
 from tools.tools import pr, shsudo,die
 
+nowts = datetime.today().strftime('%Y%m%d-%H%M%S')
+sudopass = ""
 version = "PhpStorm2020.2"
 
 dicconf = {
@@ -36,14 +38,17 @@ dicconf = {
     "pathxmlmanual": "/Users/ioedu/Library/Preferences/com.apple.java.util.prefs.plist", #manual quitar entradas jetbrains 
 
     #"pathapps1": "/Applications/PhpStorm.app/"
+
+    "restore1":"recentProjects.xml",
+    "restore2":"laf.xml",
+    "restore3":"colors.scheme.xml",
 }
 
-nowts = datetime.today().strftime('%Y%m%d-%H%M%S')
-sudopass = ""
-
-def mvdir(pathdir)
+def mvdir(pathdir):
     global nowts
-    cmd = f"mv {pathdir}_{nowts}"
+    newname = f"options_{nowts}"
+    newname = pathdir.replace("/options'",f"/{newname}'")
+    cmd = f"mv {pathdir} {newname}"
     pr(cmd,"mvdir:")
     shsudo(cmd, sudopass)
 
@@ -72,8 +77,7 @@ def index(supass):
     pr(sudopass,"sudopass")
 
     rmdir(dicconf["pathcache1"])
-    
-    
+        
     rmdir(dicconf["pathappsup1"])
     rmdirall(dicconf["pathappsup2"])
     rmfile(dicconf["pathappsup3"])
@@ -96,6 +100,22 @@ def index(supass):
 
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
 
+
+def restore_option(filexml, pathopt):
+    global nowts
+
+    cmd = f"rm -f {pathopt}/{filexml}"
+    pr(cmd,"restore_option rm:")
+    shsudo(cmd, sudopass)
+
+    xmlbackup = f"options_{nowts}"
+    xmlbackup = pathopt.replace("/options'",f"/{xmlbackup}/{filexml}'")
+    cmd = f"cp {xmlbackup} {pathopt}"
+    pr(cmd,"restore_option cp:")
+    shsudo(cmd, sudopass)    
+
+def restore():
+    pr("hello")
 
 """
 - Proceso:
