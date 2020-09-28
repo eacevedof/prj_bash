@@ -81,7 +81,8 @@ def index(supass):
     #rmfile(dicconf["pathapps1"])
 
     pathmanual = dicconf["pathxmlmanual"]
-    pr(pathmanual,"\n\tHay que editar esto manualmente y GUARDAR\n\t")
+    pr(f"open -a Xcode /Users/ioedu/Library/Preferences/com.apple.java.util.prefs.plist","\n\tHay que editar esto manualmente y GUARDAR\n\t")
+    # pr("\n\t cd /Users/ioedu/Library/Preferences/; dir.sh .")
     print("\n end phpstorm")
 
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
