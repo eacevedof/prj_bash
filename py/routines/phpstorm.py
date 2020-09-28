@@ -160,4 +160,18 @@ def index(supass):
     - En options
         lightEdit.xml  una lista de archivos soportados
         actionSummary.xml se guarda la acción realizada
+- Al abrir otro proyecto:
+    - se crea window.state.xml
+        <frame x="1811" y="143" width="1400" height="768" />
+        <layout>
+        <window_info content_ui="combo" id="Project" order="0" weight="0.25" />
+        <window_info anchor="bottom" id="Version Control" order="0" />
+        <window_info anchor="bottom" id="Find" order="1" />
+        <window_info anchor="bottom" id="Run" order="2" />
+        <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+        <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+        </layout>    
+    - se actualiza recentprojects.xml
+    - se crea notifications.xml (al desactivar la inspeccion de dockerfile)
+        <notification groupId="Docker: Dockerfile detection" displayType="NONE" shouldLog="false" />
 """
