@@ -1,7 +1,9 @@
 from datetime import datetime
 from tools.tools import pr, shsudo,die
 
-nowts = datetime.today().strftime('%Y%m%d-%H%M%S')
+#nowts = datetime.today().strftime('%Y%m%d-%H%M%S')
+nowts = datetime.today().strftime('%m%d') # mmdd
+
 sudopass = ""
 version = "PhpStorm2020.2"
 
@@ -67,6 +69,9 @@ def rmfile(pathfile):
     pr(cmd,"rmfile:")
     shsudo(cmd, sudopass)    
 
+#============================
+#       RESET
+#============================
 def index(supass):
     if not supass:
         pr("No sudo pass")
@@ -96,11 +101,14 @@ def index(supass):
     #pathmanual = dicconf["pathxmlmanual"]
     pr(f"open -a Xcode /Users/ioedu/Library/Preferences/com.apple.java.util.prefs.plist","\n\tHay que editar esto manualmente y GUARDAR\n\t")
     # pr("\n\t cd /Users/ioedu/Library/Preferences/; dir.sh .")
+    pr("after welcome modal run: py.sh phpstorm.restore  <mmdd>")
     print("\n end phpstorm")
-
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
 
 
+#======================================
+#            RESTORE
+#======================================
 def restore_option(filexml, pathopt):
     global nowts
 
@@ -114,8 +122,19 @@ def restore_option(filexml, pathopt):
     pr(cmd,"restore_option cp:")
     shsudo(cmd, sudopass)    
 
-def restore():
-    pr("hello")
+
+def restore(folderbk=""):
+    global nowts
+    if not folderbk:
+        folderbk = nowts 
+    else 
+        nowts = folderbk
+    
+    restore_option(dicconf["restore1"], dicconf["pathappsup4"])
+    restore_option(dicconf["restore2"], dicconf["pathappsup4"])
+    restore_option(dicconf["restore3"], dicconf["pathappsup4"])
+    print("\n end phpstorm.restore")
+    
 
 """
 - Proceso:

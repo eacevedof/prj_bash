@@ -94,6 +94,9 @@ def index():
     
     ejemplo:
         py.sh phpstorm <sudo-password>
+
+        # despues de ejecutar el comando anterior y abrir por primera vez phpstorm
+        py.sh phpstorm.restore <folder-option-backup>
     """)       
     #arhelp.append("""
     #module: get-pip  
