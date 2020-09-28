@@ -20,8 +20,9 @@ dicconf = {
 
     "pathappsup5": "'/Users/ioedu/Library/Application Support/JetBrains/bl'",
     "pathappsup6": "'/Users/ioedu/Library/Application Support/JetBrains/crl'",
-    "pathappsup7": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/port.lock'", 
-
+    "pathappsup7": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/port'",
+    "pathappsup8": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/port.lock'", 
+    
     # https://trello-attachments.s3.amazonaws.com/5ecce8fe2983ed33bd68451c/1056x466/c9ffe4b4c7d1fc5c7d1131ac93525e98/image.png
     "pathprefs1": "/Users/ioedu/Library/Preferences/jetbrains.phpstorm.aba76028.plist",
     
@@ -73,6 +74,7 @@ def index(supass):
     rmfile(dicconf["pathappsup5"])
     rmfile(dicconf["pathappsup6"])
     rmfile(dicconf["pathappsup7"])
+    rmfile(dicconf["pathappsup8"])
 
     rmfile(dicconf["pathprefs1"])
     rmfile(dicconf["pathprefs2"])
@@ -86,3 +88,59 @@ def index(supass):
     print("\n end phpstorm")
 
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
+
+
+"""
+- Proceso:
+- Despues de instalar no hay carpeta en appsupport/jetbrains/<nombre-carpeta> (phpstorm2002.2)
+- Al abrir se crea la carpeta con dos archivos: port y port.lock
+- Esta esperando el check de confirmacion de las condiciones en modal
+- Despues de aceptar Aparece la ventana de seleccion de tema (sigue sin crear nada en nombre-carpeta), solo se crea 
+    - consentOptions/accepted (contenido: rsch.send.usage.stat:1.1:0:1601290891421)
+- Ofrece un nuevo servicio de "script launcher" que se alojaría en /usr/local/bin/pstorm
+- Despues de la previa configuración salta el modal "License Activation" (nada en nombre-carpeta)
+    - despues de seleccionar eval, crea en nombre-carpeta:
+        /ssl (vacia)
+        /eval
+            /phpstorm202.evaluation.key
+- Aparece modal "Welcome to phpstorm"
+    - Cuando se interactua con este se crea en nombre-carpeta:
+        /options
+            /debugger.xml (inofensivo?)
+            /vcs.xml
+                <option name="COMMIT_FROM_LOCAL_CHANGES" value="true" />
+            /laf.xml
+                <laf class-name="com.intellij.ide.ui.laf.darcula.DarculaLaf" />
+            /colors.scheme.xml
+                <global_color_scheme name="Darcula" />
+- Despues de sleccionar el primer proyecto:
+    - Se crean (bl y crl) fuera de nombre-carpeta
+    - Dentro de nombre-carpeta:
+        /plugins
+            /extensions.xml
+        /tasks
+            /proyectoabierto.tasks.zip
+            /proyectoabierto.contexts.zip
+        /jdbc-drivers
+            jdbc-drivers.xml
+        /options
+            usage.statistics.xml
+                <component name="FeatureUsageStatistics" first-run="1601291137722" have-been-shown="false" show-in-other="true" show-in-compilation="true">
+            
+            other.xml
+                <property name="PhpStorm.InitialConfiguration" value="true" />
+                <property name="appcds.runOnSecondStart" value="PS-202.7319.77-8640eeb6b0283ebfca389c0e21bbf92ead7acac2c531b235bf179af2cbce2292" />
+                <property name="evlsprt3.202" value="18" />
+                <property name="ts.lib.d.ts.version" value="3.9.5" />
+
+            databaseDrivers.xml
+            
+            recentProjects.xml
+                <RecentProjectMetaInfo opened="true" projectWorkspaceId="1cfgflcp4e6cMHVqNunciPZvgku">
+                <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+                <option name="build" value="PS-202.7319.77" />
+                <option name="buildTimestamp" value="1600871323657" />
+                <option name="productionCode" value="PS" />
+                <option name="projectOpenTimestamp" value="1601291378924" />
+                </RecentProjectMetaInfo>
+"""
