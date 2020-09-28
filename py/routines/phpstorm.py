@@ -12,7 +12,12 @@ dicconf = {
     "pathappsup1": "'/Users/ioedu/Library/Application Support/JetBrains/consentOptions'", #flag accepted
     "pathappsup2": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/eval'", #eval key
     "pathappsup3": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/phpstorm.vmoptions'",
-    # "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/options'", # en duda, creo que hace falta
+    
+    # en duda, creo que hace falta.
+    # si se elimina toda se queda el ide en blanco y no salta el mensaje de expirado ^^. Habría que afinar los xml
+    # a eliminar
+    "pathappsup4": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/options'", 
+
     "pathappsup5": "'/Users/ioedu/Library/Application Support/JetBrains/bl'",
     "pathappsup6": "'/Users/ioedu/Library/Application Support/JetBrains/crl'",
     "pathappsup7": "'/Users/ioedu/Library/Application Support/JetBrains/PhpStorm2020.2/port.lock'", 
