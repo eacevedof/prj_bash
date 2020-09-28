@@ -101,7 +101,7 @@ def index(supass):
     #pathmanual = dicconf["pathxmlmanual"]
     pr(f"open -a Xcode /Users/ioedu/Library/Preferences/com.apple.java.util.prefs.plist","\n\tHay que editar esto manualmente y GUARDAR\n\t")
     # pr("\n\t cd /Users/ioedu/Library/Preferences/; dir.sh .")
-    pr("after welcome modal run: py.sh phpstorm.restore  <mmdd>")
+    pr("\nafter welcome modal run: \n\t py.sh phpstorm.restore  <mmdd>")
     print("\n end phpstorm")
     # creo que la he fastidiado al no guardar de forma manual solo he editado el fichero apple.java.util.prefs.plist
 
@@ -123,16 +123,19 @@ def restore_option(filexml, pathopt):
     shsudo(cmd, sudopass)    
 
 
+# puede que pida el sudopass si se hace en otra sesion de terminal distinta a index()
 def restore(folderbk=""):
     global nowts
     if not folderbk:
         folderbk = nowts 
-    else 
+    else: 
         nowts = folderbk
     
     restore_option(dicconf["restore1"], dicconf["pathappsup4"])
     restore_option(dicconf["restore2"], dicconf["pathappsup4"])
     restore_option(dicconf["restore3"], dicconf["pathappsup4"])
+
+    pr("\nopen -a Phpstorm")
     print("\n end phpstorm.restore")
     
 
