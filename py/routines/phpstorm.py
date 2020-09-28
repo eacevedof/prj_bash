@@ -143,4 +143,21 @@ def index(supass):
                 <option name="productionCode" value="PS" />
                 <option name="projectOpenTimestamp" value="1601291378924" />
                 </RecentProjectMetaInfo>
+- Despues de configurar el check de "no tips" se crean
+    - actionSymmary
+        <ActionSummary times="1" last="1601291359437" />
+    - other.xml (algo se ha actualizado)
+    - textmate_os.xml 
+        <BundleConfigBean>
+          <option name="name" value="sql" />
+          <option name="path" value="$APPLICATION_HOME_DIR$/plugins/textmate/lib/bundles/sql" />
+        </BundleConfigBean>
+    - ide.general.xml
+        <option name="showTipsOnStartup" value="false" />
+- Despues de tocar el primer archivo del proyecto abierto:
+    - se crea en nombre-carpeta 
+        workspace/<hash>.xml con la config del fichero que estoy visualizando
+    - En options
+        lightEdit.xml  una lista de archivos soportados
+        actionSummary.xml se guarda la acción realizada
 """
