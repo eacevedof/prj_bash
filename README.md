@@ -92,10 +92,12 @@ if [[ ! -z "$p" ]]; then
   echo "no vacia"
 fi
 ```
-
+- Ejecutar un comando dentro de otro
+- comando $(subcomando)
 ### info
 - https://ss64.com/bash/
 - https://linux.die.net/man/1/sh
+
 
 ### TO-DO
 - En py.sh hay que crear un flag de delpoy -prod y que por defecto se despliegue en test
