@@ -92,6 +92,7 @@ if [[ ! -z "$p" ]]; then
   echo "no vacia"
 fi
 ```
+
 - Ejecutar un comando dentro de otro
 - comando $(subcomando)
 ### info
