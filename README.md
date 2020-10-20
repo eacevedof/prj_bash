@@ -92,6 +92,23 @@ if [[ ! -z "$p" ]]; then
   echo "no vacia"
 fi
 ```
+### foreach con index
+```sh
+get_size() {
+    k=$1
+    r=$(redis-cli MEMORY USAGE "$k")
+    echo $r
+}
+
+i=0
+for k in `redis-cli keys "*"`;
+do
+	i=$(expr $i + 1)
+    echo "\n" $i: $k,; get_size $k
+done
+
+```
+
 
 - Ejecutar un comando dentro de otro
 - comando $(subcomando)
