@@ -1,4 +1,6 @@
 # tools.json.py
+import json
+
 class Json:
     
     def __init__(self, pathfile=""):
