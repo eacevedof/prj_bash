@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id":"example",
+    "db":{
+      "dblocal":"example",
+      "filename":"example.sql",
+      "pathyog":"example-path-to-dumps-folder-of-changing-schema",
+      "pathdump":"example-path-to-dumps-folder/db/",
+      "prod":{
+        "server":"your remote server ip or name",
+        "port":"3306",
+        "database":"remote db name",
+        "user":"remote db user",
+        "password":"remote db password"
+      }
+    },
+    "backend":{
+      "local":"path-to-your-backend-folder/backend",
+      "prod":""
+    },
+    "frontend":{
+      "local":"path-to-your-frontend-react-folder/build",
+      "prod":""
+    }
+  }
+]
