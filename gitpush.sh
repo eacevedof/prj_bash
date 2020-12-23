@@ -48,7 +48,7 @@ do
       fi
 
       if [[ "$PWD" == *"prj_compass"* ]]; then
-        echo "action forbidden for compass repository"
+        echo "forbidden push for compass repository"
         exit 1
       fi
 
