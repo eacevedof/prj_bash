@@ -47,7 +47,7 @@ do
         cd $fullpath
       fi
 
-      if [[ "$PWD" == *"compass"* ]]; then
+      if [[ "$PWD" == *"prj_compass"* ]]; then
         echo "action forbidden for compass repository"
         exit 1
       fi
