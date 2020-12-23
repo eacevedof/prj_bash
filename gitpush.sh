@@ -47,7 +47,7 @@ do
       fi
 
       if [[ "$PWD" == *"compass"* ]]; then
-        echo "action forbidden for compass"
+        echo "action forbidden for compass repository"
         exit 1
       fi
 
