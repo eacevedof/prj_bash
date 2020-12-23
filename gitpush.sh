@@ -38,8 +38,12 @@ do
       if [[ ! -z "$p" ]]; then
         fullpath="/e/projects/prj_$p"
         if is_ios; then fullpath=$PATHPRJ"/prj_$p"; fi
+
+        echo $fullpath
+        exit 1
+        
         if [[ ! -d $fullpath ]]; then 
-          echo "not dir: $fullpath"
+          echo "not dir: $fullpath"          
           exit 1
         fi      
         cd $fullpath
