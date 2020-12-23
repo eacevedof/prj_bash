@@ -39,16 +39,18 @@ do
         fullpath="/e/projects/prj_$p"
         if is_ios; then fullpath=$PATHPRJ"/prj_$p"; fi
 
-        echo $fullpath
-        exit 1
-        
         if [[ ! -d $fullpath ]]; then 
           echo "not dir: $fullpath"          
           exit 1
         fi      
         cd $fullpath
       fi
-      echo $PWD
+
+      if [[ "$PWD" == *"compass"* ]]; then
+        echo "action forbidden for compass"
+        exit 1
+      fi
+
       echo "..commiting"
       git add --all; git commit -m "$msg"; git push;
       exit 0
