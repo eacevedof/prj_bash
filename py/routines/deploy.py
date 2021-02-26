@@ -73,6 +73,8 @@ def frontbuild(project):
     timeend = get_now()
     pr(f"...deploy frontbuild of {project} has finished. ini:{timeini} - end:{timeend}")
 
+
+
 # py.sh deploy.frontbuildembed tinymarket
 def frontbuildembed(project):
     timeini = get_now()
