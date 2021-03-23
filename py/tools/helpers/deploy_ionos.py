@@ -63,7 +63,7 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
         ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
-        ssh.cmd(f"mysql --host={dbserver} --user={dbuser} --password={dbpassword} {dbname} < $HOME/{pathremote}/db/temp.sql")
+        ssh.cmd(f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < $HOME/{pathremote}/db/temp.sql")
         ssh.cmd("rm temp.sql")
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"rm -fr var/cache")

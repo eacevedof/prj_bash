@@ -25,7 +25,7 @@ def database(project):
         dblocal = dicproject["db"]["dblocal"]
         dbfile = f"{dblocal}_{now}.sql"
 
-        cmd = f"cd backup_bd; mysqldump --no-tablespaces --host={host} --user={user} --password={password} {database} > {dbfile}"
+        cmd = f"cd backup_bd; mysqldump --no-tablespaces --host={host} --user={user} --password=\"{password}\" {database} > {dbfile}"
         sftp.execute(cmd)
         pathfrom = f"backup_bd/{dbfile}"
         pathto = dicproject["db"]["pathyog"]+"/prod_"+dbfile
@@ -61,4 +61,3 @@ def download(pathfom):
         sftp.download(pathfom, pathto)
         sftp.close()
         print(f"download process finished in path: {pathto}")
-        
