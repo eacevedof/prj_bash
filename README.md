@@ -125,3 +125,4 @@ done
   - el bundle abre vscode y ventanas bash
   - flag docker para lanzar docker-compose
 - Agregar componente de colores
+- crear listado de proyectos
