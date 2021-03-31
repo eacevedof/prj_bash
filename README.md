@@ -29,6 +29,8 @@ ret=$?
 out=$(/bin/true)
 ```
 
+
+
 #### **asignar booleanos**
 - cuando se compara se usan los corchetes (square brackets) que estos son un atajo a la **función test**
 - asignar una expresion booleana a una variable
