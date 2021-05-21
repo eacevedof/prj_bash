@@ -97,7 +97,15 @@ def index():
 
         # despues de ejecutar el comando anterior y abrir por primera vez phpstorm
         py.sh phpstorm.restore <folder-option-backup>
-    """)       
+    """)
+
+    arhelp.append("""
+    module: reactmodel
+    - Genera modelos a partir phpapify
+    
+    ejemplo:
+        py.sh reactmodel <tabla>
+    """)
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
