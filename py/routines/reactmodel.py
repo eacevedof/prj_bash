@@ -1,7 +1,8 @@
 # routines.reactmodel.py
 print("routines.reactmodel.py")
-from tools.tools import file_get_contents,pr,pd,file_put_contents,is_dir
 import requests
+from tools.tools import pr
+from tools.helpers.react_crud import ReactCrud
 
 BASE_URL = "http://localhost:900"
 USER = "fulanito"
@@ -29,7 +30,8 @@ def get_metadada(tablename, token) -> dict:
 
 
 def index(tablename):
-    pr(tablename)
+    eaf = ReactCrud()
+    pr(eaf)
     token = login()
     if token:
         metadata = get_metadada(tablename, token)
