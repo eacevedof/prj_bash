@@ -34,6 +34,6 @@ def index(tablename):
     token = login()
     if token:
         metadata = get_metadada(tablename, token)
-        eaf = ReactCrud(tablename, metadata)
-        eaf.run()
+        react_crud = ReactCrud(tablename, metadata)
+        react_crud.run()
 
