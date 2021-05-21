@@ -36,4 +36,4 @@ def index(tablename):
         metadata = get_metadada(tablename, token)
         react_crud = ReactCrud(tablename, metadata)
         react_crud.run()
-
+    pr("end reactmodel crud")
