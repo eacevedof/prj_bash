@@ -47,6 +47,18 @@ class ReactCrud:
                 continue
             self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
+    def __async_queries_folder(self):
+        path_from = f"{PATH_MODULE}/{FOLDER_TEMPLATE}/async/queries"
+        path_to = f"{PATH_MODULE}/{self.__tmp_folder}/async/queries"
+
+        mkdir(path_to)
+        files = scandir(path_from)
+
+        for strfile in files:
+            if ".js" not in strfile:
+                continue
+            self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
+
     def __config_folder(self):
         path_from = f"{PATH_MODULE}/{FOLDER_TEMPLATE}/config"
         path_to = f"{PATH_MODULE}/{self.__tmp_folder}/config"
@@ -81,5 +93,6 @@ class ReactCrud:
     def run(self):
         self.__create_dir()
         self.__async_folder()
+        self.__async_queries_folder()
         self.__config_folder()
         self.__views_folder()
