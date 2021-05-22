@@ -2,12 +2,20 @@ from py.tools.tools import mkdir, scandir, get_datetime, pr, file_get_contents, 
 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
 FOLDER_TEMPLATE = "zzz-tpl"
-TAG_TABLE = "%table%"
-TAG_ALIAS = "%alias%"
-TAG_WITHOUT_PREFIX = "%withoutprefix%"
 SYS_FIELDS = [
 
 ]
+replaces = {
+    "zzz-tpls": "app-tables",
+    "zzz-tpl": "app-table",
+    "ZzzTpls": "AppTables",
+    "ZzzTpl": "AppTable",
+    "Tpls": "Tables",
+    "Tpl": "Table",
+    "tpls": "tables",
+    "tpl": "table"
+}
+
 
 class ReactCrud:
 
@@ -37,8 +45,15 @@ class ReactCrud:
             content = file_get_contents(path_file_from)
 
             path_file_to = f"{path_to}/{strfile}"
+            content = self.__get_replaced(content)
             file_put_contents(path_file_to, content)
 
+
+    def __get_replaced(self, content):
+        for tag in replaces:
+            value = replaces[tag]
+            content.replace(tag, value)
+        return content
 
     def run(self):
         self.__create_dir()
