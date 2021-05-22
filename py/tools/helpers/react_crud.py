@@ -20,12 +20,13 @@ REPLACES = {
 class ReactCrud:
 
     def __init__(self, table, metadada):
+        tablemid = table.replace("_","-")
         time = get_datetime()
-        self.__tmp_folder = f"{time}_{table}"
+        self.__tmp_folder = f"{time}_{tablemid}"
         self.__table = table
         self.__metadata = metadada
 
-    def __create_dir(self):
+    def __create_tem_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
         self.__mod_folder = path
         mkdir(path)
@@ -34,6 +35,19 @@ class ReactCrud:
         content = file_get_contents(path_from)
         content = self.__get_replaced(content)
         file_put_contents(path_to, content)
+
+    def __root_folder(self):
+        path_from = f"{PATH_MODULE}/{FOLDER_TEMPLATE}"
+        path_to = f"{PATH_MODULE}/{self.__tmp_folder}"
+
+        mkdir(path_to)
+        files = scandir(path_from)
+
+        for strfile in files:
+            if ".js" not in strfile:
+                continue
+            strfileto = self.__get_replaced(strfile)
+            self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfileto}")
 
     def __async_folder(self):
         path_from = f"{PATH_MODULE}/{FOLDER_TEMPLATE}/async"
@@ -91,7 +105,8 @@ class ReactCrud:
         return content
 
     def run(self):
-        self.__create_dir()
+        self.__create_tem_dir()
+        self.__root_folder()
         self.__async_folder()
         self.__async_queries_folder()
         self.__config_folder()
