@@ -1,4 +1,4 @@
-from py.tools.tools import mkdir, scandir, get_datetime, pr, file_get_contents, file_put_contents
+from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents
 from py.tools.helpers.react_crud_fields import ReactCrudFields
 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
@@ -18,18 +18,22 @@ MODEL_REPLACES = {
 }
 
 FIELD_REPLACES = {
-    "FIELD_CLONE": "",
-    "FIELD_DELETE": "",
-    "FIELD_DELETELOGIC": "",
-    "FIELD_DETAIL": "",
-    "FIELD_INSERT": "",
-    "FIELD_UPDATE": "",
+    "FIELDS_CLONE": "",
+    "FIELDS_DELETE": "",
+    "FIELDS_DELETELOGIC": "",
+    "FIELDS_DETAIL": "",
+    "FIELDS_INSERT": "",
+    "FIELDS_UPDATE": "",
 }
 
+def remdir_old():
+    pathlike = f"{PATH_MODULE}/20210*"
+    rmdir_like(pathlike)
 
 class ReactCrud:
 
     def __init__(self, table, metadada):
+        remdir_old()
         tablemid = table.replace("_", "-")
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
@@ -44,7 +48,8 @@ class ReactCrud:
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
         content = self.__get_replaced_model(content)
-        content = self.__get_replaced_fields(content)
+        if "/views" in path_to:
+            content = self.__get_replaced_fields(content)
         file_put_contents(path_to, content)
 
     def __root_folder(self):
@@ -117,6 +122,7 @@ class ReactCrud:
     def __get_replaced_fields(self, content: str) -> str:
         strfields = self.__fields.get()
         for tag in FIELD_REPLACES:
+            tag = f"//%{tag}%"
             content = content.replace(tag, strfields)
         return content
 

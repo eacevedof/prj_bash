@@ -146,6 +146,20 @@ def mkdir(pathfolder):
     else:
         print ("Successfully created the directory %s " % pathfolder)
 
+def rmdir(pathfolder):
+    from shutil import rmtree
+    try:
+        if not is_dir(pathfolder):
+            rmtree(pathfolder)
+    except OSError:
+        print ("removing directory %s failed" % pathfolder)
+    else:
+        print ("directory %s removed successfully!" % pathfolder)
+
+def rmdir_like(pathlike):
+    cmd = f"rm -fr {pathlike}"
+    sh(cmd)
+
 def get_dicconfig(project):
     pathconfig = get_path_config_json()
     jsonhlp = Json(pathconfig)

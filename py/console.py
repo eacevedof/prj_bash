@@ -2,8 +2,7 @@
 
 import sys
 from importlib import import_module
-from pprint import pprint
-from tools.argit import *
+from py.tools.argit import *
 
 def die(strmsg):
     print(f"console.py: {strmsg}")
