@@ -117,10 +117,12 @@ class ReactCrud:
         self.__fields.get()
 
     def run(self):
+        self.__replace_fields()
+        pass
         self.__create_temp_dir()
         self.__root_folder()
         self.__async_folder()
         self.__async_queries_folder()
         self.__config_folder()
         self.__views_folder()
-        self.__replace_fields()
+
