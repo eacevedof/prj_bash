@@ -34,8 +34,13 @@ def index(tablename):
         token = login()
         if token:
             metadata = get_metadada(tablename, token)
+            if not metadata:
+                pr(f"No metadata for {tablename}")
+                return
+
             react_crud = ReactCrud(tablename, metadata)
             react_crud.run()
-
+        else:
+            pr(f"No token found for {tablename}")
     except Exception as error:
         pr(error)
