@@ -8,7 +8,8 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i"
+            "i", "code_cache"
+            "id", "id_user"
         ],
     },
     "FIELDS_DELETE": {
@@ -18,7 +19,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i",
+            "i", "code_cache"
             "id", "id_user"
         ],
     },
@@ -29,7 +30,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i",
+            "i", "code_cache"
             "id", "id_user"
         ],
     },
@@ -51,7 +52,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i",
+            "i", "code_cache"
             "id", "id_user"
         ],
         "defaults": {}
@@ -63,7 +64,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i",
+            "i", "code_cache"
             "id", "id_user"
         ],
     },
@@ -80,6 +81,7 @@ FIELD_REPLACES = {
     },
 
     "FIELDS_GRID_HEADERS": {
+        # { text: 'Code', value: 'code_erp' },
         "exclude": [
             "processflag",
             "insert_platform", "insert_user", "insert_date",
@@ -92,6 +94,7 @@ FIELD_REPLACES = {
     },
 
     "FIELDS_FILTERCONF": {
+        # {name: "id", labels:["n","n","id"]},
         "exclude": [
             "processflag",
             "insert_platform", "insert_user", "insert_date",

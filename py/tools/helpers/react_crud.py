@@ -1,5 +1,5 @@
 from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents
-from py.tools.helpers.react_crud_fields import ReactCrudFields
+from py.tools.helpers.react_crud_fields import ReactCrudFields, FIELD_REPLACES
 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
 FOLDER_TEMPLATE = "zzz-tpl"
@@ -15,15 +15,6 @@ MODEL_REPLACES = {
     "Tpl": "Table",
     "tpls": "tables",
     "tpl": "table"
-}
-
-FIELD_REPLACES = {
-    "FIELDS_CLONE": "",
-    "FIELDS_DELETE": "",
-    "FIELDS_DELETELOGIC": "",
-    "FIELDS_DETAIL": "",
-    "FIELDS_INSERT": "",
-    "FIELDS_UPDATE": "",
 }
 
 def remdir_old():
