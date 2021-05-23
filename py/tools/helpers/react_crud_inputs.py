@@ -14,9 +14,31 @@ INPUTS_TPLS = {
         """,
     },
 
-    "FORM_DELETE":{},
+    "FORM_DELETE":{
+        "html": """
+            <div className="col-12">
+              <label htmlFor="txt-description" className="form-label">Description</label>
+              <input type="text" className="form-control" id="txt-description" placeholder="Name of table" 
+                
+                value={formdata.description}
+                disabled 
+              />
+            </div>
+        """
+    },
 
-    "FORM_DELETELOGIC":{},
+    "FORM_DELETELOGIC":{
+        "html": """
+            <div className="col-12">
+              <label htmlFor="txt-description" className="form-label">Description</label>
+              <input type="text" className="form-control" id="txt-description" placeholder="Name of table" 
+                
+                value={formdata.description}
+                disabled 
+              />
+            </div>
+        """
+    },
 
     "FORM_DETAIL":{},
 
@@ -32,5 +54,5 @@ class ReactCrudInputs:
 
     def get_html_replaced(self, view_name: str, field_name: str) -> str:
         upper = view_name.upper()
-        html = INPUTS_TPLS.get(upper, "").get("html","")
+        html = INPUTS_TPLS.get(upper, {}).get("html","")
         return html.replace("%field_name%", field_name)
