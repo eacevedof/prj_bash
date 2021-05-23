@@ -49,6 +49,9 @@ class ReactCrudFields:
         fields = []
         for field_data in self.__metadata:
             field_name = field_data.get("field_name","")
+            if self.__in_excluded_by_tag(tag_name, field_name):
+                continue
+
             field_length = self.__get_field_length(field_data)
             field_type = field_data.get("field_type","")
             comment = f"//{field_type}({field_length})" if field_length else f"//{field_type}"
@@ -59,7 +62,6 @@ class ReactCrudFields:
     def __in_excluded_by_tag(self, tag_name: str, field_name: str) -> bool:
         return field_name in FIELD_REPLACES[tag_name]["exclude"]
 
-
     def get(self, tag_name: str) -> str:
-        fields = self.__get_field_and_length()
+        fields = self.__get_field_and_length(tag_name)
         return "\n".join(fields)
