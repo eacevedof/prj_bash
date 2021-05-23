@@ -69,6 +69,19 @@ FIELD_REPLACES = {
             "id", "id_user"
         ],
     },
+
+    "FIELDS_QUERY_ENTITY": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user",  # "insert_date",
+            "update_platform", "update_user",  # "update_date",
+            "delete_platform", "delete_user",  # "delete_date",
+            "cru_csvnote", "is_erpsent",  # "is_enabled",
+            "i",
+            "id", "code_cache",
+        ],
+    },
+
     "FIELDS_QUERY_LIST": {
         "exclude": [
             "processflag",
@@ -168,8 +181,50 @@ class ReactCrudFields:
             field_name = field_data["field_name"]
             if field_name in excluded:
                 continue
-
             strinput = self.__input.get_html_replaced(view_name, field_name)
             content.append(strinput)
 
         return "".join(content)
+
+    def __get_query_list_and_entity(self, excluded) -> str:
+        result = []
+        for field_data in self.__metadata:
+            field_name = field_data["field_name"]
+            if field_name in excluded:
+                continue
+            result.append(f"\"t.{field_name}\"")
+        return ",\n".join(result)
+
+    def __get_grid_headers(self, excluded) -> str:
+        # { text: 'Code', value: 'code_erp' },
+        result = []
+        for field_data in self.__metadata:
+            field_name = field_data["field_name"]
+            if field_name in excluded:
+                continue
+            inner = f"text: \"label-{field_name}\", value: \"{field_name}\""
+            inner = "{"+inner+"}"
+            result.append(inner)
+        return ",\n".join(result)
+
+    def __get_filterconf(self, excluded) -> str:
+        # {name: "id", labels:["n","n","id"]},
+        result = []
+        for field_data in self.__metadata:
+            field_name = field_data["field_name"]
+            if field_name in excluded:
+                continue
+            inner = f"name: \"{field_name}\", labels: [\"label-{field_name}\"]"
+            inner = "{"+inner+"}"
+            result.append(inner)
+        return ",\n".join(result)
+
+    def get_list_tags_replaces(self) -> dict:
+        replaces = {
+            "FIELDS_QUERY_LIST": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_LIST"]["exclude"]),
+            "FIELDS_QUERY_ENTITY": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_ENTITY"]["exclude"]),
+            "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
+            "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
+        }
+
+        return replaces

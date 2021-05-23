@@ -40,6 +40,11 @@ class ReactCrud:
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
         content = self.__get_replaced_model(content)
+
+        list_replace = self.__fields.get_list_tags_replaces()
+        for list_tag in list_replace:
+            content = content.replace(f"//%{list_tag}%", list_replace[list_tag])
+
         file_put_contents(path_to, content)
 
     def __save_replaced_views(self, path_from: str, path_to: str) -> str:
