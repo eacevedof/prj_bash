@@ -3,7 +3,7 @@ from py.tools.tools import mkdir, scandir, get_datetime, pr, file_get_contents, 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
 FOLDER_TEMPLATE = "zzz-tpl"
 
-REPLACES = {
+MODEL_REPLACES = {
     "zzz-tpls": "app-tables",
     "zzz-tpl": "app-table",
     "zzz_tpls": "app_tables",
@@ -16,17 +16,26 @@ REPLACES = {
     "tpl": "table"
 }
 
+FIELD_REPLACES = {
+    "FIELD_CLONE": "",
+    "FIELD_DELETE": "",
+    "FIELD_DELETELOGIC": "",
+    "FIELD_DETAIL": "",
+    "FIELD_INSERT": "",
+    "FIELD_UPDATE": "",
+}
+
 
 class ReactCrud:
 
     def __init__(self, table, metadada):
-        tablemid = table.replace("_","-")
+        tablemid = table.replace("_", "-")
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
         self.__table = table
         self.__metadata = metadada
 
-    def __create_tem_dir(self):
+    def __create_temp_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
         self.__mod_folder = path
         mkdir(path)
@@ -97,15 +106,14 @@ class ReactCrud:
                 continue
             self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
-
-    def __get_replaced(self, content: str):
-        for tag in REPLACES:
-            value = REPLACES[tag]
+    def __get_replaced(self, content: str) -> str:
+        for tag in MODEL_REPLACES:
+            value = MODEL_REPLACES[tag]
             content = content.replace(tag, value)
         return content
 
     def run(self):
-        self.__create_tem_dir()
+        self.__create_temp_dir()
         self.__root_folder()
         self.__async_folder()
         self.__async_queries_folder()
