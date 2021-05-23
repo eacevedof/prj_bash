@@ -78,7 +78,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  # "delete_date",
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
-            "id", "code_cache",
+            "code_cache",
         ],
     },
 
@@ -90,7 +90,6 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  # "delete_date",
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
-            "id", "code_cache",
         ],
     },
 
