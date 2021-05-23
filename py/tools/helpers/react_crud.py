@@ -1,4 +1,5 @@
 from py.tools.tools import mkdir, scandir, get_datetime, pr, file_get_contents, file_put_contents
+from py.tools.helpers.react_crud_field import ReactCrudFields
 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
 FOLDER_TEMPLATE = "zzz-tpl"
@@ -33,7 +34,7 @@ class ReactCrud:
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
         self.__table = table
-        self.__metadata = metadada
+        self.fields = ReactCrudFields(metadada)
 
     def __create_temp_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
