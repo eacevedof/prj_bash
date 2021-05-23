@@ -1,5 +1,6 @@
-from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents
+from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents, get_basename
 from py.tools.helpers.react_crud_fields import ReactCrudFields, FIELD_REPLACES
+from py.tools.helpers.react_crud_inputs import INPUTS_TPLS
 
 PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
 FOLDER_TEMPLATE = "zzz-tpl"
@@ -39,8 +40,17 @@ class ReactCrud:
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
         content = self.__get_replaced_model(content)
-        if "/views" in path_to:
-            content = self.__get_replaced_fields(content)
+        file_put_contents(path_to, content)
+
+    def __save_replaced_views(self, path_from: str, path_to: str) -> str:
+        content = file_get_contents(path_from)
+        content = self.__get_replaced_model(content)
+
+        content = self.__get_replaced_fields(content)
+        view_name = get_basename(path_to).replace(".js","")
+        strinput = self.__fields.get_inputs(view_name=view_name)
+        content = self.__get_replaced_inputs(content, strinput)
+
         file_put_contents(path_to, content)
 
     def __root_folder(self):
@@ -100,9 +110,7 @@ class ReactCrud:
         files = scandir(path_from)
 
         for strfile in files:
-            if ".js" not in strfile:
-                continue
-            self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
+            self.__save_replaced_views(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
     def __get_replaced_model(self, content: str) -> str:
         for tag in MODEL_REPLACES:
@@ -115,6 +123,12 @@ class ReactCrud:
             strfields = self.__fields.get(tag_name=tag)
             tag = f"//%{tag}%"
             content = content.replace(tag, strfields)
+        return content
+
+    def __get_replaced_inputs(self, content: str, strinputs: str) -> str:
+        for tag in INPUTS_TPLS:
+            tag = f"%{tag}%"
+            content = content.replace(tag, strinputs)
         return content
 
     def run(self):

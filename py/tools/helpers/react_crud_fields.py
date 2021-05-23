@@ -1,4 +1,5 @@
 from typing import List
+from py.tools.helpers.react_crud_inputs import ReactCrudInputs
 
 FIELD_REPLACES = {
     "FIELDS_CLONE": {
@@ -112,6 +113,7 @@ class ReactCrudFields:
 
     def __init__(self, metadada):
         self.__metadata = metadada
+        self.__input = ReactCrudInputs()
         self.__load_defvalues_by_type()
 
     def __get_field_length(self, field_data: dict) -> str:
@@ -158,3 +160,14 @@ class ReactCrudFields:
     def get(self, tag_name: str) -> str:
         fields = self.__get_field_and_length(tag_name)
         return "\n".join(fields)
+
+    def get_inputs(self, view_name: str, exclude: []) -> str:
+        content = []
+        for field_data in self.__metadata:
+            field_name = field_data["field_name"]
+            if field_name in exclude:
+                continue
+            strinput = self.__input.get(view_name, field_name)
+            content.append(strinput)
+
+        return "".join(content)
