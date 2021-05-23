@@ -2,15 +2,16 @@ from typing import List
 
 FIELD_REPLACES = {
     "FIELDS_CLONE": {
-        "exclude": [
-            "processflag",
-            "insert_platform", "insert_user", "insert_date",
-            "update_platform", "update_user", "update_date",
-            "delete_platform", "delete_user", "delete_date",
-            "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
-            "id", "id_user",
-        ],
+        """
+        <div className="col-12">
+          <label htmlFor="txt-%field_name%" className="form-label">%label-description%</label>
+          <input type="text" className="form-control" id="txt-%field_name%"
+            
+            value={formdata.%field_name%}
+            disabled 
+          />
+        </div>
+        """
     },
     "FIELDS_DELETE": {
         "exclude": [
