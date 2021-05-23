@@ -120,7 +120,7 @@ class ReactCrud:
 
     def __get_replaced_fields(self, content: str) -> str:
         for field_tag in FIELD_REPLACES:
-            strfields = self.__fields.get(tag_name=field_tag)
+            strfields = self.__fields.get(field_tag=field_tag)
             field_tag = f"//%{field_tag}%"
             content = content.replace(field_tag, strfields)
         return content

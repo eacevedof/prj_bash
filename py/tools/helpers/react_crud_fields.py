@@ -161,13 +161,15 @@ class ReactCrudFields:
         fields = self.__get_field_and_length(field_tag)
         return "\n".join(fields)
 
-    def get_inputs(self, view_name: str, exclude: []) -> str:
+    def get_inputs(self, view_name: str) -> str:
+        excluded = FIELD_REPLACES.get(view_name.replace("form_","fields_").upper(),{}).get("exclude",[])
         content = []
         for field_data in self.__metadata:
             field_name = field_data["field_name"]
-            if field_name in exclude:
+            if field_name in excluded:
                 continue
-            strinput = self.__input.get(view_name, field_name)
+
+            strinput = self.__input.get_html_replaced(view_name, field_name)
             content.append(strinput)
 
         return "".join(content)

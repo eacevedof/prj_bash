@@ -1,7 +1,7 @@
 # routines.react.py
 # py.sh "/Users/ioedu/projects/prj_doblerr/frontend_react/pannel/.pysh" index react
 print("routines.react.py")
-from tools.tools import file_get_contents,pr,pd,file_put_contents,is_dir
+from py.tools.tools import file_get_contents,pr,pd,file_put_contents,is_dir
 import shutil
 import os
 

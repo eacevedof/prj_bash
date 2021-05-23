@@ -100,11 +100,11 @@ def index():
     """)
 
     arhelp.append("""
-    module: reactmodel
-    - Genera modelos a partir phpapify
+    module: reactcrud
+    - Genera modulo CRUD a partir phpapify
     
     ejemplo:
-        py.sh reactmodel <tabla>
+        py.sh reactcrud <tabla>
     """)
     #arhelp.append("""
     #module: get-pip  
