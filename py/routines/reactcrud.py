@@ -29,11 +29,13 @@ def get_metadada(tablename, token) -> dict:
     dict = r.json()
     return dict.get("data", [])
 
-
 def index(tablename):
-    token = login()
-    if token:
-        metadata = get_metadada(tablename, token)
-        react_crud = ReactCrud(tablename, metadata)
-        react_crud.run()
-    pr("end reactmodel crud")
+    try:
+        token = login()
+        if token:
+            metadata = get_metadada(tablename, token)
+            react_crud = ReactCrud(tablename, metadata)
+            react_crud.run()
+
+    except Exception as error:
+        pr(error)
