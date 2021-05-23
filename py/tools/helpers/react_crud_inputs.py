@@ -17,10 +17,10 @@ INPUTS_TPLS = {
     "FORM_DELETE":{
         "html": """
             <div className="col-12">
-              <label htmlFor="txt-description" className="form-label">Description</label>
-              <input type="text" className="form-control" id="txt-description" placeholder="Name of table" 
+              <label htmlFor="txt-%field_name%" className="form-label">label-%field_name%</label>
+              <input type="text" className="form-control" id="txt-%field_name%" placeholder="placeholder-%field_name%" 
                 
-                value={formdata.description}
+                value={formdata.%field_name%}
                 disabled 
               />
             </div>
@@ -30,21 +30,48 @@ INPUTS_TPLS = {
     "FORM_DELETELOGIC":{
         "html": """
             <div className="col-12">
-              <label htmlFor="txt-description" className="form-label">Description</label>
-              <input type="text" className="form-control" id="txt-description" placeholder="Name of table" 
+              <label htmlFor="txt-%field_name%" className="form-label">label-%field_name%</label>
+              <input type="text" className="form-control" id="txt-%field_name%" placeholder="placeholder-%field_name%" 
                 
-                value={formdata.description}
+                value={formdata.%field_name%}
                 disabled 
               />
             </div>
         """
     },
 
-    "FORM_DETAIL":{},
+    "FORM_DETAIL":{
+        "html": """
+          <div className="row">
+            <div className="col-6">label-%field_name%</div>
+            <div className="col-6">{formdata.%field_name%}</div>
+          </div>
+        """
+    },
 
-    "FORM_INSERT":{},
+    "FORM_INSERT":{
+        "html": """
+          <div className="col-12">
+            <label htmlFor="txt-%field_name%" className="form-label">label-%field_name%</label>
+            <input type="text" className="form-control" id="txt-%field_name%" placeholder="placeholder-%field_name%"
+              value={formdata.%field_name%}
+              onChange={updateform}
+            />
+          </div> 
+        """
+    },
 
-    "FORM_UPDATE":{},
+    "FORM_UPDATE":{
+        "html": """
+          <div className="col-12">
+            <label htmlFor="txt-%field_name%" className="form-label">label-%field_name%</label>
+            <input type="text" className="form-control" id="txt-%field_name%" placeholder="placeholder-%field_name%"
+              value={formdata.%field_name%}
+              onChange={updateform}
+            />
+          </div> 
+        """
+    },
 }
 
 class ReactCrudInputs:
