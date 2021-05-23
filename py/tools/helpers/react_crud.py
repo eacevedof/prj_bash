@@ -119,16 +119,16 @@ class ReactCrud:
         return content
 
     def __get_replaced_fields(self, content: str) -> str:
-        for tag in FIELD_REPLACES:
-            strfields = self.__fields.get(tag_name=tag)
-            tag = f"//%{tag}%"
-            content = content.replace(tag, strfields)
+        for field_tag in FIELD_REPLACES:
+            strfields = self.__fields.get(tag_name=field_tag)
+            field_tag = f"//%{field_tag}%"
+            content = content.replace(field_tag, strfields)
         return content
 
     def __get_replaced_inputs(self, content: str, strinputs: str) -> str:
-        for tag in INPUTS_TPLS:
-            tag = f"%{tag}%"
-            content = content.replace(tag, strinputs)
+        for form_tag in INPUTS_TPLS:
+            form_tag = f"%{form_tag}%"
+            content = content.replace(form_tag, strinputs)
         return content
 
     def run(self):

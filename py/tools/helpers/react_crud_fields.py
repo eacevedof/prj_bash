@@ -138,11 +138,11 @@ class ReactCrudFields:
             "timestamp": "\"\"",
         }
 
-    def __get_field_and_length(self, tag_name: str) -> List:
+    def __get_field_and_length(self, field_tag: str) -> List:
         fields = []
         for field_data in self.__metadata:
             field_name = field_data.get("field_name", "")
-            if self.__in_excluded_by_tag(tag_name, field_name):
+            if self.__in_excluded_by_tag(field_tag, field_name):
                 continue
 
             field_length = self.__get_field_length(field_data)
@@ -154,11 +154,11 @@ class ReactCrudFields:
             fields.append(txt)
         return fields
 
-    def __in_excluded_by_tag(self, tag_name: str, field_name: str) -> bool:
-        return field_name in FIELD_REPLACES[tag_name]["exclude"]
+    def __in_excluded_by_tag(self, field_tag: str, field_name: str) -> bool:
+        return field_name in FIELD_REPLACES[field_tag]["exclude"]
 
-    def get(self, tag_name: str) -> str:
-        fields = self.__get_field_and_length(tag_name)
+    def get(self, field_tag: str) -> str:
+        fields = self.__get_field_and_length(field_tag)
         return "\n".join(fields)
 
     def get_inputs(self, view_name: str, exclude: []) -> str:
