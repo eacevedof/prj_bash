@@ -8,8 +8,8 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache"
-            "id", "id_user"
+            "i", "code_cache",
+            "id", "id_user",
         ],
     },
     "FIELDS_DELETE": {
@@ -19,8 +19,8 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache"
-            "id", "id_user"
+            "i", "code_cache",
+            "id", "id_user",
         ],
     },
     "FIELDS_DELETELOGIC": {
@@ -30,8 +30,8 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache"
-            "id", "id_user"
+            "i", "code_cache",
+            "id", "id_user",
         ],
     },
     "FIELDS_DETAIL": {
@@ -42,7 +42,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
             "i",
-            "id", "id_user"
+            "id", "id_user",
         ],
     },
     "FIELDS_INSERT": {
@@ -52,8 +52,8 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache"
-            "id", "id_user"
+            "i", "code_cache",
+            "id", "id_user",
         ],
         "defaults": {}
     },
@@ -64,7 +64,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache"
+            "i", "code_cache",
             "id", "id_user"
         ],
     },
@@ -76,7 +76,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  # "delete_date",
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
-            "id", "code_cache"
+            "id", "code_cache",
         ],
     },
 
@@ -89,7 +89,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
             "i",
-            "id", "code_cache"
+            "id", "code_cache",
         ],
     },
 
@@ -102,12 +102,11 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
             "i",
-            "id", "code_cache"
+            "id", "code_cache",
         ],
     }
 
 }
-
 
 class ReactCrudFields:
 
@@ -154,7 +153,8 @@ class ReactCrudFields:
         return fields
 
     def __in_excluded_by_tag(self, tag_name: str, field_name: str) -> bool:
-        return field_name in FIELD_REPLACES[tag_name]["exclude"]
+        excluded = FIELD_REPLACES[tag_name]["exclude"]
+        return True if field_name in excluded else False
 
     def get(self, tag_name: str) -> str:
         fields = self.__get_field_and_length(tag_name)
