@@ -144,6 +144,7 @@ class ReactCrudFields:
     def __load_defvalues_by_type(self):
         self.__default_values = {
             "int": 0,
+            "tinyint": 0,
             "decimal": 0.00,
             "varchar": "\"\"",
             "datetime": "\"\"",

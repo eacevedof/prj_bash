@@ -22,6 +22,13 @@ def remdir_old():
     pathlike = f"{PATH_MODULE}/20210*"
     rmdir_like(pathlike)
 
+def get_camelcased(string):
+    words = string.lower().split("_")
+    ucased = []
+    for word in words:
+        ucased.append(word.capitalize())
+    return "".join(ucased)
+
 class ReactCrud:
 
     def __init__(self, table, metadada):
@@ -30,7 +37,21 @@ class ReactCrud:
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
         self.__table = table
+        self.__load_model_variants()
         self.__fields = ReactCrudFields(metadada)
+
+    def __load_model_variants(self):
+        table = self.__table
+        MODEL_REPLACES["zzz-tpls"] = table.replace("_","-") + "s"
+        MODEL_REPLACES["zzz-tpl"] = table.replace("_","-")
+        MODEL_REPLACES["zzz_tpls"] = table + "s"
+        MODEL_REPLACES["zzz_tpl"] = table
+        MODEL_REPLACES["ZzzTpls"] = get_camelcased(table + "s")
+        MODEL_REPLACES["ZzzTpl"] = get_camelcased(table)
+        MODEL_REPLACES["Tpls"] = get_camelcased(table.replace("app_","").replace("base_","") + "s")
+        MODEL_REPLACES["Tpl"] = get_camelcased(table.replace("app_","").replace("base_",""))
+        MODEL_REPLACES["tpls"] = table.replace("app_","").replace("base_","") + "s"
+        MODEL_REPLACES["tpl"] = table.replace("app_","").replace("base_","")
 
     def __create_temp_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
