@@ -25,10 +25,10 @@ class ReactCrudFields:
             field_length = self.__get_field_length(field_data)
             field_type = field_data.get("field_type","")
             comment = f"//({field_length})" if field_length else f"//{field_type}"
-            txt = f"\"{field_name}\":\"\" {comment}"
+            txt = f"\"{field_name}\":\"\", {comment}"
             fields.append(txt)
         return fields
 
     def get(self) -> str:
         fields = self.__get_field_and_length()
-        return ""
+        return "\n".join(fields)

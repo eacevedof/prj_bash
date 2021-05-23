@@ -43,7 +43,8 @@ class ReactCrud:
 
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
-        content = self.__get_replaced(content)
+        content = self.__get_replaced_model(content)
+        content = self.__get_replaced_fields(content)
         file_put_contents(path_to, content)
 
     def __root_folder(self):
@@ -56,7 +57,7 @@ class ReactCrud:
         for strfile in files:
             if ".js" not in strfile:
                 continue
-            strfileto = self.__get_replaced(strfile)
+            strfileto = self.__get_replaced_model(strfile)
             self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfileto}")
 
     def __async_folder(self):
@@ -107,18 +108,19 @@ class ReactCrud:
                 continue
             self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
-    def __get_replaced(self, content: str) -> str:
+    def __get_replaced_model(self, content: str) -> str:
         for tag in MODEL_REPLACES:
             value = MODEL_REPLACES[tag]
             content = content.replace(tag, value)
         return content
 
-    def __replace_fields(self):
-        self.__fields.get()
+    def __get_replaced_fields(self, content: str) -> str:
+        strfields = self.__fields.get()
+        for tag in FIELD_REPLACES:
+            content = content.replace(tag, strfields)
+        return content
 
     def run(self):
-        self.__replace_fields()
-        pass
         self.__create_temp_dir()
         self.__root_folder()
         self.__async_folder()
