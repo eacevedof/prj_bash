@@ -2,7 +2,7 @@
 print("routines.reactmodel.py")
 import requests
 from py.tools.tools import pr
-from py.tools.helpers.react_crud import ReactCrud
+from py.services.react_crud.react_crud_service import ReactCrud
 
 BASE_URL = "http://localhost:900"
 USER = "fulanito"
