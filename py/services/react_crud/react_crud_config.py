@@ -207,3 +207,12 @@ INPUTS_TPLS = {
         """
     },
 }
+
+DEFAULT_VALUES = {
+    "int": 0,
+    "tinyint": 0,
+    "decimal": 0.00,
+    "varchar": "\"\"",
+    "datetime": "\"\"",
+    "timestamp": "\"\"",
+}

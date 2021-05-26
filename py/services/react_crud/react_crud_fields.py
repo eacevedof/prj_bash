@@ -1,5 +1,5 @@
 from typing import List
-from py.services.react_crud.react_crud_config import FIELD_REPLACES
+from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VALUES
 from py.services.react_crud.react_crud_inputs import ReactCrudInputs
 
 
@@ -8,7 +8,7 @@ class ReactCrudFields:
     def __init__(self, metadada):
         self.__metadata = metadada
         self.__input = ReactCrudInputs()
-        self.__load_defvalues_by_type()
+        self.__default_values = DEFAULT_VALUES
 
     def __get_field_length(self, field_data: dict) -> str:
         field_length = field_data.get("field_length", "")
@@ -22,16 +22,6 @@ class ReactCrudFields:
             field_length = integers + "," + decimals
 
         return field_length
-
-    def __load_defvalues_by_type(self):
-        self.__default_values = {
-            "int": 0,
-            "tinyint": 0,
-            "decimal": 0.00,
-            "varchar": "\"\"",
-            "datetime": "\"\"",
-            "timestamp": "\"\"",
-        }
 
     def __get_field_and_length(self, field_tag: str) -> List:
         fields = []

@@ -1,5 +1,6 @@
 from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents, get_basename
-from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES, PATH_MODULE, MODEL_REPLACES, FOLDER_TEMPLATE
+from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES, \
+    PATH_MODULE, MODEL_REPLACES, FOLDER_TEMPLATE
 from py.services.react_crud.react_crud_fields import ReactCrudFields
 
 
