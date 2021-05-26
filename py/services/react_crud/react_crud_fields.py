@@ -1,5 +1,5 @@
 from typing import List
-from py.tools.helpers.react_crud_inputs import ReactCrudInputs
+from py.services.react_crud.react_crud_inputs import ReactCrudInputs
 
 FIELD_REPLACES = {
     "FIELDS_CLONE": {
