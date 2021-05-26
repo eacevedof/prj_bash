@@ -1,22 +1,7 @@
 from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents, get_basename
-from py.services.react_crud.react_crud_fields import ReactCrudFields, FIELD_REPLACES
-from py.services.react_crud.react_crud_inputs import INPUTS_TPLS
+from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES, PATH_MODULE, MODEL_REPLACES, FOLDER_TEMPLATE
+from py.services.react_crud.react_crud_fields import ReactCrudFields
 
-PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
-FOLDER_TEMPLATE = "zzz-tpl"
-
-MODEL_REPLACES = {
-    "zzz-tpls": "app-tables",
-    "zzz-tpl": "app-table",
-    "zzz_tpls": "app_tables",
-    "zzz_tpl": "app_table",
-    "ZzzTpls": "AppTables",
-    "ZzzTpl": "AppTable",
-    "Tpls": "Tables",
-    "Tpl": "Table",
-    "tpls": "tables",
-    "tpl": "table"
-}
 
 def remdir_old():
     pathlike = f"{PATH_MODULE}/20210*"
