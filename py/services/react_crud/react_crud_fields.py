@@ -42,22 +42,6 @@ class ReactCrudFields:
     def __in_excluded_by_tag(self, field_tag: str, field_name: str) -> bool:
         return field_name in FIELD_REPLACES[field_tag]["exclude"]
 
-    def get(self, field_tag: str) -> str:
-        fields = self.__get_field_and_length(field_tag)
-        return "\n".join(fields)
-
-    def get_inputs(self, view_name: str) -> str:
-        excluded = FIELD_REPLACES.get(view_name.replace("form_","fields_").upper(),{}).get("exclude",[])
-        content = []
-        for field_data in self.__metadata:
-            field_name = field_data["field_name"]
-            if field_name in excluded:
-                continue
-            strinput = self.__input.get_html_replaced(view_name, field_name)
-            content.append(strinput)
-
-        return "".join(content)
-
     def __get_query_list_and_entity(self, excluded) -> str:
         result = []
         for field_data in self.__metadata:
@@ -100,3 +84,19 @@ class ReactCrudFields:
         }
 
         return replaces
+
+    def get(self, field_tag: str) -> str:
+        fields = self.__get_field_and_length(field_tag)
+        return "\n".join(fields)
+
+    def get_inputs(self, view_name: str) -> str:
+        excluded = FIELD_REPLACES.get(view_name.replace("form_","fields_").upper(),{}).get("exclude",[])
+        content = []
+        for field_data in self.__metadata:
+            field_name = field_data["field_name"]
+            if field_name in excluded:
+                continue
+            strinput = self.__input.get_html_replaced(view_name, field_name)
+            content.append(strinput)
+
+        return "".join(content)

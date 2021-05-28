@@ -2,7 +2,7 @@
 
 import sys
 from importlib import import_module
-from py.tools.argit import *
+from tools.argit import *
 
 def die(strmsg):
     print(f"console.py: {strmsg}")
