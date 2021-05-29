@@ -17,6 +17,7 @@ def get_camelcased(string):
 
 class ReactCrud:
 
+# repmplazar etiqueta con valor
     def __init__(self, table, metadada):
         remdir_old()
         tablemid = table.replace("_", "-")
