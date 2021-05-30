@@ -1,13 +1,10 @@
 from typing import List
 from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VALUES_TYPES
-from py.services.react_crud.react_crud_inputs import ReactCrudInputs
-
 
 class ReactCrudFieldsReplacer:
 
     def __init__(self, metadada):
         self.__metadata = metadada
-        self.__input = ReactCrudInputs()
         self.__default_values_types = DEFAULT_VALUES_TYPES
         self.__load_replaces()
 
@@ -17,8 +14,14 @@ class ReactCrudFieldsReplacer:
             "FIELDS_QUERY_ENTITY": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_ENTITY"]["exclude"]),
             "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
             "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
-        }
 
+            "FIELDS_CLONE": "",
+            "FIELDS_DELETE": "",
+            "FIELDS_DELETELOGIC": "",
+            "FIELDS_DETAIL": "",
+            "FIELDS_INSERT": "",
+            "FIELDS_UPDATE": "",
+        }
 
     def __get_field_length(self, field_data: dict) -> str:
         field_length = field_data.get("field_length", "")
@@ -88,21 +91,6 @@ class ReactCrudFieldsReplacer:
     def get_replaced(self, content:str) -> str:
         for field_tag in self.__replaces:
             str_value = self.__replaces[field_tag]
+            # //%FIELDS_DELETE%
             content = content.replace(f"//%{field_tag}%",str_value)
         return content
-
-    def get(self, field_tag: str) -> str:
-        fields = self.__get_field_and_length(field_tag)
-        return "\n".join(fields)
-
-    def get_inputs(self, view_name: str) -> str:
-        excluded = FIELD_REPLACES.get(view_name.replace("form_","fields_").upper(),{}).get("exclude",[])
-        content = []
-        for field_data in self.__metadata:
-            field_name = field_data["field_name"]
-            if field_name in excluded:
-                continue
-            strinput = self.__input.get_html_replaced(view_name, field_name)
-            content.append(strinput)
-
-        return "".join(content)

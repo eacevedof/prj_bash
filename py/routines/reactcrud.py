@@ -1,5 +1,6 @@
 # routines.reactmodel.py
 print("routines.reactmodel.py")
+import traceback
 import requests
 from py.tools.tools import pr
 from py.services.react_crud.react_crud_service import ReactCrud
@@ -43,4 +44,5 @@ def index(tablename):
         else:
             pr(f"No token found for {tablename}")
     except Exception as error:
+        traceback.print_exc()
         pr(error)

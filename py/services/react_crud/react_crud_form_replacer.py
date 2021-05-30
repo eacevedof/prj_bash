@@ -1,12 +1,10 @@
 from typing import List
 from py.services.react_crud.react_crud_config import FORM_REPLACES, INPUTS_TPLS
-from py.services.react_crud.react_crud_inputs import ReactCrudInputs
 
 class ReactCrudFormReplacer:
 
     def __init__(self, metadada):
         self.__metadata = metadada
-        self.__input = ReactCrudInputs()
         self.__load_replaces()
 
     def __load_replaces(self):
@@ -38,7 +36,7 @@ class ReactCrudFormReplacer:
             new_html = html.replace(f"%field_name%",field_name)
             result.append(new_html)
 
-        return result
+        return "\n".join(result)
 
     def get_replaced(self, content) -> str:
         for form_tag in self.__replaces:

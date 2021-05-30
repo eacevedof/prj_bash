@@ -165,6 +165,17 @@ FIELD_REPLACES = {
         ],
     },
 
+    "FIELDS_QUERY_LIST": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user",  # "insert_date",
+            "update_platform", "update_user",  # "update_date",
+            "delete_platform", "delete_user",  # "delete_date",
+            "cru_csvnote", "is_erpsent",  # "is_enabled",
+            "i",
+        ],
+    },
+
     "FIELDS_QUERY_ENTITY": {
         "exclude": [
             "processflag",
@@ -174,17 +185,6 @@ FIELD_REPLACES = {
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
             "code_cache",
-        ],
-    },
-
-    "FIELDS_QUERY_LIST": {
-        "exclude": [
-            "processflag",
-            "insert_platform", "insert_user",  # "insert_date",
-            "update_platform", "update_user",  # "update_date",
-            "delete_platform", "delete_user",  # "delete_date",
-            "cru_csvnote", "is_erpsent",  # "is_enabled",
-            "i",
         ],
     },
 
