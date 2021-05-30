@@ -1,19 +1,13 @@
 from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents, get_basename
 from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES, \
-    PATH_MODULE, MODEL_REPLACES, FOLDER_TEMPLATE
+    PATH_MODULE, FOLDER_TEMPLATE
 from py.services.react_crud.react_crud_fields import ReactCrudFields
-
+from py.services.react_crud.react_crud_table_replaces import ReactCrudTableReplaces
 
 def remdir_old():
     pathlike = f"{PATH_MODULE}/20210*"
     rmdir_like(pathlike)
 
-def get_camelcased(string):
-    words = string.lower().split("_")
-    ucased = []
-    for word in words:
-        ucased.append(word.capitalize())
-    return "".join(ucased)
 
 class ReactCrud:
 
@@ -26,19 +20,7 @@ class ReactCrud:
         self.__table = table
         self.__load_model_variants()
         self.__fields = ReactCrudFields(metadada)
-
-    def __load_model_variants(self):
-        table = self.__table
-        MODEL_REPLACES["zzz-tpls"] = table.replace("_","-") + "s"
-        MODEL_REPLACES["zzz-tpl"] = table.replace("_","-")
-        MODEL_REPLACES["zzz_tpls"] = table + "s"
-        MODEL_REPLACES["zzz_tpl"] = table
-        MODEL_REPLACES["ZzzTpls"] = get_camelcased(table + "s")
-        MODEL_REPLACES["ZzzTpl"] = get_camelcased(table)
-        MODEL_REPLACES["Tpls"] = get_camelcased(table.replace("app_","").replace("base_","") + "s")
-        MODEL_REPLACES["Tpl"] = get_camelcased(table.replace("app_","").replace("base_",""))
-        MODEL_REPLACES["tpls"] = table.replace("app_","").replace("base_","") + "s"
-        MODEL_REPLACES["tpl"] = table.replace("app_","").replace("base_","")
+        self.__table_replacer = ReactCrudTableReplaces(table)
 
     def __create_temp_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
@@ -126,10 +108,7 @@ class ReactCrud:
             self.__save_replaced_views(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
     def __get_replaced_model(self, content: str) -> str:
-        for tag in MODEL_REPLACES:
-            value = MODEL_REPLACES[tag]
-            content = content.replace(tag, value)
-        return content
+        return self.__table_replacer.get_replaced(content)
 
     def __get_replaced_fields(self, content: str) -> str:
         for field_tag in FIELD_REPLACES:
