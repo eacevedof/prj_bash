@@ -3,7 +3,6 @@ from py.services.react_crud.react_crud_config import MODEL_REPLACES
 class ReactCrudTableReplaces:
 
     def __init__(self, table):
-        tablemid = table.replace("_", "-")
         self.__table = table
         self.__replaces = MODEL_REPLACES
         self.__load_model_variants()
