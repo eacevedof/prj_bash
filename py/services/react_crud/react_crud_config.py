@@ -14,6 +14,88 @@ MODEL_REPLACES = {
     "tpl": "table"
 }
 
+FORM_REPLACES = {
+    "FORM_CLONE": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i", "code_cache",
+            "id", "id_user",
+        ],
+    },
+    "FORM_DELETE": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i", "code_cache",
+            "id", "id_user",
+        ],
+    },
+    "FORM_DELETELOGIC": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i", "code_cache",
+            "id", "id_user",
+        ],
+    },
+    "FORM_DETAIL": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i",
+            "id", "id_user",
+        ],
+    },
+    "FORM_INSERT": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i", "code_cache",
+            "id", "id_user",
+        ],
+        "defaults": {}
+    },
+    "FORM_UPDATE": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user", "insert_date",
+            "update_platform", "update_user", "update_date",
+            "delete_platform", "delete_user", "delete_date",
+            "cru_csvnote", "is_erpsent", "is_enabled",
+            "i", "code_cache",
+            "id", "id_user"
+        ],
+    },
+
+    "FORM_QUERY_ENTITY": {
+        "exclude": [
+            "processflag",
+            "insert_platform", "insert_user",  # "insert_date",
+            "update_platform", "update_user",  # "update_date",
+            "delete_platform", "delete_user",  # "delete_date",
+            "cru_csvnote", "is_erpsent",  # "is_enabled",
+            "i",
+            "code_cache",
+        ],
+    }
+}
+
 FIELD_REPLACES = {
     "FIELDS_CLONE": {
         "exclude": [

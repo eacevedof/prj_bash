@@ -1,7 +1,7 @@
 from py.tools.tools import mkdir, scandir, get_datetime, rmdir_like, file_get_contents, file_put_contents, get_basename
 from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES, \
     PATH_MODULE, FOLDER_TEMPLATE
-from py.services.react_crud.react_crud_fields import ReactCrudFields
+from py.services.react_crud.react_crud_fields_replacer import ReactCrudFieldsReplacer
 from py.services.react_crud.react_crud_table_replaces import ReactCrudTableReplaces
 
 def remdir_old():
@@ -17,7 +17,7 @@ class ReactCrud:
         tablemid = table.replace("_", "-")
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
-        self.__fields = ReactCrudFields(metadada)
+        self.__fields_replacer = ReactCrudFieldsReplacer(metadada)
         self.__table_replacer = ReactCrudTableReplaces(table)
 
     def __create_temp_dir(self):
@@ -28,10 +28,8 @@ class ReactCrud:
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
         content = self.__get_replaced_model(content)
-
-        list_replace = self.__fields.get_list_tags_replaces()
-        for list_tag in list_replace:
-            content = content.replace(f"//%{list_tag}%", list_replace[list_tag])
+        # tag FIELDS_*
+        content = self.__get_replaced_fields(content)
 
         file_put_contents(path_to, content)
 
@@ -41,7 +39,7 @@ class ReactCrud:
 
         content = self.__get_replaced_fields(content)
         view_name = get_basename(path_to).replace(".js","")
-        strinput = self.__fields.get_inputs(view_name=view_name)
+        strinput = self.__fields_replacer.get_inputs(view_name=view_name)
         content = self.__get_replaced_inputs(content, strinput)
 
         file_put_contents(path_to, content)
@@ -110,7 +108,7 @@ class ReactCrud:
 
     def __get_replaced_fields(self, content: str) -> str:
         for field_tag in FIELD_REPLACES:
-            strfields = self.__fields.get(field_tag=field_tag)
+            strfields = self.__fields_replacer.get(field_tag=field_tag)
             field_tag = f"//%{field_tag}%"
             content = content.replace(field_tag, strfields)
         return content

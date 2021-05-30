@@ -3,7 +3,7 @@ from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VAL
 from py.services.react_crud.react_crud_inputs import ReactCrudInputs
 
 
-class ReactCrudFields:
+class ReactCrudFieldsReplacer:
 
     def __init__(self, metadada):
         self.__metadata = metadada
