@@ -10,9 +10,14 @@ class ReactCrudFieldsReplacer:
 
     def __load_replaces(self):
         self.__replaces = {
+            # t.field_name
             "FIELDS_QUERY_LIST": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_LIST"]["exclude"]),
             "FIELDS_QUERY_ENTITY": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_ENTITY"]["exclude"]),
+
+            # f"text: \"label-{field_name}\", value: \"{field_name}\""
             "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
+
+            # f"name: \"{field_name}\", labels: [\"label-{field_name}\"]"
             "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
 
             "FIELDS_CLONE": self.__get_content("FIELDS_CLONE"),
@@ -60,25 +65,6 @@ class ReactCrudFieldsReplacer:
             field_length = integers + "," + decimals
 
         return field_length
-
-    def __get_field_and_length(self, field_tag: str) -> List:
-        fields = []
-        for field_data in self.__metadata:
-            field_name = field_data.get("field_name", "")
-            if self.__in_excluded_by_tag(field_tag, field_name):
-                continue
-
-            field_length = self.__get_field_length(field_data)
-            field_type = field_data.get("field_type", "")
-            default_value = self.__default_values_types[field_type]
-
-            comment = f"//{field_type}({field_length})" if field_length else f"//{field_type}"
-            txt = f"{field_name}: {default_value}, {comment}"
-            fields.append(txt)
-        return fields
-
-    def __in_excluded_by_tag(self, field_tag: str, field_name: str) -> bool:
-        return field_name in FIELD_REPLACES[field_tag]["exclude"]
 
     def __get_query_list_and_entity(self, excluded) -> str:
         result = []
