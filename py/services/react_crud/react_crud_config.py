@@ -208,7 +208,7 @@ INPUTS_TPLS = {
     },
 }
 
-DEFAULT_VALUES = {
+DEFAULT_VALUES_TYPES = {
     "int": 0,
     "tinyint": 0,
     "decimal": 0.00,

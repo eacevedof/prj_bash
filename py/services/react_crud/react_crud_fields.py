@@ -1,5 +1,5 @@
 from typing import List
-from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VALUES
+from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VALUES_TYPES
 from py.services.react_crud.react_crud_inputs import ReactCrudInputs
 
 
@@ -8,7 +8,17 @@ class ReactCrudFields:
     def __init__(self, metadada):
         self.__metadata = metadada
         self.__input = ReactCrudInputs()
-        self.__default_values = DEFAULT_VALUES
+        self.__default_values_types = DEFAULT_VALUES_TYPES
+        self.__load_replaces()
+
+    def __load_replaces(self):
+        self.__replaces = {
+            "FIELDS_QUERY_LIST": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_LIST"]["exclude"]),
+            "FIELDS_QUERY_ENTITY": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_ENTITY"]["exclude"]),
+            "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
+            "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
+        }
+
 
     def __get_field_length(self, field_data: dict) -> str:
         field_length = field_data.get("field_length", "")
@@ -32,7 +42,7 @@ class ReactCrudFields:
 
             field_length = self.__get_field_length(field_data)
             field_type = field_data.get("field_type", "")
-            default_value = self.__default_values[field_type]
+            default_value = self.__default_values_types[field_type]
 
             comment = f"//{field_type}({field_length})" if field_length else f"//{field_type}"
             txt = f"{field_name}: {default_value}, {comment}"
@@ -75,15 +85,11 @@ class ReactCrudFields:
             result.append(inner)
         return ",\n".join(result)
 
-    def get_list_tags_replaces(self) -> dict:
-        replaces = {
-            "FIELDS_QUERY_LIST": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_LIST"]["exclude"]),
-            "FIELDS_QUERY_ENTITY": self.__get_query_list_and_entity(FIELD_REPLACES["FIELDS_QUERY_ENTITY"]["exclude"]),
-            "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
-            "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
-        }
-
-        return replaces
+    def get_replaced(self, content:str) -> str:
+        for field_tag in self.__replaces:
+            str_value = self.__replaces[field_tag]
+            content = content.replace(f"//%{field_tag}%",str_value)
+        return content
 
     def get(self, field_tag: str) -> str:
         fields = self.__get_field_and_length(field_tag)

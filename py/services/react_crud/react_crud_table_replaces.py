@@ -32,5 +32,5 @@ class ReactCrudTableReplaces:
     def get_replaced(self, content:str) -> str:
         for table_tag in self.__replaces:
             str_value = self.__replaces[table_tag]
-            content = content.replace(table_tag,str_value)
+            content = content.replace(f"{table_tag}",str_value)
         return content

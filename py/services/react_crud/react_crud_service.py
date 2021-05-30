@@ -17,8 +17,6 @@ class ReactCrud:
         tablemid = table.replace("_", "-")
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
-        self.__table = table
-        self.__load_model_variants()
         self.__fields = ReactCrudFields(metadada)
         self.__table_replacer = ReactCrudTableReplaces(table)
 
