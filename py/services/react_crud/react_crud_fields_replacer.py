@@ -15,13 +15,38 @@ class ReactCrudFieldsReplacer:
             "FIELDS_GRID_HEADERS": self.__get_grid_headers(FIELD_REPLACES["FIELDS_GRID_HEADERS"]["exclude"]),
             "FIELDS_FILTERCONF": self.__get_filterconf(FIELD_REPLACES["FIELDS_FILTERCONF"]["exclude"]),
 
-            "FIELDS_CLONE": "",
-            "FIELDS_DELETE": "",
-            "FIELDS_DELETELOGIC": "",
-            "FIELDS_DETAIL": "",
-            "FIELDS_INSERT": "",
-            "FIELDS_UPDATE": "",
+            "FIELDS_CLONE": self.__get_content("FIELDS_CLONE"),
+            "FIELDS_DELETE": self.__get_content("FIELDS_DELETE"),
+            "FIELDS_DELETELOGIC": self.__get_content("FIELDS_DELETELOGIC"),
+            "FIELDS_DETAIL": self.__get_content("FIELDS_DETAIL"),
+            "FIELDS_INSERT": self.__get_content("FIELDS_INSERT"),
+            "FIELDS_UPDATE": self.__get_content("FIELDS_UPDATE"),
         }
+
+    def __get_not_excluded(self, form_tag: str) -> List:
+        exclude = FIELD_REPLACES[form_tag]["exclude"]
+        fields = []
+        for row in self.__metadata:
+            field_name = row["field_name"]
+            if not field_name in exclude:
+                fields.append(row)
+        return fields
+
+    def __get_content(self, form_tag: str) -> str:
+        fields = self.__get_not_excluded(form_tag)
+
+        result = []
+        for row in fields:
+            field_name = row["field_name"]
+            field_type = row["field_type"]
+            field_length = self.__get_field_length(row)
+            default_value = self.__default_values_types[field_type]
+            comment = f"//{field_type}({field_length})" if field_length else f"//{field_type}"
+            txt = f"{field_name}: {default_value}, {comment}"
+            result.append(txt)
+
+        return "\n".join(result)
+
 
     def __get_field_length(self, field_data: dict) -> str:
         field_length = field_data.get("field_length", "")
