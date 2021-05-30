@@ -3,6 +3,7 @@ from py.services.react_crud.react_crud_config import INPUTS_TPLS, FIELD_REPLACES
     PATH_MODULE, FOLDER_TEMPLATE
 from py.services.react_crud.react_crud_fields_replacer import ReactCrudFieldsReplacer
 from py.services.react_crud.react_crud_table_replaces import ReactCrudTableReplaces
+from py.services.react_crud.react_crud_form_replacer import ReactCrudFormReplacer
 
 def remdir_old():
     pathlike = f"{PATH_MODULE}/20210*"
@@ -17,8 +18,11 @@ class ReactCrud:
         tablemid = table.replace("_", "-")
         time = get_datetime()
         self.__tmp_folder = f"{time}_{tablemid}"
-        self.__fields_replacer = ReactCrudFieldsReplacer(metadada)
+
         self.__table_replacer = ReactCrudTableReplaces(table)
+        self.__fields_replacer = ReactCrudFieldsReplacer(metadada)
+        self.__form_replacer = ReactCrudFormReplacer(metadada)
+
 
     def __create_temp_dir(self):
         path = f"{PATH_MODULE}/{self.__tmp_folder}"
@@ -27,22 +31,14 @@ class ReactCrud:
 
     def __save_replaced(self, path_from: str, path_to: str):
         content = file_get_contents(path_from)
-        content = self.__get_replaced_model(content)
-        # tag FIELDS_*
-        content = self.__get_replaced_fields(content)
-
+        content = self.__get_all_replaces(content)
         file_put_contents(path_to, content)
 
-    def __save_replaced_views(self, path_from: str, path_to: str) -> str:
-        content = file_get_contents(path_from)
-        content = self.__get_replaced_model(content)
-
-        content = self.__get_replaced_fields(content)
-        view_name = get_basename(path_to).replace(".js","")
-        strinput = self.__fields_replacer.get_inputs(view_name=view_name)
-        content = self.__get_replaced_inputs(content, strinput)
-
-        file_put_contents(path_to, content)
+    def __get_all_replaces(self, content) -> str:
+        content = self.__table_replacer.get_replaced(content)
+        content = self.__fields_replacer.get_replaced(content)
+        content = self.__form_replacer.get_replaced(content)
+        return content
 
     def __root_folder(self):
         path_from = f"{PATH_MODULE}/{FOLDER_TEMPLATE}"
@@ -54,7 +50,6 @@ class ReactCrud:
         for strfile in files:
             if ".js" not in strfile:
                 continue
-            strfileto = self.__get_replaced_model(strfile)
             self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfileto}")
 
     def __async_folder(self):
@@ -101,23 +96,7 @@ class ReactCrud:
         files = scandir(path_from)
 
         for strfile in files:
-            self.__save_replaced_views(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
-
-    def __get_replaced_model(self, content: str) -> str:
-        return self.__table_replacer.get_replaced(content)
-
-    def __get_replaced_fields(self, content: str) -> str:
-        for field_tag in FIELD_REPLACES:
-            strfields = self.__fields_replacer.get(field_tag=field_tag)
-            field_tag = f"//%{field_tag}%"
-            content = content.replace(field_tag, strfields)
-        return content
-
-    def __get_replaced_inputs(self, content: str, strinputs: str) -> str:
-        for form_tag in INPUTS_TPLS:
-            form_tag = f"%{form_tag}%"
-            content = content.replace(form_tag, strinputs)
-        return content
+            self.__save_replaced(f"{path_from}/{strfile}", f"{path_to}/{strfile}")
 
     def run(self):
         self.__create_temp_dir()
