@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-import sys
+import sys, os
+sys.path.append(os.path.realpath("."))
 from importlib import import_module
 from tools.argit import *
 

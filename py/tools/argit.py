@@ -29,5 +29,5 @@ def get_funcname():
     return strfuncname
 
 def showhelp():
-    from py.help import index
+    from help import index
     index()
