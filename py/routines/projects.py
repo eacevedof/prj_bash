@@ -1,5 +1,5 @@
 from tools.tools import get_dicconfig
-from pprint import pprint
+
 
 def index():
     list_data = get_dicconfig().get_data()
@@ -13,7 +13,6 @@ def index():
             "id": dc.get("id", ""),
             "options": keys
         })
-
 
     for i, dc in enumerate(projects):
         id = dc.get("id","")
