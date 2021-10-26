@@ -6,6 +6,8 @@ from pprint import pprint
 from datetime import datetime
 import ntpath
 
+PATH_PROJECTS_JSON = "config/projects.local.json"
+
 def printx(mxvar):
     if isinstance(mxvar,list):
         for i, item in enumerate(mxvar):
@@ -116,7 +118,7 @@ def get_realpath(path):
 
 def get_path_config_json():
     pathdir = get_dir(__file__)
-    pathjson = pathdir+"/../config/projects.local.json"
+    pathjson = pathdir+"/../"+PATH_PROJECTS_JSON
     pathconfig = get_realpath(pathjson)
     return pathconfig
 
@@ -160,12 +162,15 @@ def rmdir_like(pathlike):
     cmd = f"rm -fr {pathlike}"
     sh(cmd)
 
-def get_dicconfig(project):
+def get_dicconfig(project=None):
     pathconfig = get_path_config_json()
     jsonhlp = Json(pathconfig)
     jsonhlp.load_data()
+    if not project:
+        return jsonhlp
     dicproject = jsonhlp.get_dictbykey("id",project)
     return dicproject
+
 
 def get_basename(pathfile):
     head, tail = ntpath.split(pathfile)

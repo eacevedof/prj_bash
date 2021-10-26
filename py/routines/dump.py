@@ -8,10 +8,7 @@ ejemplo:
     py.sh dump tinymarket
 """
 
-import sys
 import os
-from pprint import pprint
-import numpy as np
 from tools.tools import *
 
 
@@ -135,6 +132,7 @@ def index(project):
     #dumpcontent = dumpcontent.replace(dicproject["db"]["dblocal"],dicproject["db"]["dbprod"])
     #file_put_contents(newbackup,dumpcontent)
     pr("process finished!")
+
 # esto da error de importación de tools
 # if __name__ == "__main__":
 # index("gotit")
