@@ -5,8 +5,15 @@ def index():
     list_data = get_dicconfig().get_data()
     projects = []
     for dc in list_data:
-        projects.append(dc.get("id",""))
+        projects.append({
+            "id": dc.get("id", ""),
+            "options": [k for k in dc.keys() if k!="id"].sort()
+        })
     projects.sort()
-    for i, project in enumerate(projects):
-        print(f"({i}) {project}")
+
+    for i, dc in enumerate(projects):
+        id = dc.get("id","")
+        print(f"({i}) {id}")
+        for j, opt in dc.get("options",[]):
+            print(f"  - ({j}) {opt}")
 
