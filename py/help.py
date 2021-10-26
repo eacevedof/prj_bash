@@ -106,6 +106,14 @@ def index():
     ejemplo:
         py.sh reactcrud <tabla>
     """)
+
+    arhelp.append("""
+    module: projects  
+    - muestra todos los proyectos y sus opciones 
+    ejemplo:
+        py.sh projects
+    """)
+
     #arhelp.append("""
     #module: get-pip  
     #- Ni idea porque está ahi ^^ cosas de la vida :)
