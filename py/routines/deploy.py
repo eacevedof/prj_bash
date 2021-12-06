@@ -8,6 +8,7 @@ ejemplo:
     py.sh deploy tinymarket  #full deploy front and back
     py.sh deploy.composer tinymarket
     py.sh deploy.dbrestore tinymarket
+    py.hs deploy.codeonly tinymarket
 """
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.tools import *
