@@ -22,6 +22,21 @@ class ComponentCrud:
         self.__isdistinct = False
 
 
+    def __get_pk_ands(self)->List[str]:
+        ands = []
+        for d_pk in self.__arpks:
+            field = d_pk.get("field","")
+            if not field:
+                continue
+            value = d_pk.get("value",None)
+            if value == None:
+                ands.append(f"{field} IS null")
+            elif field in self.__arnumeric:
+                ands.append(f"{field} = {value}")
+            else:
+                ands.append(f"{field} = '{value}'")
+        return ands
+
     def get_select_from(self)->str:
         self.__sql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
@@ -38,20 +53,7 @@ class ComponentCrud:
         self.__sql += f" FROM {self.__table}"
         self.__sql += self.__get_joins()
 
-        ands = []
-        for d_pk in self.__arpks:
-            field = d_pk.get("field",None)
-            if not field:
-                continue
-
-            value = d_pk.get("value",None)
-            if value == None:
-                ands.append(f"{field} IS null")
-            elif field in self.__arnumeric:
-                ands.append(f"{field} = {value}")
-            else:
-                ands.append(f"{field} = '{value}'")
-
+        ands = self.__get_pk_ands()
         ands += self.__arands
         self.__sql += " WHERE " + " AND ".join(ands) if ands else ""
         self.__sql += self.__get_groupby()
@@ -83,6 +85,38 @@ class ComponentCrud:
             else:
                 aux.append(f"'{value}'")
         sql += "VALUES ("+" ,".join(aux)+")"
+        self.__sql = sql
+        return self.__sql
+
+    def get_update(self)->str:
+        self.__sql = ""
+        sql = "-- get_update"
+        if not self.__table:
+            return sql
+
+        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
+        sql = f"{querycomment} UPDATE {self.__table} SET "
+        if not self.__arupdatefv:
+            return sql
+
+        aux = []
+        for dc in self.__arupdatefv:
+            field = dc.get("field","")
+            if not field:
+                continue
+            value = dc.get("value")
+            if value==None:
+                aux.append(f"{field}=null")
+            elif value in self.__arnumeric:
+                aux.append(f"{field}={value}")
+            else:
+                aux.append(f"{field}='{value}'")
+
+        sql += " ,".join(aux)
+
+        ands = self.__get_pk_ands()
+        ands += self.__arands
+        sql += " WHERE 1 " + " AND ".join(ands) if ands else ""
         self.__sql = sql
         return self.__sql
 
