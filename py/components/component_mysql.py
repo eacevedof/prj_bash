@@ -20,6 +20,7 @@ class ComponentMysql:
                 user=self.__arconn.get("user",""),
                 password=self.__arconn.get("password",""),
                 database=self.__arconn.get("database",""),
+                port=self.__arconn.get("port",3306)
             )
         return self.__connection
 

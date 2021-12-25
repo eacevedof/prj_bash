@@ -33,11 +33,19 @@ def get_metadada(tablename, token) -> dict:
 
 def index(tablename):
     db = ComponentMysql(arconn={
-        "server": "localhost:3307",
+        "server": "localhost",
         "user": "root",
-        "password": "root",
-        "database": "db_marketing"
+        "password": "1234",
+        "database": "db_marketing",
+        #"port": 3307
     })
+
+    sql = "select * from base_user"
+    result = db.query(sql)
+
+    if db.is_error():
+        pr(db.get_errors())
+        pass
 
     pass
     try:
