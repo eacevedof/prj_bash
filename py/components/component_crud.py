@@ -24,14 +24,14 @@ class ComponentCrud:
         querycomment = self.__querycomment if self.__querycomment else ""
         self.__sql = f"{querycomment} SELECT "
         if self.__isfoundrows:
-            self.__sql = self.__sql + f"SQL_CAL_FOUND_ROWS "
+            self.__sql += f"SQL_CAL_FOUND_ROWS "
 
         if self.__isdistinct:
-            self.__sql = self.__sql + f"DISTINCT "
+            self.__sql += f"DISTINCT "
 
-        self.__sql = self.__sql + ", ".join(self.__argetfields)
-        self.__sql = self.__sql + f"FROM {self.__table}"
-        self.__sql = self.__sql + self.__get_joins()
+        self.__sql += ", ".join(self.__argetfields)
+        self.__sql += f"FROM {self.__table}"
+        self.__sql += self.__get_joins()
 
         ands = []
         for d_pk in self.__arpks:
@@ -47,8 +47,9 @@ class ComponentCrud:
             else:
                 ands.append(f"{field} = '{value}'")
 
-        self.__sql = self.__sql + " WHERE " + " AND ".join(ands) if ands else ""
-
+        self.__sql += " WHERE " + " AND ".join(ands) if ands else ""
+        self.__sql += self.__get_groupby()
+        
         return self.__sql
 
 
@@ -57,5 +58,5 @@ class ComponentCrud:
         return strjoins
 
     def __get_groupby(self)-> str:
-        strgroupby = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
+        strgroupby = " GROUP BY " + ",".join(self.__argroupby) if self.__argroupby else ""
         return strgroupby
