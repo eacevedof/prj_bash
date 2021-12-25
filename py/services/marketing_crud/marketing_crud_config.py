@@ -1,4 +1,4 @@
-PATH_MODULE = "/Users/ioedu/projects/prj_eafpos/frontend/restrict/src/modules"
+PATH_MODULE = "/Users/ioedu/projects/prj_marketing/backend_web/src"
 FOLDER_TEMPLATE = "zzz-tpl"
 
 MODEL_REPLACES = {
@@ -22,7 +22,7 @@ FORM_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -33,7 +33,7 @@ FORM_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -44,7 +44,7 @@ FORM_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -66,7 +66,7 @@ FORM_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
         "defaults": {}
@@ -78,7 +78,7 @@ FORM_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user"
         ],
     },
@@ -91,7 +91,7 @@ FORM_REPLACES = {
             "delete_platform", "delete_user",  # "delete_date",
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
-            "code_cache",
+            "uuid",
         ],
     }
 }
@@ -104,7 +104,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -115,7 +115,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -126,7 +126,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
     },
@@ -148,7 +148,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user",
         ],
         "defaults": {}
@@ -160,7 +160,7 @@ FIELD_REPLACES = {
             "update_platform", "update_user", "update_date",
             "delete_platform", "delete_user", "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
-            "i", "code_cache",
+            "i", "uuid",
             "id", "id_user"
         ],
     },
@@ -184,7 +184,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  # "delete_date",
             "cru_csvnote", "is_erpsent",  # "is_enabled",
             "i",
-            "code_cache",
+            "uuid",
         ],
     },
 
@@ -197,7 +197,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
             "i",
-            "id", "code_cache",
+            "id", "uuid",
         ],
     },
 
@@ -210,7 +210,7 @@ FIELD_REPLACES = {
             "delete_platform", "delete_user",  "delete_date",
             "cru_csvnote", "is_erpsent", "is_enabled",
             "i",
-            "id", "code_cache",
+            "id", "uuid",
         ],
     }
 
