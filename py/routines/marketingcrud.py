@@ -49,6 +49,7 @@ def index(tablename):
             .add_and("m.id > 300")\
             .add_and("m.id < 350") \
             .add_orderby("m.id","DESC")\
+            .set_limit(15)\
             .get_select_from()
     result = db.query(sql)
     pr(result)

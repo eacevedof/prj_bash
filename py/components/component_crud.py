@@ -79,7 +79,8 @@ class ComponentCrud:
         return strorderby
 
     def __get_limit(self)-> str:
-        strlimit = " LIMIT " + ",".join(self.__arlimit) if self.__arlimit else ""
+        arlimit =  [str(int) for int in self.__arlimit]
+        strlimit = " LIMIT " + ",".join(arlimit) if self.__arlimit else ""
         """
         * si por ejemplo deseo paginar de 10 en 10
         * para la pag:
@@ -135,7 +136,13 @@ class ComponentCrud:
         self.__arhaving = havings
         return self
 
-
+    def set_limit(self, ippage:int=1000, iregfrom:int=0) -> ComponentCrud:
+        self.__arlimit = []
+        self.__arlimit.append(iregfrom)
+        self.__arlimit.append(ippage)
+        if ippage==None:
+            self.__arlimit = []
+        return self
 
     def get_sanitized(self, value:str) -> Optional[str]:
         if value == None:
