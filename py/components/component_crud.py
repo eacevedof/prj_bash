@@ -1,5 +1,5 @@
-from typing import Optional, Any, List
 from __future__ import annotations
+from typing import Optional, Any, List
 
 class ComponentCrud:
 
@@ -13,7 +13,7 @@ class ComponentCrud:
         self.__arands = []
         self.__arorderby = []
         self.__arhaving = []
-        self.__groupby = []
+        self.__argroupby = []
         self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
         self.__sql = ""
@@ -35,7 +35,7 @@ class ComponentCrud:
             self.__sql += f"DISTINCT "
 
         self.__sql += ", ".join(self.__argetfields)
-        self.__sql += f"FROM {self.__table}"
+        self.__sql += f" FROM {self.__table}"
         self.__sql += self.__get_joins()
 
         ands = []

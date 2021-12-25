@@ -41,7 +41,11 @@ def index(tablename):
         #"port": 3307
     })
 
-    sql = "select * from base_user"
+    crud = ComponentCrud()
+    sql = crud.set_table("base_user")\
+            .set_getfields(["base_user.id","ar1.description"])\
+            .set_joins(["LEFT JOIN app_array ar1 ON m.id_language = ar1.id AND ar1.type='language'"])\
+            .get_select_from()
     result = db.query(sql)
     pr(result)
     sql = "update base_user set fullname='señor juan' where id=360"
