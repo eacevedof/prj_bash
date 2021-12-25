@@ -45,6 +45,7 @@ def index(tablename):
     sql = crud.set_table("base_user as m")\
             .set_getfields(["m.id as user_id","ar1.description as language"])\
             .set_joins(["LEFT JOIN app_array ar1 ON m.id_language = ar1.id AND ar1.type='language'"])\
+
             .get_select_from()
     result = db.query(sql)
     pr(result)

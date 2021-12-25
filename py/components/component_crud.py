@@ -154,6 +154,16 @@ class ComponentCrud:
         self.__arnumeric.append(fieldname)
         return self
 
-    def add_numeric(self, fieldname:str) -> ComponentCrud:
-        self.__arnumeric.append(fieldname)
+    def add_and(self, strand:str) -> ComponentCrud:
+        self.__arands.append(strand)
+        return self
+
+    def add_and_in(self, field:str, values:List, isnum:bool = True) -> ComponentCrud:
+        values = list(set(values))
+        strin = ",".join(values) if isnum else "','".join(values)
+        strin = f"({strin})" if isnum else f"('{strin}')"
+        self.__arands.append(f"{field} IN {strin}")
+        return self
+
+        self.__arands.append(strand)
         return self
