@@ -37,9 +37,18 @@ def index(tablename):
         "server": "localhost",
         "user": "root",
         "password": "1234",
-        "database": "db_marketing",
+        "database": "db_anytest",
         #"port": 3307
     })
+
+    crud = ComponentCrud()
+    sql = crud.set_comment("test insert")\
+            .set_table("app_array")\
+            .add_insert_fv("type","xxx")\
+            .add_insert_fv("description","Dsc Xxxx")\
+            .add_insert_fv("order_by",100)\
+            .get_insert()
+
 
     crud = ComponentCrud()
     sql = crud.set_table("base_user as m")\

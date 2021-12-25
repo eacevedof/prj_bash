@@ -61,7 +61,7 @@ class ComponentCrud:
         
         return self.__sql
 
-    def _get_insert(self)->str:
+    def get_insert(self)->str:
         self.__sql = ""
         sql = "-- get_insert"
         if not self.__table:
