@@ -43,6 +43,7 @@ def index(tablename):
     sql = "select * from base_user"
     result = db.query(sql)
     pr(result)
+    sql = "update "
 
     if db.is_error():
         pr(db.get_errors())
