@@ -8,7 +8,7 @@ class ComponentCrud:
         self.__arjoins = []
         self.__arands = []
         self.__arorderby = []
-        self.__argroupby = []
+        self.__arhaving = []
         self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
         self.__sql = ""
@@ -49,6 +49,8 @@ class ComponentCrud:
 
         self.__sql += " WHERE " + " AND ".join(ands) if ands else ""
         self.__sql += self.__get_groupby()
+        self.__sql += self.__get_having()
+        self.__sql += self.__get_orderby()
         
         return self.__sql
 
@@ -60,3 +62,11 @@ class ComponentCrud:
     def __get_groupby(self)-> str:
         strgroupby = " GROUP BY " + ",".join(self.__argroupby) if self.__argroupby else ""
         return strgroupby
+
+    def __get_having(self)-> str:
+        strhaving = " HAVING " + ",".join(self.__arhaving) if self.__arhaving else ""
+        return strhaving
+
+    def __get_orderby(self)-> str:
+        strorderby = " ORDER BY " + ",".join(self.__arorderby) if self.__arorderby else ""
+        return strorderby
