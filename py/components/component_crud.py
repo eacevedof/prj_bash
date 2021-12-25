@@ -13,6 +13,7 @@ class ComponentCrud:
         self.__arands = []
         self.__arorderby = []
         self.__arhaving = []
+        self.__groupby = []
         self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
         self.__sql = ""
@@ -110,8 +111,8 @@ class ComponentCrud:
         })
         return self
 
-    def set_getfields(self, fields: List[str]) -> ComponentCrud:
-        self.__argetfields = fields
+    def set_getfields(self, arfields: List[str]) -> ComponentCrud:
+        self.__argetfields = arfields
         return self
 
     def add_getfield(self, field:str) -> ComponentCrud:
@@ -122,9 +123,18 @@ class ComponentCrud:
         self.__arjoins = joins
         return self
 
-    def set_joins(self, joins: List[str]) -> ComponentCrud:
-        self.__arjoins = joins
+    def set_orderby(self, orderbys: List[str]) -> ComponentCrud:
+        self.__arorderby = orderbys
         return self
+
+    def set_groupby(self, groupbys: List[str]) -> ComponentCrud:
+        self.__argroupby = groupbys
+        return self
+
+    def set_having(self, havings: List[str]) -> ComponentCrud:
+        self.__arhaving = havings
+        return self
+
 
 
     def get_sanitized(self, value:str) -> Optional[str]:
