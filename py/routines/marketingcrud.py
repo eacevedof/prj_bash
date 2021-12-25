@@ -48,7 +48,7 @@ def index(tablename):
             .add_insert_fv("description","Dsc Xxxx")\
             .add_insert_fv("order_by",100)\
             .get_insert()
-
+    db.exec(sql)
 
     crud = ComponentCrud()
     sql = crud.set_table("base_user as m")\
