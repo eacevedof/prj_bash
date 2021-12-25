@@ -47,6 +47,7 @@ def index(tablename):
     db.exec(sql)
     result = db.query("select id, fullname from base_user where id=360")
     pr(result)
+    db.close()
 
     if db.is_error():
         pr(db.get_errors())
