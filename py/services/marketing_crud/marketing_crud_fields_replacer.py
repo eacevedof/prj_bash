@@ -1,7 +1,7 @@
 from typing import List
-from py.services.react_crud.react_crud_config import FIELD_REPLACES, DEFAULT_VALUES_TYPES
+from py.services.marketing_crud.marketing_crud_config import FIELD_REPLACES, DEFAULT_VALUES_TYPES
 
-class ReactCrudFieldsReplacer:
+class MarketingCrudFieldsReplacer:
 
     def __init__(self, metadada):
         self.__metadata = metadada

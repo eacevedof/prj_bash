@@ -1,7 +1,7 @@
 from typing import List
-from py.services.react_crud.react_crud_config import FORM_REPLACES, INPUTS_TPLS
+from py.services.marketing_crud.marketing_crud_config import FORM_REPLACES, INPUTS_TPLS
 
-class ReactCrudFormReplacer:
+class MarketingCrudFormReplacer:
 
     def __init__(self, metadada):
         self.__metadata = metadada

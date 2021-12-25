@@ -1,6 +1,6 @@
-from py.services.react_crud.react_crud_config import MODEL_REPLACES
+from py.services.marketing_crud.marketing_crud_config import MODEL_REPLACES
 
-class ReactCrudTableReplaces:
+class MarketingCrudTableReplaces:
 
     def __init__(self, table):
         self.__table = table
