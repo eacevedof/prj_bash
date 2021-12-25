@@ -2,7 +2,7 @@
 print("routines.marketingmodel.py")
 import traceback
 import requests
-from py.tools.tools import pr
+from py.tools.tools import pr, pd
 from py.services.marketing_crud.marketing_crud_service import MarketingCrud
 from py.components.component_mysql import ComponentMysql
 
@@ -42,12 +42,13 @@ def index(tablename):
 
     sql = "select * from base_user"
     result = db.query(sql)
+    pr(result)
 
     if db.is_error():
         pr(db.get_errors())
         pass
 
-    pass
+    pd("fin")
     try:
         token = login()
         if token:

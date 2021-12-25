@@ -35,7 +35,7 @@ class ComponentMysql:
             cursor = conn.cursor(dictionary=True)
             cursor.execute(sql)
             result = cursor.fetchall()
-            self.__ifoundrows = self.__get_found_rows()
+            self.__ifoundrows = self.__get_found_rows(cursor)
             self.__iaffectedrows = cursor.rowcount
             return result
         except mysql.connector.Error as error:
@@ -43,8 +43,12 @@ class ComponentMysql:
         finally:
             cursor.close()
 
-    def __get_found_rows(self):
-        return self.query("SELECT FOUND_ROWS()")
+    def __get_found_rows(self, cursor) -> int:
+        cursor.execute("SELECT FOUND_ROWS() n")
+        result = cursor.fetchall()
+        if result:
+            return int(result[0].get("n",-1))
+        return 0
 
     def exec(self, sql: str):
         try:
