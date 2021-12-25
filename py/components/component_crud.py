@@ -1,4 +1,5 @@
-from typing import Optional, Any
+from typing import Optional, Any, List
+from __future__ import annotations
 
 class ComponentCrud:
 
@@ -87,46 +88,49 @@ class ComponentCrud:
         """
         return strlimit
 
-    def set_table(self, name:str):
+    def set_table(self, name:str) -> ComponentCrud:
         self.__table = name
         return self
 
-    def set_comment(self, comment:str):
+    def set_comment(self, comment:str) -> ComponentCrud:
         self.__comment = comment
         return self
 
-    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True):
+    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True) -> ComponentCrud:
         self.__arinsertfv.append({
             "field": field,
             "value": self.get_sanitized(value) if dosanitize else value
         })
         return self
 
-    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True):
-        self.__arinsertfv.append({
+    def add_update_fv(self, field:str, value:Any, dosanitize:bool=True) -> ComponentCrud:
+        self.__arupdatefv.append({
             "field": field,
             "value": self.get_sanitized(value) if dosanitize else value
         })
         return self
 
+    def set_getfields(self, fields: List[str]) -> ComponentCrud:
+        self.__argetfields = fields
+        return self
 
     def get_sanitized(self, value:str) -> Optional[str]:
         if value == None:
             return None
         return value.replace("'","\'")
 
-    def is_distinct(self, ison:bool=True):
+    def is_distinct(self, ison:bool=True) -> ComponentCrud:
         self.__isdistinct = ison
         return self
 
-    def is_foundrows(self, ison:bool=True):
+    def is_foundrows(self, ison:bool=True) -> ComponentCrud:
         self.__isfoundrows = ison
         return self
 
-    def add_numeric(self, fieldname:str):
+    def add_numeric(self, fieldname:str) -> ComponentCrud:
         self.__arnumeric.append(fieldname)
         return self
 
-    def add_numeric(self, fieldname:str):
+    def add_numeric(self, fieldname:str) -> ComponentCrud:
         self.__arnumeric.append(fieldname)
         return self
