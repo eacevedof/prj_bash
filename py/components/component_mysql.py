@@ -66,3 +66,9 @@ class ComponentMysql:
             self.__arerrors.append(error)
         finally:
             cursor.close()
+
+    def is_error(self) -> bool:
+        return True if self.__arerrors else False
+
+    def get_errors(self) -> List:
+        return self.__arerrors
