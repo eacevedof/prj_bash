@@ -111,8 +111,8 @@ class ComponentCrud:
         })
         return self
 
-    def set_getfields(self, arfields: List[str]) -> ComponentCrud:
-        self.__argetfields = arfields
+    def set_getfields(self, fields: List[str]) -> ComponentCrud:
+        self.__argetfields = fields
         return self
 
     def add_getfield(self, field:str) -> ComponentCrud:
