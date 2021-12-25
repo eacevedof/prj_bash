@@ -67,15 +67,15 @@ class ComponentCrud:
         return strjoins
 
     def __get_groupby(self)-> str:
-        strgroupby = " GROUP BY " + ",".join(self.__argroupby) if self.__argroupby else ""
+        strgroupby = " GROUP BY " + ", ".join(self.__argroupby) if self.__argroupby else ""
         return strgroupby
 
     def __get_having(self)-> str:
-        strhaving = " HAVING " + ",".join(self.__arhaving) if self.__arhaving else ""
+        strhaving = " HAVING " + ", ".join(self.__arhaving) if self.__arhaving else ""
         return strhaving
 
     def __get_orderby(self)-> str:
-        strorderby = " ORDER BY " + ",".join(self.__arorderby) if self.__arorderby else ""
+        strorderby = " ORDER BY " + ", ".join(self.__arorderby) if self.__arorderby else ""
         return strorderby
 
     def __get_limit(self)-> str:
@@ -182,7 +182,7 @@ class ComponentCrud:
         return self
 
     def add_groupby(self, field:str)-> ComponentCrud:
-        self.__arorderby.append(field)
+        self.__argroupby.append(field)
         return self
 
     def add_having(self, field:str)-> ComponentCrud:

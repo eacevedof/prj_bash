@@ -45,12 +45,13 @@ def index(tablename):
     sql = crud.set_table("base_user as m")\
             .set_comment("hola mundo")\
             .set_getfields(["count(m.id) as n_by_lang","ar1.description as language"])\
-            .set_joins(["LEFT JOIN app_array ar1 ON m.id_language = ar1.id AND ar1.type='language'"])\
-            .add_and("m.id > 300")\
-            .add_and("m.id < 350") \
+            .add_join("LEFT JOIN app_array ar1 ON m.id_language = ar1.id AND ar1.type='language'")\
+            .add_and("m.id > 10")\
+            .add_and("m.id < 300") \
             .add_groupby("ar1.description")\
-            .add_orderby("m.id","DESC")\
-            .set_limit(15)\
+            .add_having("count(m.id)>62")\
+            .add_orderby("ar1.description","DESC")\
+            .set_limit(500)\
             .get_select_from()
     result = db.query(sql)
     pr(db.get_errors())
