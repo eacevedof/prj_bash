@@ -17,7 +17,7 @@ class ComponentCrud:
         self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
         self.__sql = ""
-        self.__querycomment = ""
+        self.__comment = ""
         self.__isfoundrows = False
         self.__isdistinct = False
 
@@ -26,7 +26,7 @@ class ComponentCrud:
         self.__sql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
             return self.__sql
-        querycomment = self.__querycomment if self.__querycomment else ""
+        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
         self.__sql = f"{querycomment} SELECT "
         if self.__isfoundrows:
             self.__sql += f"SQL_CAL_FOUND_ROWS "
