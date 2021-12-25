@@ -55,3 +55,7 @@ class ComponentCrud:
     def __get_joins(self)-> str:
         strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
         return strjoins
+
+    def __get_groupby(self)-> str:
+        strgroupby = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
+        return strgroupby
