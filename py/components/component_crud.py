@@ -51,6 +51,7 @@ class ComponentCrud:
         self.__sql += self.__get_groupby()
         self.__sql += self.__get_having()
         self.__sql += self.__get_orderby()
+        self.__sql += self.__get_limit()
         
         return self.__sql
 
@@ -70,3 +71,14 @@ class ComponentCrud:
     def __get_orderby(self)-> str:
         strorderby = " ORDER BY " + ",".join(self.__arorderby) if self.__arorderby else ""
         return strorderby
+
+    def __get_limit(self)-> str:
+        strlimit = " LIMIT " + ",".join(self.__arlimit) if self.__arlimit else ""
+        """
+        * si por ejemplo deseo paginar de 10 en 10
+        * para la pag:
+        *  1 sería LIMIT 0,10   -- 1 a 10
+        *  2 LIMIT 10,10        -- 11 a 20
+        *  3 LIMIT 20,10        -- 21 a 30
+        """
+        return strlimit
