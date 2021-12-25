@@ -1,4 +1,7 @@
+from typing import Optional, Any
+
 class ComponentCrud:
+
     def __init__(self):
         self.__table = ""
         self.__arinsertfv = []
@@ -47,6 +50,7 @@ class ComponentCrud:
             else:
                 ands.append(f"{field} = '{value}'")
 
+        ands += self.__arands
         self.__sql += " WHERE " + " AND ".join(ands) if ands else ""
         self.__sql += self.__get_groupby()
         self.__sql += self.__get_having()
@@ -82,3 +86,47 @@ class ComponentCrud:
         *  3 LIMIT 20,10        -- 21 a 30
         """
         return strlimit
+
+    def set_table(self, name:str):
+        self.__table = name
+        return self
+
+    def set_comment(self, comment:str):
+        self.__comment = comment
+        return self
+
+    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True):
+        self.__arinsertfv.append({
+            "field": field,
+            "value": self.get_sanitized(value) if dosanitize else value
+        })
+        return self
+
+    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True):
+        self.__arinsertfv.append({
+            "field": field,
+            "value": self.get_sanitized(value) if dosanitize else value
+        })
+        return self
+
+
+    def get_sanitized(self, value:str) -> Optional[str]:
+        if value == None:
+            return None
+        return value.replace("'","\'")
+
+    def is_distinct(self, ison:bool=True):
+        self.__isdistinct = ison
+        return self
+
+    def is_foundrows(self, ison:bool=True):
+        self.__isfoundrows = ison
+        return self
+
+    def add_numeric(self, fieldname:str):
+        self.__arnumeric.append(fieldname)
+        return self
+
+    def add_numeric(self, fieldname:str):
+        self.__arnumeric.append(fieldname)
+        return self

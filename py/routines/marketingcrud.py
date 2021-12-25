@@ -5,6 +5,7 @@ import requests
 from py.tools.tools import pr, pd
 from py.services.marketing_crud.marketing_crud_service import MarketingCrud
 from py.components.component_mysql import ComponentMysql
+from py.components.component_crud import ComponentCrud
 
 BASE_URL = "http://localhost:900"
 USER = "fulanito"
