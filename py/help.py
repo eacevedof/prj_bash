@@ -108,6 +108,14 @@ def index():
     """)
 
     arhelp.append("""
+    module: marketingcrud
+    - Genera modulo CRUD a partir phpapify en el monolito de marketing
+    
+    ejemplo:
+        py.sh marketingcrud <tabla>
+    """)
+
+    arhelp.append("""
     module: projects  
     - muestra todos los proyectos y sus opciones 
     ejemplo:
