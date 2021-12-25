@@ -9,7 +9,7 @@ class ComponentCrud:
         self.__arands = []
         self.__arorderby = []
         self.__argroupby = []
-        self.__arnumeric = []
+        self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
         self.__sql = ""
         self.__querycomment = ""
@@ -17,10 +17,41 @@ class ComponentCrud:
         self.__isdistinct = False
 
 
-    def get_select_from(self):
+    def get_select_from(self)->str:
         self.__sql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
             return self.__sql
         querycomment = self.__querycomment if self.__querycomment else ""
+        self.__sql = f"{querycomment} SELECT "
+        if self.__isfoundrows:
+            self.__sql = self.__sql + f"SQL_CAL_FOUND_ROWS "
+
+        if self.__isdistinct:
+            self.__sql = self.__sql + f"DISTINCT "
+
+        self.__sql = self.__sql + ", ".join(self.__argetfields)
+        self.__sql = self.__sql + f"FROM {self.__table}"
+        self.__sql = self.__sql + self.__get_joins()
+
+        ands = []
+        for d_pk in self.__arpks:
+            field = d_pk.get("field",None)
+            if not field:
+                continue
+
+            value = d_pk.get("value",None)
+            if value == None:
+                ands.append(f"{field} IS null")
+            elif field in self.__arnumeric:
+                ands.append(f"{field} = {value}")
+            else:
+                ands.append(f"{field} = '{value}'")
+
+        self.__sql = self.__sql + " WHERE " + " AND ".join(ands) if ands else ""
+
+        return self.__sql
 
 
+    def __get_joins(self)-> str:
+        strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
+        return strjoins
