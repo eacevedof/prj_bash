@@ -165,5 +165,19 @@ class ComponentCrud:
         self.__arands.append(f"{field} IN {strin}")
         return self
 
-        self.__arands.append(strand)
+    def add_join(self, strjoin:str)-> ComponentCrud:
+        #to-do key argument
+        self.__arjoins.append(strjoin)
+        return self
+
+    def add_orderby(self, field:str, sorder:str="ASC")-> ComponentCrud:
+        self.__arorderby.append(f"{field} {sorder}")
+        return self
+
+    def add_groupby(self, field:str)-> ComponentCrud:
+        self.__arorderby.append(field)
+        return self
+
+    def add_having(self, field:str)-> ComponentCrud:
+        self.__arhaving.append(field)
         return self
