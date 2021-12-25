@@ -45,10 +45,14 @@ def index(tablename):
     sql = crud.set_table("base_user as m")\
             .set_getfields(["m.id as user_id","ar1.description as language"])\
             .set_joins(["LEFT JOIN app_array ar1 ON m.id_language = ar1.id AND ar1.type='language'"])\
-
+            .add_and("m.id > 300")\
+            .add_and("m.id < 350") \
+            .add_and_in("m.id",["301","302","303"])\
             .get_select_from()
     result = db.query(sql)
     pr(result)
+
+
     sql = "update base_user set fullname='señor juan' where id=360"
     db.exec(sql)
     result = db.query("select id, fullname from base_user where id=360")
