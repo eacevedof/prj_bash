@@ -114,6 +114,19 @@ class ComponentCrud:
         self.__argetfields = fields
         return self
 
+    def add_getfield(self, field:str) -> ComponentCrud:
+        self.__argetfields.append(field)
+        return self
+
+    def set_joins(self, joins: List[str]) -> ComponentCrud:
+        self.__arjoins = joins
+        return self
+
+    def set_joins(self, joins: List[str]) -> ComponentCrud:
+        self.__arjoins = joins
+        return self
+
+
     def get_sanitized(self, value:str) -> Optional[str]:
         if value == None:
             return None
