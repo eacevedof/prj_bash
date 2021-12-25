@@ -4,6 +4,7 @@ import traceback
 import requests
 from py.tools.tools import pr
 from py.services.marketing_crud.marketing_crud_service import MarketingCrud
+from py.components.component_mysql import ComponentMysql
 
 BASE_URL = "http://localhost:900"
 USER = "fulanito"
@@ -31,6 +32,14 @@ def get_metadada(tablename, token) -> dict:
     return dict.get("data", [])
 
 def index(tablename):
+    db = ComponentMysql(arconn={
+        "server": "localhost:3307",
+        "user": "root",
+        "password": "root",
+        "database": "db_marketing"
+    })
+
+    pass
     try:
         token = login()
         if token:
@@ -46,3 +55,7 @@ def index(tablename):
     except Exception as error:
         traceback.print_exc()
         pr(error)
+
+if __name__ == "__main__":
+    # esto no va. Da error en los imports ya que no encuentra el módulo py.
+    login()

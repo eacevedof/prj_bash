@@ -1,17 +1,7 @@
 #python -m pip install mysql-connector-python
 import mysql.connector
-from typing import Union, Optional, Dict, List
-
-"""
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="yourusername",
-  password="yourpassword",
-  database="mydatabase"
-)
-
-mycursor = mydb.cursor()
-"""
+#from typing import Union, Optional, Dict, List
+from typing import Dict, List
 
 class ComponentMysql:
 
