@@ -61,6 +61,31 @@ class ComponentCrud:
         
         return self.__sql
 
+    def _get_insert(self)->str:
+        self.__sql = ""
+        sql = "-- get_insert"
+        if not self.__table:
+            return sql
+
+        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
+        sql = f"{querycomment} INSERT INTO {self.__table} "
+        if not self.__arinsertfv:
+            return sql
+
+        fields = [item.get("field","") for item in self.__arinsertfv]
+        fields = ", ".join(fields)
+        sql += f"({fields}) "
+        values = [item.get("value") for item in self.__arinsertfv]
+        aux = []
+        for value in values:
+            if value == None:
+                aux.append("null")
+            else:
+                aux.append(f"'{value}'")
+        sql += "VALUES ("+" ,".join(aux)+")"
+        self.__sql = sql
+        return self.__sql
+
 
     def __get_joins(self)-> str:
         strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
