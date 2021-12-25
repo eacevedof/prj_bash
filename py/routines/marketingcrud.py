@@ -48,6 +48,18 @@ def index(tablename):
             .add_insert_fv("description","Dsc Xxxx")\
             .add_insert_fv("order_by",100)\
             .get_insert()
+    crud = ComponentCrud()
+    sql = crud\
+            .set_comment("test update")\
+            .set_table("app_array")\
+            .add_update_fv("type","yyyy")\
+            .add_update_fv("description","holas")\
+            .add_update_fv("order_by",22)\
+            .add_update_fv("code_erp", None)\
+            .add_and("id=293")\
+            .get_update()
+
+
     db.exec(sql)
 
     crud = ComponentCrud()
