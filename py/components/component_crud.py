@@ -127,7 +127,7 @@ class ComponentCrud:
         ands = self.__get_pk_ands()
         ands += self.__arands
         sql += " WHERE 1 " + ("AND "+" AND ".join(ands)) if ands else ""
-        self.__sql = sql
+        self.__sql = sql.strip()
         return self.__sql
 
     def __get_joins(self)-> str:
