@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Optional, Any, List
 
+
 class ComponentCrud:
 
     def __init__(self):
@@ -21,7 +22,6 @@ class ComponentCrud:
         self.__isfoundrows = False
         self.__isdistinct = False
 
-
     def __get_pk_ands(self)->List[str]:
         ands = []
         for d_pk in self.__arpks:
@@ -41,8 +41,8 @@ class ComponentCrud:
         self.__sql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
             return self.__sql
-        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
-        self.__sql = f"{querycomment} SELECT "
+        comment = f"/*{self.__comment}*/" if self.__comment else ""
+        self.__sql = f"{comment} SELECT "
         if self.__isfoundrows:
             self.__sql += f"SQL_CAL_FOUND_ROWS "
 
@@ -69,8 +69,8 @@ class ComponentCrud:
         if not self.__table:
             return sql
 
-        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
-        sql = f"{querycomment} INSERT INTO {self.__table} "
+        comment = f"/*{self.__comment}*/" if self.__comment else ""
+        sql = f"{comment} INSERT INTO {self.__table} "
         if not self.__arinsertfv:
             return sql
 
@@ -94,8 +94,8 @@ class ComponentCrud:
         if not self.__table:
             return sql
 
-        querycomment = f"/*{self.__comment}*/" if self.__comment else ""
-        sql = f"{querycomment} UPDATE {self.__table} SET "
+        comment = f"/*{self.__comment}*/" if self.__comment else ""
+        sql = f"{comment} UPDATE {self.__table} SET "
         if not self.__arupdatefv:
             return sql
 
@@ -119,7 +119,6 @@ class ComponentCrud:
         sql += " WHERE 1 " + ("AND "+" AND ".join(ands)) if ands else ""
         self.__sql = sql
         return self.__sql
-
 
     def __get_joins(self)-> str:
         strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
