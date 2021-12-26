@@ -43,29 +43,32 @@ class ComponentCrud:
         return ands
 
     def get_select_from(self)->str:
-        self.__sql = "-- get_selectfrom"
+        ssql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
-            return self.__sql
+            return sql
+
         comment = f"/*{self.__comment}*/" if self.__comment else ""
-        self.__sql = f"{comment} SELECT "
+        sql = f"{comment} SELECT "
         if self.__isfoundrows:
-            self.__sql += f"SQL_CAL_FOUND_ROWS "
+            sql += f"SQL_CAL_FOUND_ROWS "
 
         if self.__isdistinct:
-            self.__sql += f"DISTINCT "
+            sql += f"DISTINCT "
 
-        self.__sql += ", ".join(self.__argetfields)
-        self.__sql += f" FROM {self.__table}"
-        self.__sql += self.__get_joins()
+        sql += ", ".join(self.__argetfields)
+        sql += f" FROM {self.__table}"
+        sql += self.__get_joins()
 
         ands = self.__get_pk_ands()
         ands += self.__arands
-        self.__sql += " WHERE " + " AND ".join(ands) if ands else ""
-        self.__sql += self.__get_groupby()
-        self.__sql += self.__get_having()
-        self.__sql += self.__get_orderby()
-        self.__sql += self.__get_limit()
-        
+
+        sql += " WHERE " + " AND ".join(ands) if ands else ""
+        sql += self.__get_groupby()
+        sql += self.__get_having()
+        sql += self.__get_orderby()
+        sql += self.__get_limit()
+
+        self.__sql = sql.strip()
         return self.__sql
 
     def get_insert(self)->str:
@@ -87,6 +90,8 @@ class ComponentCrud:
         for value in values:
             if value is None:
                 aux.append("null")
+            elif value in self.__arnumeric:
+                aux.append(value)
             else:
                 aux.append(f"'{value}'")
         sql += "VALUES ("+" ,".join(aux)+")"
