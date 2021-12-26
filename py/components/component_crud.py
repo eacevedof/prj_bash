@@ -102,37 +102,17 @@ class ComponentCrud:
     def get_delete(self)->str:
         self.__sql = ""
         sql = "-- get_delete"
-        if not self.__table:
+        if not self.__table or not self.__arands:
             return sql
 
         comment = f"/*{self.__comment}*/" if self.__comment else ""
-        sql = f"{comment} DELETE {self.__table} FROM "
-        if not self.__arupdatefv:
-            return sql
+        sql = f"{comment} DELETE FROM {self.__table}"
 
-        aux = []
-        for dc in self.__arupdatefv:
-            field = dc.get("field", "")
-            if not field:
-                continue
-            value = dc.get("value")
-            if value is None:
-                aux.append(f"{field}=null")
-            elif value in self.__arnumeric:
-                aux.append(f"{field}={value}")
-            else:
-                aux.append(f"{field}='{value}'")
-
-        sql += " ,".join(aux)
-
-        ands = self.__get_pk_ands()
-        ands += self.__arands
-        sql += " WHERE 1 " + ("AND "+" AND ".join(ands)) if ands else ""
+        sql += " WHERE " + " AND ".join(self.__arands) if self.__arands else ""
         self.__sql = sql.strip()
         return self.__sql
-    
 
-    def get_delete(self)->str:
+    def get_update(self)->str:
         self.__sql = ""
         sql = "-- get_delete"
         if not self.__table:
