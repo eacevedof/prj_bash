@@ -126,6 +126,7 @@ class ComponentCrud:
         return self.__sql
 
     def __get_joins(self)-> str:
+        tmp = static.__
         strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
         return strjoins
 
@@ -213,6 +214,10 @@ class ComponentCrud:
         if isinstance(value, str):
             return value.replace("'", "\'")
         return value
+
+    @staticmethod
+    def get_unique(array:List)->List:
+        return list(set(array))
 
     def is_distinct(self, ison:bool = True) -> ComponentCrud:
         self.__isdistinct = ison
