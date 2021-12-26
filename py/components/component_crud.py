@@ -136,11 +136,13 @@ class ComponentCrud:
         return strgroupby
 
     def __get_having(self)-> str:
-        strhaving = " HAVING " + ", ".join(self.__arhaving) if self.__arhaving else ""
+        tmp = ComponentCrud.__get_unique(self.__arhaving)
+        strhaving = " HAVING " + ", ".join(tmp) if tmp else ""
         return strhaving
 
     def __get_orderby(self)-> str:
-        strorderby = " ORDER BY " + ", ".join(self.__arorderby) if self.__arorderby else ""
+        tmp = ComponentCrud.__get_unique(self.__arorderby)
+        strorderby = " ORDER BY " + ", ".join(tmp) if tmp else ""
         return strorderby
 
     def __get_limit(self)-> str:
