@@ -29,7 +29,7 @@ class ComponentCrud:
             if not field:
                 continue
             value = d_pk.get("value",None)
-            if value == None:
+            if value is None:
                 ands.append(f"{field} IS null")
             elif field in self.__arnumeric:
                 ands.append(f"{field} = {value}")
@@ -74,13 +74,13 @@ class ComponentCrud:
         if not self.__arinsertfv:
             return sql
 
-        fields = [item.get("field","") for item in self.__arinsertfv]
+        fields = [item.get("field", "") for item in self.__arinsertfv]
         fields = ", ".join(fields)
         sql += f"({fields}) "
         values = [item.get("value") for item in self.__arinsertfv]
         aux = []
         for value in values:
-            if value == None:
+            if value is None:
                 aux.append("null")
             else:
                 aux.append(f"'{value}'")
@@ -105,7 +105,7 @@ class ComponentCrud:
             if not field:
                 continue
             value = dc.get("value")
-            if value==None:
+            if value is None:
                 aux.append(f"{field}=null")
             elif value in self.__arnumeric:
                 aux.append(f"{field}={value}")
@@ -155,14 +155,14 @@ class ComponentCrud:
         self.__comment = comment
         return self
 
-    def add_insert_fv(self, field:str, value:Any, dosanitize:bool=True) -> ComponentCrud:
+    def add_insert_fv(self, field:str, value:Any, dosanitize:bool = True) -> ComponentCrud:
         self.__arinsertfv.append({
             "field": field,
             "value": self.get_sanitized(value) if dosanitize else value
         })
         return self
 
-    def add_update_fv(self, field:str, value:Any, dosanitize:bool=True) -> ComponentCrud:
+    def add_update_fv(self, field:str, value:Any, dosanitize:bool = True) -> ComponentCrud:
         self.__arupdatefv.append({
             "field": field,
             "value": self.get_sanitized(value) if dosanitize else value
@@ -197,22 +197,23 @@ class ComponentCrud:
         self.__arlimit = []
         self.__arlimit.append(str(iregfrom))
         self.__arlimit.append(str(ippage))
-        if ippage==None:
+        if ippage is None:
             self.__arlimit = []
         return self
 
-    def get_sanitized(self, value:str) -> Optional[str]:
-        if value == None:
+    @staticmethod
+    def get_sanitized(value:str) -> Optional[str]:
+        if value is None:
             return None
         if isinstance(value, str):
-            return value.replace("'","\'")
+            return value.replace("'", "\'")
         return value
 
-    def is_distinct(self, ison:bool=True) -> ComponentCrud:
+    def is_distinct(self, ison:bool = True) -> ComponentCrud:
         self.__isdistinct = ison
         return self
 
-    def is_foundrows(self, ison:bool=True) -> ComponentCrud:
+    def is_foundrows(self, ison:bool = True) -> ComponentCrud:
         self.__isfoundrows = ison
         return self
 
