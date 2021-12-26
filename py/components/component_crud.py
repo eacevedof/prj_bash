@@ -30,7 +30,7 @@ class ComponentCrud:
     def __get_pk_ands(self)->List[str]:
         ands = []
         for d_pk in self.__arpks:
-            field = d_pk.get("field","")
+            field = d_pk.get("field", "")
             if not field:
                 continue
             value = d_pk.get("value",None)
@@ -106,7 +106,7 @@ class ComponentCrud:
 
         aux = []
         for dc in self.__arupdatefv:
-            field = dc.get("field","")
+            field = dc.get("field", "")
             if not field:
                 continue
             value = dc.get("value")
