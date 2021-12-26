@@ -126,12 +126,13 @@ class ComponentCrud:
         return self.__sql
 
     def __get_joins(self)-> str:
-        tmp = static.__
-        strjoins = " " + "\n".join(self.__arjoins) if self.__arjoins else ""
+        tmp = ComponentCrud.__get_unique(self.__arjoins)
+        strjoins = " " + "\n".join(tmp) if tmp else ""
         return strjoins
 
     def __get_groupby(self)-> str:
-        strgroupby = " GROUP BY " + ", ".join(self.__argroupby) if self.__argroupby else ""
+        tmp = ComponentCrud.__get_unique(self.__argroupby)
+        strgroupby = " GROUP BY " + ", ".join(tmp) if tmp else ""
         return strgroupby
 
     def __get_having(self)-> str:
@@ -216,7 +217,7 @@ class ComponentCrud:
         return value
 
     @staticmethod
-    def get_unique(array:List)->List:
+    def __get_unique(array:List)->List:
         return list(set(array))
 
     def is_distinct(self, ison:bool = True) -> ComponentCrud:
