@@ -3,6 +3,7 @@ import mysql.connector
 #from typing import Union, Optional, Dict, List
 from typing import Dict, List
 
+
 class ComponentMysql:
 
     def __init__(self, arconn = Dict):
@@ -16,7 +17,7 @@ class ComponentMysql:
     def __get_connection(self):
         if not self.__connection:
             self.__connection = mysql.connector.connect(
-                host=self.__arconn.get("server",{}),
+                host=self.__arconn.get("server",""),
                 user=self.__arconn.get("user",""),
                 password=self.__arconn.get("password",""),
                 database=self.__arconn.get("database",""),
@@ -44,12 +45,21 @@ class ComponentMysql:
         finally:
             cursor.close()
 
-    def __get_found_rows(self, cursor) -> int:
+    @staticmethod
+    def __get_found_rows(cursor) -> int:
         cursor.execute("SELECT FOUND_ROWS() n")
         result = cursor.fetchall()
         if result:
             return int(result[0].get("n",-1))
         return 0
+
+    @staticmethod
+    def __get_last_insert_id(cursor) -> int:
+        cursor.execute("LAST_INSERT_ID() id")
+        result = cursor.fetchall()
+        if result:
+            return int(result[0].get("id",-1))
+        return -1
 
     def exec(self, sql: str):
         try:
@@ -58,6 +68,9 @@ class ComponentMysql:
             cursor.execute(sql)
             conn.commit()
             self.__iaffectedrows = cursor.rowcount
+            if sql.find("INSERT INTO ("):
+                self.__ilastid = self.__get_last_insert_id(cursor)
+
         except mysql.connector.Error as error:
             self.__arerrors.append(error)
         finally:
@@ -68,3 +81,6 @@ class ComponentMysql:
 
     def get_errors(self) -> List:
         return self.__arerrors
+
+    def get_lastid(self)->int:
+        return self.__ilastid
