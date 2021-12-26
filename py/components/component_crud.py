@@ -5,22 +5,27 @@ from typing import Optional, Any, List
 class ComponentCrud:
 
     def __init__(self):
+        self.__comment = ""
         self.__table = ""
-        self.__arinsertfv = []
-        self.__arupdatefv = []
-        self.__arpks = []
+
         self.__argetfields = []
+        self.__arpks = []
+        self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
+
         self.__arjoins = []
         self.__arands = []
         self.__arorderby = []
         self.__arhaving = []
         self.__argroupby = []
-        self.__arnumeric = [] #campos trtados como numeros para evitar '' en los insert/update
         self.__arlimit = []
-        self.__sql = ""
-        self.__comment = ""
+
+        self.__arinsertfv = []
+        self.__arupdatefv = []
+
         self.__isfoundrows = False
         self.__isdistinct = False
+
+        self.__sql = ""
 
     def __get_pk_ands(self)->List[str]:
         ands = []
