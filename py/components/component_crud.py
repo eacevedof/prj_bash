@@ -44,7 +44,7 @@ class ComponentCrud:
 
     def get_select_from(self)->str:
         self.__sql = ""
-        ssql = "-- get_selectfrom"
+        sql = "-- get_selectfrom"
         if not self.__table or not self.__argetfields:
             return sql
 
