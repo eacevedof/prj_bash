@@ -25,7 +25,7 @@ def composer(project):
         return 0
 
     ionos = DeployIonos(dicproject)
-    ionos.composer()
+    ionos.composer_vendor()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
