@@ -40,7 +40,7 @@ def run():
                 if argval != "":
                     params.append(argval)
 
-        # pprint(params); die("params to pass")
+        #pprint(params); die("params to pass")
         objfunc(*params)
 
     except Exception as error:

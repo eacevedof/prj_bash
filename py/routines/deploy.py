@@ -96,7 +96,7 @@ def frontbuildembed(project):
     pr(f"...deploy frontbuildembed of {project} has finished. ini:{timeini} - end:{timeend}")
 
 
-def backend(project):
+def backend(project, options):
     timeini = get_now()
     pr(f"deploy.backend: of {project}. {timeini}")
 
@@ -106,7 +106,7 @@ def backend(project):
         return 0
     
     ionos = DeployIonos(dicproject)
-    ionos.backend()
+    ionos.backend(options)
     timeend = get_now()
     pr(f"...deploy backend of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -125,8 +125,9 @@ def codeonly(project):
     timeend = get_now()
     pr(f"...deploy codeonly of {project} has finished. ini:{timeini} - end:{timeend}")
 
+
 # py.sh deploy tinymarket
-def index(project):
+def index(project, options):
     timeini = get_now()
     pr(f"starting deploy of {project}. {timeini}")
 
@@ -137,7 +138,7 @@ def index(project):
 
     # ppr(dicproject,"DICPROJECT RECUPERADO")
     ionos = DeployIonos(dicproject)
-    ionos.backend()
+    ionos.backend(options)
     ionos.frontend()
     ionos.pictures()
     timeend = get_now()

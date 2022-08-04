@@ -13,8 +13,10 @@ def getarg(ipos=0):
 def get_nfuncparams(fnobject):
     objsig = signature(fnobject)
     objparams = objsig.parameters
-    # pprint(objparams)
-    #die("get_numparams")
+    #pprint(objparams)
+    """
+    ('project', <Parameter "project">),('options', <Parameter "options">)
+    """
     return len(objparams)
 
 def get_modulename():
