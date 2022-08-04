@@ -5,6 +5,10 @@ from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 
+class BackendDeployType:
+    NO_VENDOR = "no-vendor"
+    NO_DB = "no-db"
+    NO_CODE = "no-code"
 
 class DeployIonos:
 
@@ -127,10 +131,23 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def backend(self, type: str = ""):
-        self.gitpull()
-        self.composer_vendor()
-        self.dbrestore()
+    def backend(self, deploytype: str = ""):
+        if not deploytype:
+            self.gitpull()
+            self.composer_vendor()
+            self.dbrestore()
+
+        if deploytype == BackendDeployType.NO_VENDOR:
+            self.gitpull()
+            self.dbrestore()
+
+        if deploytype == BackendDeployType.NO_CODE:
+            self.composer_vendor()
+            self.dbrestore()
+
+        if deploytype == BackendDeployType.NO_DB:
+            self.gitpull()
+            self.composer_vendor()
 
     # ====================================================================
     # pictures
