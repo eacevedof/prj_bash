@@ -13,6 +13,7 @@ ejemplo:
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.tools import *
 
+
 # py.sh deploy.composer tinymarket
 def composer(project):
     timeini = get_now()
@@ -27,6 +28,7 @@ def composer(project):
     ionos.composer()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
+
 
 # py.sh deploy.dbrestore tinymarket
 def dbrestore(project):
@@ -44,6 +46,7 @@ def dbrestore(project):
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
+
 # py.sh deploy.pictures tinymarket
 def pictures(project):
     timeini = get_now()
@@ -59,6 +62,7 @@ def pictures(project):
     timeend = get_now()
     pr(f"...deploy pictures of {project} has finished. ini:{timeini} - end:{timeend}")
 
+
 # py.sh deploy.frontbuild tinymarket
 def frontbuild(project):
     timeini = get_now()
@@ -73,7 +77,6 @@ def frontbuild(project):
     ionos.frontend()
     timeend = get_now()
     pr(f"...deploy frontbuild of {project} has finished. ini:{timeini} - end:{timeend}")
-
 
 
 # py.sh deploy.frontbuildembed tinymarket
@@ -106,6 +109,7 @@ def backend(project):
     ionos.backend()
     timeend = get_now()
     pr(f"...deploy backend of {project} has finished. ini:{timeini} - end:{timeend}")
+
 
 def codeonly(project):    
     timeini = get_now()
