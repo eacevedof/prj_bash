@@ -47,12 +47,22 @@ class DeployIonos:
         files = scandir(pathdb)
         files.sort(reverse=True)  # order by desc
         # pr(files);pr(pathdb); die("pathdb")
+        files = filter(lambda filename: filename.endswith(".sql"), files)
+        files = list(files)
+        if not files:
+            return
+
         return files[0]
+        # return f"{pathdb}/{files[0]}"
 
     def dbrestore(self):
         # necesito la copia en prod, cuidadin pq se sube todo el código
         # self.gitpull()
         lastdbdump = self._get_maxdbfile()
+        if not lastdbdump:
+            print(f"dbrestore: no dump .sql file found!")
+            return
+
         localdbname = self.dicproject["db"]["dblocal"]
         pathremote = self.dicproject["backend"]["prod"]["path"]
         # remote db
@@ -246,6 +256,8 @@ class DeployIonos:
     def frontend(self):
         belocal = self.dicproject["frontend"]["local"]
         pathremote = self.dicproject["frontend"]["prod"]["path"]
+        if not pathremote or not belocal:
+            return
 
         pathbuild = f"{belocal}/build"
         pathzip = f"{belocal}/build.zip"
@@ -273,6 +285,8 @@ class DeployIonos:
     def frontendembed(self):
         belocal = self.dicproject["frontendembed"]["local"]
         pathremote = self.dicproject["frontendembed"]["prod"]["path"]
+        if not belocal or not pathremote:
+            return
 
         pathbuild = f"{belocal}/build"
         pathzip = f"{belocal}/build.zip"

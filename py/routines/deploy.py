@@ -96,7 +96,7 @@ def frontbuildembed(project):
     pr(f"...deploy frontbuildembed of {project} has finished. ini:{timeini} - end:{timeend}")
 
 
-def backend(project, options):
+def backend(project, options=""):
     timeini = get_now()
     pr(f"deploy.backend: of {project}. {timeini}")
 
@@ -127,7 +127,7 @@ def codeonly(project):
 
 
 # py.sh deploy tinymarket
-def index(project, options):
+def index(project, options=""):
     timeini = get_now()
     pr(f"starting deploy of {project}. {timeini}")
 
