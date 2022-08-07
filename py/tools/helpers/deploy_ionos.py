@@ -71,6 +71,8 @@ class DeployIonos:
         # return f"{pathdb}/{files[0]}"
 
     def dbrestore(self):
+        # eaf
+        return
         # necesito la copia en prod, cuidadin pq se sube todo el código
         # self.git_pull_be()
         lastdbdump = self._get_maxdbfile()
@@ -186,6 +188,8 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
         time.sleep(1)
+        #eaf
+        return
 
         cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
         if cmds:
