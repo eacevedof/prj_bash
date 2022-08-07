@@ -156,7 +156,7 @@ class DeployIonos:
 
     def git_pull_be(self):
         pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
-        branch = self.dicproject[DEPLOYSTEP.SOURCEBE]["branch"]
+        branch = self.dicproject[DEPLOYSTEP.SOURCEBE].get("branch","main")
         dicaccess = self._get_sshaccess_back()
 
         ssh = Sshit(dicaccess)
