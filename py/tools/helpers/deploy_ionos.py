@@ -97,6 +97,7 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            time.sleep(1)
 
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
@@ -114,6 +115,7 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            time.sleep(1)
 
         ssh.execute()
         ssh.close()
@@ -176,13 +178,14 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            time.sleep(1)
 
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
         ssh.execute()
         ssh.close()
-
+        time.sleep(1)
 
         cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
         if cmds:
@@ -191,6 +194,7 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            time.sleep(1)
 
     def deploy_pre(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
@@ -204,6 +208,7 @@ class DeployIonos:
             ssh.cmd(cmd)
         ssh.execute()
         ssh.close()
+        time.sleep(1)
 
     def deploy_post(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
