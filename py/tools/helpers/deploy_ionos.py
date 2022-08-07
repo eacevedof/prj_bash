@@ -6,19 +6,21 @@ from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 
 
-class BackendDeployType:
+class BEDEPLOYTYPE:
     NO_VENDOR = "no-vendor"
     NO_DB = "no-db"
     NO_CODE = "no-code"
 
 
-class DeployStep:
+class DEPLOYSTEP:
     GENERAL = "general"
     DB = "db"
     SOURCEBE = "sourcebe"
+    SOURCEFRONT = "sourcefront"
+    PICTURES = "pictures"
 
 
-class MOMENT:
+class DEPLOYMOMENT:
     PRE = "pre"
     POST = "post"
 
@@ -29,10 +31,10 @@ class DeployIonos:
         self.dicproject = dicproject
 
     def _get_sshaccess_back(self):
-        return self.dicproject["sourcebe"]["remote"]
+        return self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]
 
     def _get_sshaccess_front(self):
-        return self.dicproject["frontend"]["remote"]
+        return self.dicproject[DEPLOYSTEP.SOURCEFRONT]["remote"]
 
     def _get_sshaccess_pictures(self):
         return self.dicproject["pictures"]["remote"]
@@ -55,7 +57,7 @@ class DeployIonos:
     # db
     # ====================================================================
     def _get_maxdbfile(self):
-        belocal = self.dicproject["sourcebe"]["local"]
+        belocal = self.dicproject[DEPLOYSTEP.SOURCEBE]["local"]
         pathdb = f"{belocal}/db"
         files = scandir(pathdb)
         files.sort(reverse=True)  # order by desc
@@ -77,7 +79,7 @@ class DeployIonos:
             return
 
         localdbname = self.dicproject["db"]["dblocal"]
-        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
+        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
         # remote db
         dbname = self.dicproject["db"]["remote"]["database"]
         dbserver = self.dicproject["db"]["remote"]["server"]
@@ -88,7 +90,7 @@ class DeployIonos:
         ssh = Sshit(dicaccess)
         ssh.connect()
 
-        pre = self._get_deploy_cmds(DeployStep.DB, MOMENT.PRE)
+        pre = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
         for cmd in pre:
             ssh.cmd(cmd)
 
@@ -101,7 +103,7 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"rm -fr var/cache")
 
-        pre = self._get_deploy_cmds(DeployStep.DB, MOMENT.POST)
+        pre = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
         for cmd in pre:
             ssh.cmd(cmd)
 
@@ -140,8 +142,8 @@ class DeployIonos:
 
     def composer_vendor(self):
         # /Users/ioedu/projects/prj_tinymarket/backend_web
-        belocal = self.dicproject["sourcebe"]["local"]
-        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
+        belocal = self.dicproject[DEPLOYSTEP.SOURCEBE]["local"]
+        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
 
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
@@ -153,7 +155,7 @@ class DeployIonos:
         os.remove(pathzip)
 
     def gitpull(self, rmcache=False):
-        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
+        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
@@ -166,7 +168,7 @@ class DeployIonos:
         ssh.close()
 
     def _deploy_pre(self):
-        cmds = self._get_deploy_cmds(DeployStep.GENERAL, MOMENT.PRE)
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
         if not cmds:
             return
 
@@ -179,7 +181,7 @@ class DeployIonos:
         ssh.close()
 
     def _deploy_post(self):
-        cmds = self._get_deploy_cmds(DeployStep.GENERAL, MOMENT.POST)
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
         if not cmds:
             return
 
@@ -191,23 +193,22 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def _get_deploy_cmds(self, step=DeployStep.GENERAL, moment=MOMENT.PRE):
-        pre = []
-        if step == DeployStep.GENERAL:
+    def _get_deploy_cmds(self, step=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
+        if step == DEPLOYSTEP.GENERAL:
             step = self.dicproject.get("deploy", {})
-        elif step == DeployStep.DB:
-            step = self.dicproject.get(DeployStep.DB, {}).get("deploy", {})
-        elif step == DeployStep.SOURCEBE:
-            step = self.dicproject.get(DeployStep.SOURCEBE, {}).get("deploy", {})
+        elif step == DEPLOYSTEP.DB:
+            step = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {})
+        elif step == DEPLOYSTEP.SOURCEBE:
+            step = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {})
         else:
             step = {}
 
         if not step:
             return
 
-        pre = step.get(moment, [])
-        pre = filter(lambda cmd: not cmd.startswith("//"), pre)
-        return pre
+        cmds = step.get(moment, [])
+        cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
+        return cmds
 
     def _deploy_pro(self):
         pre = self.dicproject.get("deploy", {}).get("pro", [])
@@ -231,15 +232,15 @@ class DeployIonos:
             self.composer_vendor()
             self.dbrestore()
 
-        if deploytype == BackendDeployType.NO_VENDOR:
+        if deploytype == BEDEPLOYTYPE.NO_VENDOR:
             self.gitpull()
             self.dbrestore()
 
-        if deploytype == BackendDeployType.NO_CODE:
+        if deploytype == BEDEPLOYTYPE.NO_CODE:
             self.composer_vendor()
             self.dbrestore()
 
-        if deploytype == BackendDeployType.NO_DB:
+        if deploytype == BEDEPLOYTYPE.NO_DB:
             self.gitpull()
             self.composer_vendor()
 
@@ -340,8 +341,8 @@ class DeployIonos:
         ssh.close()
 
     def frontend(self):
-        belocal = self.dicproject["frontend"]["local"]
-        pathremote = self.dicproject["frontend"]["remote"]["path"]
+        belocal = self.dicproject[DEPLOYSTEP.SOURCEFRONT]["local"]
+        pathremote = self.dicproject[DEPLOYSTEP.SOURCEFRONT]["remote"]["path"]
         if not pathremote or not belocal:
             return
 
