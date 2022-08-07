@@ -41,7 +41,7 @@ def dbrestore(project):
         return 0
 
     ionos = DeployIonos(dicproject)
-    ionos.gitpull() # necesito la copia en prod
+    ionos.git_pull_be() # necesito la copia en prod
     ionos.dbrestore()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
@@ -121,7 +121,7 @@ def codeonly(project):
         return 0
     
     ionos = DeployIonos(dicproject)
-    ionos.gitpull(True)
+    ionos.git_pull_be(True)
     timeend = get_now()
     pr(f"...deploy codeonly of {project} has finished. ini:{timeini} - end:{timeend}")
 

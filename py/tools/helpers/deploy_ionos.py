@@ -72,7 +72,7 @@ class DeployIonos:
 
     def dbrestore(self):
         # necesito la copia en prod, cuidadin pq se sube todo el código
-        # self.gitpull()
+        # self.git_pull_be()
         lastdbdump = self._get_maxdbfile()
         if not lastdbdump:
             print(f"dbrestore: no dump .sql file found!")
@@ -154,16 +154,14 @@ class DeployIonos:
         self._composer_unzip(pathremote)  # ssh
         os.remove(pathzip)
 
-    def gitpull(self, rmcache=False):
+    def git_pull_be(self):
         pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
-
+        branch = self.dicproject[DEPLOYSTEP.SOURCEBE]["branch"]
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd("git pull")
-        if rmcache:
-            ssh.cmd(f"rm -fr var/cache")
+        ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
         ssh.execute()
         ssh.close()
 
@@ -210,30 +208,16 @@ class DeployIonos:
         cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
         return cmds
 
-    def _deploy_pro(self):
-        pre = self.dicproject.get("deploy", {}).get("pro", [])
-        pre = filter(lambda cmd: not cmd.startswith("//"), pre)
-        if not pre:
-            return
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        for cmd in pre:
-            ssh.cmd(cmd)
-        ssh.execute()
-        ssh.close()
-
     def backend(self, deploytype: str = ""):
         self._deploy_pre()
 
         if not deploytype:
-            self.gitpull()
+            self.git_pull_be()
             self.composer_vendor()
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_VENDOR:
-            self.gitpull()
+            self.git_pull_be()
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_CODE:
@@ -241,7 +225,7 @@ class DeployIonos:
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_DB:
-            self.gitpull()
+            self.git_pull_be()
             self.composer_vendor()
 
         self._deploy_post()
