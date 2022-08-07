@@ -90,9 +90,13 @@ class DeployIonos:
         ssh = Sshit(dicaccess)
         ssh.connect()
 
-        pre = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
-        for cmd in pre:
-            ssh.cmd(cmd)
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
 
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
@@ -103,9 +107,13 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"rm -fr var/cache")
 
-        pre = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
-        for cmd in pre:
-            ssh.cmd(cmd)
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
 
         ssh.execute()
         ssh.close()
