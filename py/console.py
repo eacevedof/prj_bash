@@ -33,7 +33,7 @@ def run():
         # print(ifnparams)
         # die(ifnparams)
         params = []
-        if numparams:
+        if numparams>0:
             for iposition in range(1, numparams + 1):
                 argval = getarg(iposition + 1)
                 #print(f"argval:{argval} for {iposition}")

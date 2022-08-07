@@ -148,6 +148,7 @@ class DeployIonos:
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
 
+        return
         self._composer_zip(pathvendor, pathzip)
         # @todo aqui deberia borra e zip que existiera antes del upload
         self._composer_upload(pathzip, pathremote)  # sftp
@@ -160,20 +161,28 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_back()
 
         ssh = Sshit(dicaccess)
-        ssh.connect()
         cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
-        for cmd in cmds:
-            ssh.cmd(cmd)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
 
+        ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
-
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
-        for cmd in cmds:
-            ssh.cmd(cmd)
-
         ssh.execute()
         ssh.close()
+
+
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
 
     def deploy_pre(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
