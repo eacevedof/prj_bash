@@ -29,14 +29,14 @@ def run():
         imodule = import_module(f"routines.{modulename}")
         funcname = get_funcname()
         objfunc = getattr(imodule, funcname)
-        ifnparams = get_nfuncparams(objfunc)
+        numparams = get_nfuncparams(objfunc)
         # print(ifnparams)
         # die(ifnparams)
         params = []
-        if ifnparams > 0:
-            for iposition in range(1, ifnparams + 1):
+        if numparams:
+            for iposition in range(1, numparams + 1):
                 argval = getarg(iposition + 1)
-                print(f"argval:{argval} for {iposition}")
+                #print(f"argval:{argval} for {iposition}")
                 if argval != "":
                     params.append(argval)
 
