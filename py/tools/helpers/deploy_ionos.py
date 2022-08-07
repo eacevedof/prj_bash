@@ -5,10 +5,23 @@ from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 
+
 class BackendDeployType:
     NO_VENDOR = "no-vendor"
     NO_DB = "no-db"
     NO_CODE = "no-code"
+
+
+class DeployStep:
+    GENERAL = "general"
+    DB = "db"
+    SOURCEBE = "sourcebe"
+
+
+class MOMENT:
+    PRE = "pre"
+    POST = "post"
+
 
 class DeployIonos:
 
@@ -16,13 +29,13 @@ class DeployIonos:
         self.dicproject = dicproject
 
     def _get_sshaccess_back(self):
-        return self.dicproject["backend"]["prod"]
+        return self.dicproject["sourcebe"]["remote"]
 
     def _get_sshaccess_front(self):
-        return self.dicproject["frontend"]["prod"]
+        return self.dicproject["frontend"]["remote"]
 
     def _get_sshaccess_pictures(self):
-        return self.dicproject["pictures"]["prod"]
+        return self.dicproject["pictures"]["remote"]
 
     # no va!!
     def _rm_oldzip(self, pathupload):
@@ -42,7 +55,7 @@ class DeployIonos:
     # db
     # ====================================================================
     def _get_maxdbfile(self):
-        belocal = self.dicproject["backend"]["local"]
+        belocal = self.dicproject["sourcebe"]["local"]
         pathdb = f"{belocal}/db"
         files = scandir(pathdb)
         files.sort(reverse=True)  # order by desc
@@ -64,16 +77,21 @@ class DeployIonos:
             return
 
         localdbname = self.dicproject["db"]["dblocal"]
-        pathremote = self.dicproject["backend"]["prod"]["path"]
+        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
         # remote db
-        dbname = self.dicproject["db"]["prod"]["database"]
-        dbserver = self.dicproject["db"]["prod"]["server"]
-        dbuser = self.dicproject["db"]["prod"]["user"]
-        dbpassword = self.dicproject["db"]["prod"]["password"]
+        dbname = self.dicproject["db"]["remote"]["database"]
+        dbserver = self.dicproject["db"]["remote"]["server"]
+        dbuser = self.dicproject["db"]["remote"]["user"]
+        dbpassword = self.dicproject["db"]["remote"]["password"]
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
+
+        pre = self._get_deploy_cmds(DeployStep.DB, MOMENT.PRE)
+        for cmd in pre:
+            ssh.cmd(cmd)
+
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
         ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
@@ -82,13 +100,19 @@ class DeployIonos:
         ssh.cmd("rm temp.sql")
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"rm -fr var/cache")
+
+        pre = self._get_deploy_cmds(DeployStep.DB, MOMENT.POST)
+        for cmd in pre:
+            ssh.cmd(cmd)
+
         ssh.execute()
         ssh.close()
 
     # ====================================================================
     # backend
     # ====================================================================
-    def _composer_zip(self, pathfrom, pathto):
+    @staticmethod
+    def _composer_zip(pathfrom, pathto):
         zipdir(pathfrom, pathto)
 
     def _composer_upload(self, pathfrom, pathto):
@@ -116,8 +140,8 @@ class DeployIonos:
 
     def composer_vendor(self):
         # /Users/ioedu/projects/prj_tinymarket/backend_web
-        belocal = self.dicproject["backend"]["local"]
-        pathremote = self.dicproject["backend"]["prod"]["path"]
+        belocal = self.dicproject["sourcebe"]["local"]
+        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
 
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
@@ -129,7 +153,7 @@ class DeployIonos:
         os.remove(pathzip)
 
     def gitpull(self, rmcache=False):
-        pathremote = self.dicproject["backend"]["prod"]["path"]
+        pathremote = self.dicproject["sourcebe"]["remote"]["path"]
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
@@ -141,7 +165,67 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
+    def _deploy_pre(self):
+        cmds = self._get_deploy_cmds(DeployStep.GENERAL, MOMENT.PRE)
+        if not cmds:
+            return
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        for cmd in cmds:
+            ssh.cmd(cmd)
+        ssh.execute()
+        ssh.close()
+
+    def _deploy_post(self):
+        cmds = self._get_deploy_cmds(DeployStep.GENERAL, MOMENT.POST)
+        if not cmds:
+            return
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        for cmd in cmds:
+            ssh.cmd(cmd)
+        ssh.execute()
+        ssh.close()
+
+    def _get_deploy_cmds(self, step=DeployStep.GENERAL, moment=MOMENT.PRE):
+        pre = []
+        if step == DeployStep.GENERAL:
+            step = self.dicproject.get("deploy", {})
+        elif step == DeployStep.DB:
+            step = self.dicproject.get(DeployStep.DB, {}).get("deploy", {})
+        elif step == DeployStep.SOURCEBE:
+            step = self.dicproject.get(DeployStep.SOURCEBE, {}).get("deploy", {})
+        else:
+            step = {}
+
+        if not step:
+            return
+
+        pre = step.get(moment, [])
+        pre = filter(lambda cmd: not cmd.startswith("//"), pre)
+        return pre
+
+    def _deploy_pro(self):
+        pre = self.dicproject.get("deploy", {}).get("pro", [])
+        pre = filter(lambda cmd: not cmd.startswith("//"), pre)
+        if not pre:
+            return
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        for cmd in pre:
+            ssh.cmd(cmd)
+        ssh.execute()
+        ssh.close()
+
     def backend(self, deploytype: str = ""):
+        self._deploy_pre()
+
         if not deploytype:
             self.gitpull()
             self.composer_vendor()
@@ -159,7 +243,10 @@ class DeployIonos:
             self.gitpull()
             self.composer_vendor()
 
-    # ====================================================================
+        self._deploy_post()
+
+        # ====================================================================
+
     # pictures
     # ====================================================================
     def _pictures_zip(self, pathfrom, pathto):
@@ -189,7 +276,7 @@ class DeployIonos:
 
     def pictures(self):
         belocal = self.dicproject["pictures"]["local"]
-        pathremote = self.dicproject["pictures"]["prod"]["path"]
+        pathremote = self.dicproject["pictures"]["remote"]["path"]
 
         pathpictures = f"{belocal}/pictures"
         pathzip = f"{belocal}/pictures.zip"
@@ -255,7 +342,7 @@ class DeployIonos:
 
     def frontend(self):
         belocal = self.dicproject["frontend"]["local"]
-        pathremote = self.dicproject["frontend"]["prod"]["path"]
+        pathremote = self.dicproject["frontend"]["remote"]["path"]
         if not pathremote or not belocal:
             return
 
@@ -284,7 +371,7 @@ class DeployIonos:
 
     def frontendembed(self):
         belocal = self.dicproject["frontendembed"]["local"]
-        pathremote = self.dicproject["frontendembed"]["prod"]["path"]
+        pathremote = self.dicproject["frontendembed"]["remote"]["path"]
         if not belocal or not pathremote:
             return
 
