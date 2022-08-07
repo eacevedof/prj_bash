@@ -42,7 +42,9 @@ def dbrestore(project):
 
     ionos = DeployIonos(dicproject)
     ionos.git_pull_be() # necesito la copia en prod
+    ionos.deploy_pre()
     ionos.dbrestore()
+    ionos.deploy_post()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -58,7 +60,9 @@ def pictures(project):
         return 0
 
     ionos = DeployIonos(dicproject)
+    ionos.deploy_pre()
     ionos.pictures()
+    ionos.deploy_post()
     timeend = get_now()
     pr(f"...deploy pictures of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -74,7 +78,9 @@ def frontbuild(project):
         return 0
 
     ionos = DeployIonos(dicproject)
+    ionos.deploy_pre()
     ionos.frontend()
+    ionos.deploy_post()
     timeend = get_now()
     pr(f"...deploy frontbuild of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -91,7 +97,9 @@ def frontbuildembed(project):
 
     
     ionos = DeployIonos(dicproject)
+    ionos.deploy_pre()
     ionos.frontendembed()
+    ionos.deploy_post()
     timeend = get_now()
     pr(f"...deploy frontbuildembed of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -121,7 +129,9 @@ def codeonly(project):
         return 0
     
     ionos = DeployIonos(dicproject)
+    ionos.deploy_pre()
     ionos.git_pull_be()
+    ionos.deploy_post()
     timeend = get_now()
     pr(f"...deploy codeonly of {project} has finished. ini:{timeini} - end:{timeend}")
 

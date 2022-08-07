@@ -175,7 +175,7 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def _deploy_pre(self):
+    def deploy_pre(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
         if not cmds:
             return
@@ -188,7 +188,7 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def _deploy_post(self):
+    def deploy_post(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
         if not cmds:
             return
@@ -219,7 +219,7 @@ class DeployIonos:
         return cmds
 
     def backend(self, deploytype: str = ""):
-        self._deploy_pre()
+        self.deploy_pre()
 
         if not deploytype:
             self.git_pull_be()
@@ -238,7 +238,7 @@ class DeployIonos:
             self.git_pull_be()
             self.composer_vendor()
 
-        self._deploy_post()
+        self.deploy_post()
 
     # ====================================================================
     # pictures
@@ -271,6 +271,9 @@ class DeployIonos:
     def pictures(self):
         belocal = self.dicproject["pictures"]["local"]
         pathremote = self.dicproject["pictures"]["remote"]["path"]
+
+        if not pathremote or not belocal:
+            return
 
         pathpictures = f"{belocal}/pictures"
         pathzip = f"{belocal}/pictures.zip"
