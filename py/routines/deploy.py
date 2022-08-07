@@ -121,7 +121,7 @@ def codeonly(project):
         return 0
     
     ionos = DeployIonos(dicproject)
-    ionos.git_pull_be(True)
+    ionos.git_pull_be()
     timeend = get_now()
     pr(f"...deploy codeonly of {project} has finished. ini:{timeini} - end:{timeend}")
 

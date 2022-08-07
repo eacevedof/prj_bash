@@ -158,10 +158,20 @@ class DeployIonos:
         pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
         branch = self.dicproject[DEPLOYSTEP.SOURCEBE]["branch"]
         dicaccess = self._get_sshaccess_back()
+
         ssh = Sshit(dicaccess)
         ssh.connect()
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
+        for cmd in cmds:
+            ssh.cmd(cmd)
+
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
+
+        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
+        for cmd in cmds:
+            ssh.cmd(cmd)
+
         ssh.execute()
         ssh.close()
 
