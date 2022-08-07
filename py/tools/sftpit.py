@@ -3,6 +3,7 @@ import sys
 import os
 import copy
 
+
 # https://stackoverflow.com/questions/432385/sftp-in-python-platform-independent
 class Sftpit:
     objserver = None
@@ -16,7 +17,7 @@ class Sftpit:
         config = copy.deepcopy(self.dicaccess)
         host = config["host"]
         del config["path"]
-        #print(config);sys.exit()
+        # print(config);sys.exit()
         try:
             # self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)
             self.objserver = pysftp.Connection(**config)
@@ -25,12 +26,12 @@ class Sftpit:
             self.objserver = None
             print(f"Sftpit: error trying to connect to {host} error: {error}")
 
-    def execute(self,strcmd):
+    def execute(self, strcmd):
         print(f"Sftpit: executing: {strcmd}")
         objsrv = self.objserver
         objsrv.execute(strcmd)
 
-    def upload(self, pathlocal,pathdirserv,fr=1):
+    def upload(self, pathlocal, pathdirserv, fr=1):
         filesize = os.path.getsize(pathlocal)
         print(f"Sftpit: trying to upload {pathlocal} ({filesize})...")
         if self.objserver is None:
@@ -44,15 +45,15 @@ class Sftpit:
 
         objsrv = self.objserver
         filename = os.path.basename(pathlocal)
-        fileserver = pathdirserv +"/"+filename
+        fileserver = pathdirserv + "/" + filename
 
         if objsrv.isfile(fileserver):
-            if fr==1:
+            if fr == 1:
                 self.execute(f"rm -f {fileserver}")
             else:
                 print(f"Sftpit: file {pathlocal} not uploaded! file {fileserver}  already exists in server")
                 return 0
-        
+
         if not objsrv.isdir(pathdirserv):
             # print(objsrv.listdir())
             # print(objsrv.pwd) devuelve / que es equivalente a $HOME pero no puedo ni debo usar $HOME o ~
@@ -62,8 +63,8 @@ class Sftpit:
         objsrv.chdir(pathdirserv)
         objsrv.put(pathlocal)
         print(f"Sftpit: upload of {pathlocal} finished")
-    
-    def download(self,pathfrom,pathto):
+
+    def download(self, pathfrom, pathto):
         print(f"Sftpit: downloading from:{pathfrom} to:{pathto}")
         objsrv = self.objserver
         objsrv.get(pathfrom, pathto)
@@ -75,7 +76,3 @@ class Sftpit:
 
     def is_connected(self):
         return self.objserver is not None
-
-
-
-
