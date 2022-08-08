@@ -75,8 +75,6 @@ class DeployIonos:
         # return f"{pathdb}/{files[0]}"
 
     def dbrestore(self):
-        # eaf
-        return
         # necesito la copia en prod, cuidadin pq se sube todo el código
         # self.git_pull_be()
         lastdbdump = self.__get_latest_sqldump()
@@ -94,11 +92,10 @@ class DeployIonos:
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
-        ssh.connect()
-
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
         self.__run_groups_of_cmds(ssh, cmds)
 
+        ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
         ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
@@ -106,20 +103,14 @@ class DeployIonos:
             f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < $HOME/{pathremote}/db/temp.sql")
         ssh.cmd("rm temp.sql")
         ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd(f"rm -fr var/cache")
-
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            ssh.clear()
-            time.sleep(1)
-
         ssh.execute()
         ssh.close()
+        ssh.clear()
+
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
+        self.__run_groups_of_cmds(ssh, cmds)
+
+
 
     # ====================================================================
     # backend
