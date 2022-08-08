@@ -12,7 +12,7 @@ class Sshit:
     success = ""
 
     def __init__(self, dicaccess):
-        print("Sshit: initializing...")
+        print("Sshit: constructing...")
         self.commands = []
         self.error = ""
         self.success = ""
