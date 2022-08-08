@@ -36,6 +36,7 @@ class Sshit:
     def _cleanresponse(strrespose):
         strrespose = strrespose.decode()
         strclenaed = strrespose.replace("b'", "").replace("\\\\n'", "")
+        strclenaed = strclenaed.strip()
         return strclenaed
 
     def _print_cmd(self, strcmd, outdata, error):
@@ -44,14 +45,17 @@ class Sshit:
         # print(f"\nerror: {error.read()}")
         strcleaned = self._cleanresponse(outdata.read())
         error = self._cleanresponse(error.read())
+        print(f"\nstart===============================================")
         if error != "":
             self.error = error
-            print(f"\nSshit cmd error:\n\t {strcmd}")
-            print(f"{error}")
+            print(f"Sshit cmd error:\n\t {strcmd}")
+            print(f"\n{error}")
+            print(f"end================================================\n")
             return
 
         self.success = strcleaned
-        print(f"\nSshit result of:\n\t{strcmd}\n\n {strcleaned}")
+        print(f"Sshit result of:\n\t{strcmd}\n\n {strcleaned}")
+        print(f"end================================================\n")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
