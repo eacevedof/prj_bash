@@ -92,7 +92,7 @@ class DeployIonos:
         ssh = Sshit(dicaccess)
         ssh.connect()
 
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
         if cmds:
             ssh.connect()
             for cmd in cmds:
@@ -110,7 +110,7 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"rm -fr var/cache")
 
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
         if cmds:
             ssh.connect()
             for cmd in cmds:
@@ -174,7 +174,7 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_back()
 
         ssh = Sshit(dicaccess)
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
         if cmds:
             ssh.connect()
             for cmd in cmds:
@@ -193,7 +193,7 @@ class DeployIonos:
         #eaf
         return
 
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
         if cmds:
             ssh.connect()
             for cmd in cmds:
@@ -203,7 +203,7 @@ class DeployIonos:
             time.sleep(1)
 
     def deploy_pre_general(self):
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
         if not cmds:
             return
 
@@ -217,7 +217,7 @@ class DeployIonos:
         time.sleep(1)
 
     def deploy_post_general(self):
-        cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
         if not cmds:
             return
 
@@ -229,7 +229,7 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def _get_deploy_cmds(self, step=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
+    def __get_deploy_cmds(self, step=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
         if step == DEPLOYSTEP.GENERAL:
             step = self.dicproject.get("deploy", {})
         elif step == DEPLOYSTEP.DB:
@@ -251,6 +251,7 @@ class DeployIonos:
 
         if not deploytype:
             self.git_pull_be()
+            #eaf
             return
             self.composer_vendor()
             self.dbrestore()
