@@ -367,7 +367,6 @@ class DeployIonos:
         ssh.close()
 
     def frontend(self):
-        return
         belocal = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("local","")
         pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote",{}).get("path","")
         if not pathremote or not belocal:
