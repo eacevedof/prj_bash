@@ -188,11 +188,15 @@ class DeployIonos:
             return []
 
         allcmds = deploydata.get(moment, [])
+        if not allcmds:
+            return []
+
         mapped = []
         for cmds in allcmds:
             if not cmds:
                 continue
             cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
+            cmds = filter(lambda cmd: bool(cmd.strip()), cmds)
             if cmds:
                 mapped.append(list(cmds))
         return mapped
