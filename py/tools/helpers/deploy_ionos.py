@@ -200,7 +200,7 @@ class DeployIonos:
             ssh.close()
             time.sleep(1)
 
-    def deploy_pre(self):
+    def deploy_pre_general(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
         if not cmds:
             return
@@ -214,7 +214,7 @@ class DeployIonos:
         ssh.close()
         time.sleep(1)
 
-    def deploy_post(self):
+    def deploy_post_general(self):
         cmds = self._get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
         if not cmds:
             return
@@ -245,7 +245,7 @@ class DeployIonos:
         return cmds
 
     def backend(self, deploytype: str = ""):
-        self.deploy_pre()
+        self.deploy_pre_general()
 
         if not deploytype:
             self.git_pull_be()
@@ -264,7 +264,7 @@ class DeployIonos:
             self.git_pull_be()
             self.composer_vendor()
 
-        self.deploy_post()
+        self.deploy_post_general()
 
     # ====================================================================
     # pictures
