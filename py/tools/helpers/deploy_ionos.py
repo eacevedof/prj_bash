@@ -27,6 +27,7 @@ class DEPLOYMOMENT:
 
 class DEPLOYOPTIONS:
     VENDOR_BY_COPY = "vendor-by-copy"
+    DB_BY_MIGRATIONS = "db-by-migration"
 
 
 class DeployIonos:
@@ -88,6 +89,10 @@ class DeployIonos:
         return files[0] if files else ""
 
     def __restore_from_dump(self):
+        options = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {}).get("options", [])
+        if DEPLOYOPTIONS.DB_BY_MIGRATIONS in options:
+            return
+
         lastdbdump = self.__get_latest_sqldump_name()
         if not lastdbdump:
             print(f"sql dump file not found!")
@@ -108,9 +113,9 @@ class DeployIonos:
         ssh.cmd(f"cp {lastdbdump} temp.sql")
         ssh.cmd(f"sed -i 's/ {localdbname}/{dbname}/' ./temp.sql")
         ssh.cmd(
-            f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < $HOME/{pathremote}/db/temp.sql")
+            f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < {pathremote}/temp.sql"
+        )
         ssh.cmd("rm temp.sql")
-        ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.execute()
         ssh.close()
 
