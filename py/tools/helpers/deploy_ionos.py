@@ -76,15 +76,12 @@ class DeployIonos:
         return list(map(only_names, files))
 
     def __get_latest_sqldump_name(self):
+        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("dumpfile", "")
+        if filedump:
+            return filedump
+
         pathdumps = self.dicproject.get(DEPLOYSTEP.DB, {}).get("pathdumps", "")
         files = self.__get_files_by_creation_date_desc(pathdumps)
-
-        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("filename", "")
-        files = filter(lambda filename: filename.endswith(".sql"), files)
-        if filedump:
-            files = list(filter(lambda filename: filename.find(filedump) != -1, files))
-            return files[0] if files else ""
-
         files = list(files)
         return files[0] if files else ""
 
@@ -229,7 +226,6 @@ class DeployIonos:
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
-        ssh.connect()
         self.__run_groups_of_cmds(ssh, cmds)
 
     def deploy_post_general(self):
