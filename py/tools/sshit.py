@@ -2,9 +2,9 @@ import sys
 from getpass import getpass
 import paramiko
 
+
 # http://46.101.4.154/Art%C3%ADculos%20t%C3%A9cnicos/Python/Paramiko%20-%20Conexiones%20SSH%20y%20SFTP.pdf
 class Sshit:
-
     shell = None
     dicaccess = None
     commands = []
@@ -25,27 +25,28 @@ class Sshit:
 
         try:
             print(f"Sshit: ...trying to connect to {host}")
-            self.shell.connect(self.dicaccess["host"],22,self.dicaccess["username"],self.dicaccess["password"])       
+            self.shell.connect(self.dicaccess["host"], 22, self.dicaccess["username"], self.dicaccess["password"])
         except Exception as error:
             self.shell = None
             print(f"Sshit: not connected to host: {host}. error: {error}")
 
-
-    def _cleanresponse(self,strrespose):
+    def _cleanresponse(self, strrespose):
         strrespose = strrespose.decode()
-        strclenaed = strrespose.replace("b'","").replace("\\\\n'","")
+        strclenaed = strrespose.replace("b'", "").replace("\\\\n'", "")
         return strclenaed
 
-    def _print_cmd(self, indata, outdata, error):
-        #print(f"\nindata : {indata}")
-        #print(f"\noutdata: {outdata.read()}")
-        #print(f"\nerror: {error.read()}")
+    def _print_cmd(self, strcmd, outdata, error):
+        # print(f"\nindata : {indata}")
+        # print(f"\noutdata: {outdata.read()}")
+        # print(f"\nerror: {error.read()}")
         cleaned = self._cleanresponse(outdata.read())
-        print(f"Sshit: output: {cleaned}")
-        cleaned = self._cleanresponse(error.read())
-        if cleaned != "":
-            print(f"Sshit error on cmd: {indata}")
-            print(f"err result: {cleaned}")
+        error = self._cleanresponse(error.read())
+        if error != "":
+            print(f"Sshit cmd error: {strcmd}")
+            print(f"{error}")
+            return
+
+        print(f"Sshit result of {strcmd}: {cleaned}")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
@@ -58,11 +59,11 @@ class Sshit:
         if self.is_connected():
             shell = self.shell
             strcmd = self._get_unique_cmd()
-            prcmd = strcmd.replace(";","\n\t")
+            prcmd = strcmd.replace(";", "\n\t")
             print(f"Sshit: cmd: {prcmd}")
             # shell.exec_command abre una instancia nueva por eso hay que contactenar los comandos
             indata, outdata, error = shell.exec_command(strcmd)
-            self._print_cmd(indata, outdata, error)
+            self._print_cmd(strcmd, outdata, error)
 
     def close(self):
         if self.is_connected():
@@ -76,4 +77,4 @@ class Sshit:
     def is_connected(self):
         return self.shell is not None
 
-#end
+# end
