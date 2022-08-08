@@ -8,6 +8,8 @@ class Sshit:
     shell = None
     dicaccess = None
     commands = []
+    error = ""
+    success = ""
 
     def __init__(self, dicaccess):
         print("Sshit: initializing...")
@@ -40,14 +42,16 @@ class Sshit:
         # print(f"\nindata : {indata}")
         # print(f"\noutdata: {outdata.read()}")
         # print(f"\nerror: {error.read()}")
-        cleaned = self._cleanresponse(outdata.read())
+        strcleaned = self._cleanresponse(outdata.read())
         error = self._cleanresponse(error.read())
         if error != "":
-            print(f"Sshit cmd error: {strcmd}")
+            self.error = error
+            print(f"\nSshit cmd error:\n\t {strcmd}")
             print(f"{error}")
             return
 
-        print(f"Sshit result of \"{strcmd}\"\n: {cleaned}")
+        self.success = strcleaned
+        print(f"\nSshit result of:\n\t{strcmd}\n\t {strcleaned}")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
@@ -71,9 +75,17 @@ class Sshit:
             self.shell.close()
 
     def clear(self):
+        self.success = ""
+        self.error = ""
         self.commands = []
 
     def is_connected(self):
         return self.shell is not None
+
+    def success(self):
+        return self.success
+
+    def error(self):
+        return self.error
 
 # end
