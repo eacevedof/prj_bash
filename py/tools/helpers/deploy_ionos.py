@@ -63,14 +63,22 @@ class DeployIonos:
     @staticmethod
     def __get_files_by_creation_date_desc(dirpath):
         files = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
-        files.sort(key=lambda f: os.path.getmtime(os.path.join(dirpath, f)))
-        return files
+        if not files:
+            return []
 
-    def __get_latest_sqldump(self):
+        files.sort(key=lambda f: os.path.getmtime(os.path.join(dirpath, f)))
+
+        def only_names(path):
+            head, tail = os.path.split(path)
+            return tail
+
+        return list(map(only_names, files))
+
+    def __get_latest_sqldump_name(self):
         pathdumps = self.dicproject.get(DEPLOYSTEP.DB, {}).get("pathdumps", "")
         files = self.__get_files_by_creation_date_desc(pathdumps)
 
-        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("local", "")
+        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("filename", "")
         files = filter(lambda filename: filename.endswith(".sql"), files)
         if filedump:
             files = filter(lambda filename: filename.find(filedump) != -1, files)
@@ -80,13 +88,13 @@ class DeployIonos:
         return files[0] if files else ""
 
     def __restore_from_dump(self):
-        lastdbdump = self.__get_latest_sqldump()
+        lastdbdump = self.__get_latest_sqldump_name()
         if not lastdbdump:
             print(f"sql dump file not found!")
             return
 
         localdbname = self.dicproject.get(DEPLOYSTEP.DB, {}).get("dblocal", "")
-        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
+        pathremote = self.dicproject.get(DEPLOYSTEP.DB, {}).get("remote", {}).get("pathdumps", "")
         # remote db
         dbname = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("database", "")
         dbserver = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("server", "")
@@ -96,9 +104,9 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathremote}/db")
+        ssh.cmd(f"cd {pathremote}")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
-        ssh.cmd(f"python $HOME/mi_python/replacer.py {localdbname} {dbname} ./temp.sql")
+        ssh.cmd(f"sed -i 's/ {localdbname}/{dbname}/' ./temp.sql")
         ssh.cmd(
             f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < $HOME/{pathremote}/db/temp.sql")
         ssh.cmd("rm temp.sql")
