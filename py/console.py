@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys, os
+import traceback
 
 sys.path.append(os.path.realpath("."))
 from importlib import import_module
@@ -43,8 +44,9 @@ def run():
         #pprint(params); die("params to pass")
         objfunc(*params)
 
-    except Exception as error:
-        die(f" error: {error}")
+    except:
+        traceback.print_exc()
+        die(f"error")
 
 
 run()

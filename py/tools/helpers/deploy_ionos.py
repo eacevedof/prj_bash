@@ -169,12 +169,12 @@ class DeployIonos:
         self._composer_unzip(pathremote)  # ssh
         os.remove(pathzip)
 
-    def __get_deploy_cmds(self, step=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
-        if step == DEPLOYSTEP.GENERAL:
+    def __get_deploy_cmds(self, deploy=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
+        if deploy == DEPLOYSTEP.GENERAL:
             step = self.dicproject.get("deploy", {})
-        elif step == DEPLOYSTEP.DB:
+        elif deploy == DEPLOYSTEP.DB:
             step = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {})
-        elif step == DEPLOYSTEP.SOURCEBE:
+        elif deploy == DEPLOYSTEP.SOURCEBE:
             step = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {})
         else:
             step = {}
@@ -182,9 +182,28 @@ class DeployIonos:
         if not step:
             return
 
-        cmds = step.get(moment, [])
-        cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
-        return cmds
+        allcmds = step.get(moment, [])
+        mapped = []
+        for cmds in allcmds:
+            if not cmds:
+                continue
+            cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
+            if cmds:
+                mapped.append(list(cmds))
+        return mapped
+
+    @staticmethod
+    def __run_groups_of_cmds(ssh, allcmds):
+        if not allcmds:
+            return
+
+        for cmds in allcmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
+            ssh.clear()
 
     def git_pull_be(self):
         # eaf
@@ -194,14 +213,7 @@ class DeployIonos:
 
         ssh = Sshit(dicaccess)
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            ssh.clear()
-            time.sleep(1)
+        self.__run_groups_of_cmds(ssh, cmds)
 
         return
         ssh.connect()
