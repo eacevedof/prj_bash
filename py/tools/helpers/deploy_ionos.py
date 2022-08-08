@@ -76,17 +76,25 @@ class DeployIonos:
         return list(map(only_names, files))
 
     def __get_latest_sqldump_name(self):
-        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("dumpfile", "")
+        db = self.dicproject.get(DEPLOYSTEP.DB, {})
+        if not db:
+            return ""
+
+        filedump = db.get("dumpfile", "")
         if filedump:
             return filedump
 
-        pathdumps = self.dicproject.get(DEPLOYSTEP.DB, {}).get("pathdumps", "")
+        pathdumps = db.get("pathdumps", "")
         files = self.__get_files_by_creation_date_desc(pathdumps)
         files = list(files)
         return files[0] if files else ""
 
     def __restore_from_dump(self):
-        options = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {}).get("options", [])
+        db = self.dicproject.get(DEPLOYSTEP.DB, {})
+        if not db:
+            return
+
+        options = db.get("deploy", {}).get("options", [])
         if DEPLOYOPTIONS.DB_BY_MIGRATIONS in options:
             return
 
@@ -95,13 +103,13 @@ class DeployIonos:
             print(f"sql dump file not found!")
             return
 
-        localdbname = self.dicproject.get(DEPLOYSTEP.DB, {}).get("dblocal", "")
-        pathremote = self.dicproject.get(DEPLOYSTEP.DB, {}).get("remote", {}).get("pathdumps", "")
+        localdbname = db.get("dblocal", "")
+        pathremote = db.get("remote", {}).get("pathdumps", "")
         # remote db
-        dbname = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("database", "")
-        dbserver = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("server", "")
-        dbuser = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("user", "")
-        dbpassword = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("password", "")
+        dbname = db.get("remote", {}).get("database", "")
+        dbserver = db.get("remote", {}).get("server", "")
+        dbuser = db.get("remote", {}).get("user", "")
+        dbpassword = db.get("remote", {}).get("password", "")
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
