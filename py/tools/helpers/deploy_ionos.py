@@ -210,7 +210,7 @@ class DeployIonos:
             ssh.close()
             ssh.clear()
 
-    def git_pull_be(self):
+    def deploy_code(self):
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
@@ -241,12 +241,12 @@ class DeployIonos:
         self.deploy_pre_general()
 
         if not deploytype:
-            #self.git_pull_be()
-            #self.composer_vendor()
+            self.deploy_code()
+            self.composer_vendor()
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_VENDOR:
-            self.git_pull_be()
+            self.deploy_code()
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_CODE:
@@ -254,7 +254,7 @@ class DeployIonos:
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_DB:
-            self.git_pull_be()
+            self.deploy_code()
             self.composer_vendor()
 
         self.deploy_post_general()
