@@ -197,8 +197,9 @@ class DeployIonos:
                 continue
             cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
             cmds = filter(lambda cmd: bool(cmd.strip()), cmds)
+            cmds = list(cmds)
             if cmds:
-                mapped.append(list(cmds))
+                mapped.append(cmds)
         return mapped
 
     @staticmethod
