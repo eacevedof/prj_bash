@@ -59,12 +59,10 @@ class Sshit:
     def execute(self):
         if self.is_connected():
             shell = self.shell
-            strcmd = self._get_unique_cmd()
-            prcmd = strcmd.replace(";", "\n\t")
-            print(f"Sshit: cmd: {prcmd}")
-            # shell.exec_command abre una instancia nueva por eso hay que contactenar los comandos
-            indata, outdata, error = shell.exec_command(strcmd)
-            self._print_cmd(strcmd, outdata, error)
+            onelinecmd = self._get_unique_cmd()
+            # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
+            indata, outdata, error = shell.exec_command(onelinecmd)
+            self._print_cmd(onelinecmd, outdata, error)
 
     def close(self):
         if self.is_connected():
