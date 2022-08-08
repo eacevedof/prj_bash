@@ -31,13 +31,13 @@ class DeployIonos:
         self.dicproject = dicproject
 
     def _get_sshaccess_back(self):
-        return self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote",{})
+        return self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {})
 
     def _get_sshaccess_front(self):
-        return self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote",{})
+        return self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote", {})
 
     def _get_sshaccess_pictures(self):
-        return self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote",{})
+        return self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote", {})
 
     # no va!!
     def _rm_oldzip(self, pathupload):
@@ -99,6 +99,7 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            ssh.clear()
             time.sleep(1)
 
         ssh.cmd(f"cd $HOME/{pathremote}/db")
@@ -117,6 +118,7 @@ class DeployIonos:
                 ssh.cmd(cmd)
             ssh.execute()
             ssh.close()
+            ssh.clear()
             time.sleep(1)
 
         ssh.execute()
@@ -167,68 +169,6 @@ class DeployIonos:
         self._composer_unzip(pathremote)  # ssh
         os.remove(pathzip)
 
-    def git_pull_be(self):
-        # eaf
-        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote",{}).get("path","")
-        branch = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("branch", "main")
-        dicaccess = self._get_sshaccess_back()
-
-        ssh = Sshit(dicaccess)
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            time.sleep(1)
-
-        return
-        ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
-        ssh.execute()
-        ssh.close()
-        time.sleep(1)
-        #eaf
-        return
-
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            time.sleep(1)
-
-    def deploy_pre_general(self):
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
-        if not cmds:
-            return
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        for cmd in cmds:
-            ssh.cmd(cmd)
-        ssh.execute()
-        ssh.close()
-        time.sleep(1)
-
-    def deploy_post_general(self):
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
-        if not cmds:
-            return
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        for cmd in cmds:
-            ssh.cmd(cmd)
-        ssh.execute()
-        ssh.close()
-
     def __get_deploy_cmds(self, step=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
         if step == DEPLOYSTEP.GENERAL:
             step = self.dicproject.get("deploy", {})
@@ -246,12 +186,78 @@ class DeployIonos:
         cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
         return cmds
 
+    def git_pull_be(self):
+        # eaf
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
+        branch = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("branch", "main")
+        dicaccess = self._get_sshaccess_back()
+
+        ssh = Sshit(dicaccess)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
+            ssh.clear()
+            time.sleep(1)
+
+        return
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathremote}")
+        ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
+        ssh.execute()
+        ssh.close()
+        ssh.clear()
+        time.sleep(1)
+        # eaf
+        return
+
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
+        if cmds:
+            ssh.connect()
+            for cmd in cmds:
+                ssh.cmd(cmd)
+            ssh.execute()
+            ssh.close()
+            ssh.clear()
+            time.sleep(1)
+
+    def deploy_pre_general(self):
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
+        if not cmds:
+            return
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        for cmd in cmds:
+            ssh.cmd(cmd)
+        ssh.execute()
+        ssh.close()
+        ssh.clear()
+        time.sleep(1)
+
+    def deploy_post_general(self):
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
+        if not cmds:
+            return
+
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        for cmd in cmds:
+            ssh.cmd(cmd)
+        ssh.execute()
+        ssh.close()
+
     def backend(self, deploytype: str = ""):
         self.deploy_pre_general()
 
         if not deploytype:
             self.git_pull_be()
-            #eaf
+            # eaf
             return
             self.composer_vendor()
             self.dbrestore()
@@ -299,8 +305,8 @@ class DeployIonos:
         ssh.close()
 
     def pictures(self):
-        belocal = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("local","")
-        pathremote = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote",{}).get("path","")
+        belocal = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("local", "")
+        pathremote = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote", {}).get("path", "")
 
         if not pathremote or not belocal:
             return
@@ -368,8 +374,8 @@ class DeployIonos:
         ssh.close()
 
     def frontend(self):
-        belocal = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("local","")
-        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote",{}).get("path","")
+        belocal = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("local", "")
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote", {}).get("path", "")
         if not pathremote or not belocal:
             return
 

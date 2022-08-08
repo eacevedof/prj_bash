@@ -47,7 +47,7 @@ class Sshit:
             print(f"{error}")
             return
 
-        print(f"Sshit result of {strcmd}: {cleaned}")
+        print(f"Sshit result of \"{strcmd}\"\n: {cleaned}")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
