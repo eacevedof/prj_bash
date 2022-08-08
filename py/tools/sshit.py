@@ -30,7 +30,8 @@ class Sshit:
             self.shell = None
             print(f"Sshit: not connected to host: {host}. error: {error}")
 
-    def _cleanresponse(self, strrespose):
+    @staticmethod
+    def _cleanresponse(strrespose):
         strrespose = strrespose.decode()
         strclenaed = strrespose.replace("b'", "").replace("\\\\n'", "")
         return strclenaed
