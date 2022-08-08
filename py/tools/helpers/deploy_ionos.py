@@ -60,41 +60,41 @@ class DeployIonos:
     # ====================================================================
     # db
     # ====================================================================
+    @staticmethod
+    def __get_files_by_creation_date_desc(dirpath):
+        files = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
+        files.sort(key=lambda f: os.path.getmtime(os.path.join(dirpath, f)))
+        return files
+
     def __get_latest_sqldump(self):
-        belocal = self.dicproject[DEPLOYSTEP.SOURCEBE]["local"]
-        pathdb = f"{belocal}/db"
-        files = scandir(pathdb)
-        files.sort(reverse=True)  # order by desc
-        # pr(files);pr(pathdb); die("pathdb")
+        pathdumps = self.dicproject.get(DEPLOYSTEP.DB, {}).get("pathdumps", "")
+        files = self.__get_files_by_creation_date_desc(pathdumps)
+
+        filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("local", "")
         files = filter(lambda filename: filename.endswith(".sql"), files)
+        if filedump:
+            files = filter(lambda filename: filename.find(filedump) != -1, files)
+            return files[0] if files else ""
+
         files = list(files)
-        if not files:
-            return
+        return files[0] if files else ""
 
-        return files[0]
-        # return f"{pathdb}/{files[0]}"
-
-    def dbrestore(self):
-        # necesito la copia en prod, cuidadin pq se sube todo el código
-        # self.git_pull_be()
+    def __restore_from_dump(self):
         lastdbdump = self.__get_latest_sqldump()
         if not lastdbdump:
-            print(f"dbrestore: no dump .sql file found!")
+            print(f"sql dump file not found!")
             return
 
-        localdbname = self.dicproject["db"]["dblocal"]
-        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
+        localdbname = self.dicproject.get(DEPLOYSTEP.DB, {}).get("dblocal", "")
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
         # remote db
-        dbname = self.dicproject["db"]["remote"]["database"]
-        dbserver = self.dicproject["db"]["remote"]["server"]
-        dbuser = self.dicproject["db"]["remote"]["user"]
-        dbpassword = self.dicproject["db"]["remote"]["password"]
+        dbname = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("database", "")
+        dbserver = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("server", "")
+        dbuser = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("user", "")
+        dbpassword = self.dicproject.get(DEPLOYSTEP.DB).get("remote", {}).get("password", "")
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
-        self.__run_groups_of_cmds(ssh, cmds)
-
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
@@ -105,12 +105,17 @@ class DeployIonos:
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.execute()
         ssh.close()
-        ssh.clear()
+
+    def dbrestore(self):
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
+        self.__run_groups_of_cmds(ssh, cmds)
+
+        self.__restore_from_dump()
 
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
         self.__run_groups_of_cmds(ssh, cmds)
-
-
 
     # ====================================================================
     # backend
