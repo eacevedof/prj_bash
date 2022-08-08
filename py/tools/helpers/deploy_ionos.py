@@ -31,13 +31,13 @@ class DeployIonos:
         self.dicproject = dicproject
 
     def _get_sshaccess_back(self):
-        return self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]
+        return self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote",{})
 
     def _get_sshaccess_front(self):
-        return self.dicproject[DEPLOYSTEP.SOURCEFRONT]["remote"]
+        return self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote",{})
 
     def _get_sshaccess_pictures(self):
-        return self.dicproject["pictures"]["remote"]
+        return self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote",{})
 
     # no va!!
     def _rm_oldzip(self, pathupload):
@@ -168,6 +168,8 @@ class DeployIonos:
         os.remove(pathzip)
 
     def git_pull_be(self):
+        # eaf
+        return
         pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
         branch = self.dicproject[DEPLOYSTEP.SOURCEBE].get("branch","main")
         dicaccess = self._get_sshaccess_back()
@@ -249,6 +251,7 @@ class DeployIonos:
 
         if not deploytype:
             self.git_pull_be()
+
             self.composer_vendor()
             self.dbrestore()
 
@@ -295,8 +298,8 @@ class DeployIonos:
         ssh.close()
 
     def pictures(self):
-        belocal = self.dicproject["pictures"]["local"]
-        pathremote = self.dicproject["pictures"]["remote"]["path"]
+        belocal = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("local","")
+        pathremote = self.dicproject.get(DEPLOYSTEP.PICTURES, {}).get("remote",{}).get("path","")
 
         if not pathremote or not belocal:
             return
@@ -364,8 +367,9 @@ class DeployIonos:
         ssh.close()
 
     def frontend(self):
-        belocal = self.dicproject[DEPLOYSTEP.SOURCEFRONT]["local"]
-        pathremote = self.dicproject[DEPLOYSTEP.SOURCEFRONT]["remote"]["path"]
+        return
+        belocal = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("local","")
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEFRONT, {}).get("remote",{}).get("path","")
         if not pathremote or not belocal:
             return
 
