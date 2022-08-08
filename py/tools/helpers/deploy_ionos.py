@@ -116,7 +116,7 @@ class DeployIonos:
         ssh.execute()
         ssh.close()
 
-    def dbrestore(self):
+    def db_filerestore(self):
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
@@ -243,15 +243,15 @@ class DeployIonos:
         if not deploytype:
             self.deploy_code()
             self.composer_vendor()
-            self.dbrestore()
+            self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_VENDOR:
             self.deploy_code()
-            self.dbrestore()
+            self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_CODE:
             self.composer_vendor()
-            self.dbrestore()
+            self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_DB:
             self.deploy_code()

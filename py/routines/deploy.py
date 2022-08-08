@@ -43,7 +43,7 @@ def dbrestore(project):
     ionos = DeployIonos(dicproject)
     # to fix
     ionos.deploy_code() # necesito la copia en prod
-    ionos.dbrestore()
+    ionos.db_filerestore()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -90,7 +90,6 @@ def frontbuildembed(project):
         pr(f"No deployed: project {project} not found")
         return 0
 
-    
     ionos = DeployIonos(dicproject)
     ionos.frontendembed()
     timeend = get_now()
