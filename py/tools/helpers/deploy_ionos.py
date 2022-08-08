@@ -25,6 +25,10 @@ class DEPLOYMOMENT:
     POST = "post"
 
 
+class DEPLOYOPTIONS:
+    VENDOR_BY_COPY = "vendor-by-copy"
+
+
 class DeployIonos:
 
     def __init__(self, dicproject):
@@ -56,7 +60,7 @@ class DeployIonos:
     # ====================================================================
     # db
     # ====================================================================
-    def _get_maxdbfile(self):
+    def __get_latest_sqldump(self):
         belocal = self.dicproject[DEPLOYSTEP.SOURCEBE]["local"]
         pathdb = f"{belocal}/db"
         files = scandir(pathdb)
@@ -75,7 +79,7 @@ class DeployIonos:
         return
         # necesito la copia en prod, cuidadin pq se sube todo el código
         # self.git_pull_be()
-        lastdbdump = self._get_maxdbfile()
+        lastdbdump = self.__get_latest_sqldump()
         if not lastdbdump:
             print(f"dbrestore: no dump .sql file found!")
             return
@@ -93,14 +97,7 @@ class DeployIonos:
         ssh.connect()
 
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            ssh.clear()
-            time.sleep(1)
+        self.__run_groups_of_cmds(ssh, cmds)
 
         ssh.cmd(f"cd $HOME/{pathremote}/db")
         ssh.cmd(f"cp {lastdbdump} temp.sql")
@@ -156,13 +153,18 @@ class DeployIonos:
 
     def composer_vendor(self):
         # /Users/ioedu/projects/prj_tinymarket/backend_web
-        belocal = self.dicproject[DEPLOYSTEP.SOURCEBE]["local"]
-        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
+        options = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {}).get("options", [])
+        if DEPLOYOPTIONS.VENDOR_BY_COPY not in options:
+            return
+
+        belocal = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("local", "")
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
+        if not belocal or not pathremote:
+            return
 
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
 
-        return
         self._composer_zip(pathvendor, pathzip)
         # @todo aqui deberia borra e zip que existiera antes del upload
         self._composer_upload(pathzip, pathremote)  # sftp
@@ -171,18 +173,15 @@ class DeployIonos:
 
     def __get_deploy_cmds(self, deploy=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
         if deploy == DEPLOYSTEP.GENERAL:
-            step = self.dicproject.get("deploy", {})
+            deploydata = self.dicproject.get("deploy", {})
         elif deploy == DEPLOYSTEP.DB:
-            step = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {})
+            deploydata = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {})
         elif deploy == DEPLOYSTEP.SOURCEBE:
-            step = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {})
+            deploydata = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {})
         else:
-            step = {}
+            return []
 
-        if not step:
-            return
-
-        allcmds = step.get(moment, [])
+        allcmds = deploydata.get(moment, [])
         mapped = []
         for cmds in allcmds:
             if not cmds:
@@ -206,35 +205,13 @@ class DeployIonos:
             ssh.clear()
 
     def git_pull_be(self):
-        # eaf
-        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
-        branch = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("branch", "main")
         dicaccess = self._get_sshaccess_back()
-
         ssh = Sshit(dicaccess)
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
         self.__run_groups_of_cmds(ssh, cmds)
 
-        return
-        ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathremote}")
-        ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
-        ssh.execute()
-        ssh.close()
-        ssh.clear()
-        time.sleep(1)
-        # eaf
-        return
-
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
-        if cmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            ssh.clear()
-            time.sleep(1)
+        self.__run_groups_of_cmds(ssh, cmds)
 
     def deploy_pre_general(self):
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
@@ -254,18 +231,13 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
-        for cmd in cmds:
-            ssh.cmd(cmd)
-        ssh.execute()
-        ssh.close()
+        self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):
         self.deploy_pre_general()
 
         if not deploytype:
             self.git_pull_be()
-            # eaf
-            return
             self.composer_vendor()
             self.dbrestore()
 
