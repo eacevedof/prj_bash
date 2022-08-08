@@ -36,7 +36,7 @@ class Sshit:
         strclenaed = strrespose.replace("b'","").replace("\\\\n'","")
         return strclenaed
 
-    def _print_cmd(self,indata,outdata,error):       
+    def _print_cmd(self, indata, outdata, error):
         #print(f"\nindata : {indata}")
         #print(f"\noutdata: {outdata.read()}")
         #print(f"\nerror: {error.read()}")
@@ -44,7 +44,8 @@ class Sshit:
         print(f"Sshit: output: {cleaned}")
         cleaned = self._cleanresponse(error.read())
         if cleaned != "":
-            print(f"Sshit: error: {cleaned}")
+            print(f"Sshit error on cmd: {indata}")
+            print(f"err result: {cleaned}")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
@@ -61,7 +62,7 @@ class Sshit:
             print(f"Sshit: cmd: {prcmd}")
             # shell.exec_command abre una instancia nueva por eso hay que contactenar los comandos
             indata, outdata, error = shell.exec_command(strcmd)
-            self._print_cmd(indata,outdata,error)
+            self._print_cmd(indata, outdata, error)
 
     def close(self):
         if self.is_connected():

@@ -169,9 +169,8 @@ class DeployIonos:
 
     def git_pull_be(self):
         # eaf
-        return
-        pathremote = self.dicproject[DEPLOYSTEP.SOURCEBE]["remote"]["path"]
-        branch = self.dicproject[DEPLOYSTEP.SOURCEBE].get("branch","main")
+        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote",{}).get("path","")
+        branch = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("branch", "main")
         dicaccess = self._get_sshaccess_back()
 
         ssh = Sshit(dicaccess)
@@ -184,6 +183,7 @@ class DeployIonos:
             ssh.close()
             time.sleep(1)
 
+        return
         ssh.connect()
         ssh.cmd(f"cd $HOME/{pathremote}")
         ssh.cmd(f"git fetch --all; git reset --hard origin/{branch}")
@@ -251,7 +251,7 @@ class DeployIonos:
 
         if not deploytype:
             self.git_pull_be()
-
+            return
             self.composer_vendor()
             self.dbrestore()
 
