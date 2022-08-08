@@ -230,7 +230,6 @@ class DeployIonos:
 
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
-        ssh.connect()
         self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):

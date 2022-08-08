@@ -13,6 +13,9 @@ class Sshit:
 
     def __init__(self, dicaccess):
         print("Sshit: initializing...")
+        self.commands = []
+        self.error = ""
+        self.success = ""
         self.dicaccess = dicaccess
 
     def connect(self):
