@@ -51,7 +51,7 @@ class Sshit:
             return
 
         self.success = strcleaned
-        print(f"\nSshit result of:\n\t{strcmd}\n\t {strcleaned}")
+        print(f"\nSshit result of:\n\t{strcmd}\n\n {strcleaned}")
 
     def cmd(self, strcmd):
         self.commands.append(strcmd)
