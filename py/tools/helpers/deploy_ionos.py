@@ -82,7 +82,7 @@ class DeployIonos:
         filedump = self.dicproject.get(DEPLOYSTEP.DB, {}).get("filename", "")
         files = filter(lambda filename: filename.endswith(".sql"), files)
         if filedump:
-            files = filter(lambda filename: filename.find(filedump) != -1, files)
+            files = list(filter(lambda filename: filename.find(filedump) != -1, files))
             return files[0] if files else ""
 
         files = list(files)
@@ -245,8 +245,8 @@ class DeployIonos:
         self.deploy_pre_general()
 
         if not deploytype:
-            self.git_pull_be()
-            self.composer_vendor()
+            #self.git_pull_be()
+            #self.composer_vendor()
             self.dbrestore()
 
         if deploytype == BEDEPLOYTYPE.NO_VENDOR:
