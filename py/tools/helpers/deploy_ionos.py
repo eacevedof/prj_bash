@@ -244,12 +244,7 @@ class DeployIonos:
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
         ssh.connect()
-        for cmd in cmds:
-            ssh.cmd(cmd)
-        ssh.execute()
-        ssh.close()
-        ssh.clear()
-        time.sleep(1)
+        self.__run_groups_of_cmds(ssh, cmds)
 
     def deploy_post_general(self):
         cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
