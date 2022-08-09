@@ -18,29 +18,27 @@ class DeployDb:
         origin = self.__dbnode.get("origin", {})
         remote = self.__dbnode.get("remote", {})
         self.__replace_tags = {
-            "db.origin.pathdumps": origin.get("pathdumps",""),
-            "db.origin.filepattern": origin.get("filepattern",""),
-            "db.origin.server": origin.get("server",""),
-            "db.origin.port": origin.get("port",""),
-            "db.origin.database": origin.get("database",""),
-            "db.origin.user": origin.get("user",""),
-            "db.origin.password": origin.get("password",""),
+            "db.origin.pathdumps": origin.get("pathdumps", ""),
+            "db.origin.filepattern": origin.get("filepattern", ""),
+            "db.origin.server": origin.get("server", ""),
+            "db.origin.port": origin.get("port", ""),
+            "db.origin.database": origin.get("database", ""),
+            "db.origin.user": origin.get("user", ""),
+            "db.origin.password": origin.get("password", ""),
 
-            "remote.pathdumps": remote.get("pathdumps",""),
-            "remote.server": remote.get("server",""),
-            "remote.port": remote.get("port",""),
-            "remote.database": remote.get("database",""),
-            "remote.user": remote.get("user",""),
-            "remote.password": remote.get("password",""),
+            "db.remote.pathdumps": remote.get("pathdumps", ""),
+            "db.remote.server": remote.get("server", ""),
+            "db.remote.port": remote.get("port", ""),
+            "db.remote.database": remote.get("database", ""),
+            "db.remote.user": remote.get("user", ""),
+            "db.remote.password": remote.get("password", ""),
         }
-
-
 
     def get_replace_tags(self):
         return self.__replace_tags
 
     def __get_deploy_cmds(self):
-        allcmds = self.__dbnode.get("deploy",{}).get("steps",[])
+        allcmds = self.__dbnode.get("deploy", {}).get("steps", [])
         if not allcmds:
             return []
 
@@ -80,4 +78,3 @@ class DeployDb:
             return
 
         self.__run_groups_of_cmds(allcmds)
-
