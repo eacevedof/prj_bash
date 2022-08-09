@@ -1,6 +1,7 @@
 from deploy_types import DEPLOYSTEP
 from tools.sshit import Sshit
-
+import re
+import os
 
 class DeployDb:
 
@@ -72,7 +73,31 @@ class DeployDb:
             self.__ssh.close()
             self.__ssh.clear()
 
-    def deplopy(self):
+    def __get_files_by_creation_date_desc(self, filepattern):
+        dirpath = self.__dbnode.get("origin", {}).get("pathdumps", "")
+        files = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
+        if not files:
+            return []
+
+        files.sort(key=lambda f: os.path.getmtime(os.path.join(dirpath, f)))
+        files = files.filter(lambda f: len(re.findall(f"{filepattern}", f, flags=re.IGNORECASE))>0)
+        files = list(files)
+
+        def only_names(path):
+            head, tail = os.path.split(path)
+            return tail
+
+        return list(map(only_names, files))
+
+    def __get_last_dump(self):
+        filepattern = self.__dbnode.get("filepattern", "")
+        if filepattern:
+            return filepattern
+
+        files = self.__get_files_by_creation_date_desc(filepattern)
+        return files[0] if files else ""
+
+    def deploy(self):
         allcmds = self.__get_deploy_cmds()
         if not allcmds:
             return

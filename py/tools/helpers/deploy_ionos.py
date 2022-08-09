@@ -4,7 +4,7 @@ from tools.tools import *
 from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
-
+from deploy_db import DeployDb
 
 class BEDEPLOYTYPE:
     NO_VENDOR = "no-vendor"
@@ -34,6 +34,7 @@ class DeployIonos:
 
     def __init__(self, dicproject):
         self.dicproject = dicproject
+        self.__deploydb = DeployDb(dicproject)
 
     def _get_sshaccess_back(self):
         return self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {})
@@ -75,65 +76,8 @@ class DeployIonos:
 
         return list(map(only_names, files))
 
-    def __get_latest_sqldump_name(self):
-        db = self.dicproject.get(DEPLOYSTEP.DB, {})
-        if not db:
-            return ""
-
-        filedump = db.get("dumpfile", "")
-        if filedump:
-            return filedump
-
-        pathdumps = db.get("pathdumps", "")
-        files = self.__get_files_by_creation_date_desc(pathdumps)
-        files = list(files)
-        return files[0] if files else ""
-
-    def __restore_from_dump(self):
-        db = self.dicproject.get(DEPLOYSTEP.DB, {})
-        if not db:
-            return
-
-        options = db.get("deploy", {}).get("options", [])
-        if DEPLOYOPTIONS.DB_BY_MIGRATIONS in options:
-            return
-
-        lastdbdump = self.__get_latest_sqldump_name()
-        if not lastdbdump:
-            print(f"sql dump file not found!")
-            return
-
-        localdbname = db.get("dblocal", "")
-        pathremote = db.get("remote", {}).get("pathdumps", "")
-        # remote db
-        dbname = db.get("remote", {}).get("database", "")
-        dbserver = db.get("remote", {}).get("server", "")
-        dbuser = db.get("remote", {}).get("user", "")
-        dbpassword = db.get("remote", {}).get("password", "")
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        ssh.cmd(f"cd {pathremote}")
-        ssh.cmd(f"cp {lastdbdump} temp.sql")
-        ssh.cmd(f"sed -i 's/ {localdbname}/{dbname}/' ./temp.sql")
-        ssh.cmd(
-            f"mysql --host={dbserver} --user={dbuser} --password=\"{dbpassword}\" {dbname} < {pathremote}/temp.sql"
-        )
-        ssh.cmd("rm temp.sql")
-        ssh.execute()
-        ssh.close()
-
     def db_filerestore(self):
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.PRE)
-        self.__run_groups_of_cmds(ssh, cmds)
-
-        self.__restore_from_dump()
-
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.DB, DEPLOYMOMENT.POST)
-        self.__run_groups_of_cmds(ssh, cmds)
+        self.__deploydb.deploy()
 
     # ====================================================================
     # backend
