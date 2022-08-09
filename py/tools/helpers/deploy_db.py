@@ -33,6 +33,8 @@ class DeployDb:
             "db.remote.database": remote.get("database", ""),
             "db.remote.user": remote.get("user", ""),
             "db.remote.password": remote.get("password", ""),
+
+            "get_last_dump": self.__get_last_dump(),
         }
 
     def get_replace_tags(self):

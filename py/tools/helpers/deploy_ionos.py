@@ -59,23 +59,6 @@ class DeployIonos:
         time.sleep(5)
         # print("end remove zip")
 
-    # ====================================================================
-    # db
-    # ====================================================================
-    @staticmethod
-    def __get_files_by_creation_date_desc(dirpath):
-        files = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
-        if not files:
-            return []
-
-        files.sort(key=lambda f: os.path.getmtime(os.path.join(dirpath, f)))
-
-        def only_names(path):
-            head, tail = os.path.split(path)
-            return tail
-
-        return list(map(only_names, files))
-
     def db_filerestore(self):
         self.__deploydb.deploy()
 
@@ -129,43 +112,6 @@ class DeployIonos:
         self._composer_unzip(pathremote)  # ssh
         os.remove(pathzip)
 
-    def __get_deploy_cmds(self, deploy=DEPLOYSTEP.GENERAL, moment=DEPLOYMOMENT.PRE):
-        if deploy == DEPLOYSTEP.GENERAL:
-            deploydata = self.dicproject.get("deploy", {})
-        elif deploy == DEPLOYSTEP.DB:
-            deploydata = self.dicproject.get(DEPLOYSTEP.DB, {}).get("deploy", {})
-        elif deploy == DEPLOYSTEP.SOURCEBE:
-            deploydata = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {})
-        else:
-            return []
-
-        allcmds = deploydata.get(moment, [])
-        if not allcmds:
-            return []
-
-        mapped = []
-        for cmds in allcmds:
-            if not cmds:
-                continue
-            cmds = filter(lambda cmd: not cmd.startswith("//"), cmds)
-            cmds = filter(lambda cmd: bool(cmd.strip()), cmds)
-            cmds = list(cmds)
-            if cmds:
-                mapped.append(cmds)
-        return mapped
-
-    @staticmethod
-    def __run_groups_of_cmds(ssh, allcmds):
-        if not allcmds:
-            return
-
-        for cmds in allcmds:
-            ssh.connect()
-            for cmd in cmds:
-                ssh.cmd(cmd)
-            ssh.execute()
-            ssh.close()
-            ssh.clear()
 
     def deploy_code(self):
         dicaccess = self._get_sshaccess_back()
@@ -195,8 +141,8 @@ class DeployIonos:
         self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):
-        self.deploy_pre_general()
-
+        self.db_filerestore()
+        return
         if not deploytype:
             self.deploy_code()
             self.composer_vendor()
