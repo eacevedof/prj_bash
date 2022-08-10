@@ -3,7 +3,7 @@ import re
 import os
 
 
-class DeployDb:
+class DeployCode:
 
     def __init__(self, dicproject):
         self.__dicproject = dicproject

@@ -4,6 +4,7 @@ import re
 import os
 
 
+
 class DeployDb(DeployBase):
 
     def __init__(self, dicproject):
@@ -53,9 +54,23 @@ class DeployDb(DeployBase):
 
         return files
 
+    @staticmethod
+    def __default_cmds():
+        return [
+            "cd %db.remote.pathdumps%",
+            "cp %get_last_dump% temp.sql",
+            "sed -i 's/%db.origin.database%/%db.remote.database%/' ./temp.sql",
+            "mysql --host=%db.remote.server% --user=%db.remote.user%  --password=\"%db.remote.password%\" %db.remote.database% < %db.remote.pathdumps%/temp.sql",
+            "rm temp.sql",
+        ]
+
     def deploy(self):
         allcmds = self._get_step_cmds()
-        if not allcmds:
-            return
 
+        def append_default_cms(arcmds):
+            if "%default_cmds%" in arcmds:
+                return self.__default_cmds()
+            return arcmds
+
+        allcmds = list(map(append_default_cms, allcmds))
         self._run_groups_of_cmds(allcmds)
