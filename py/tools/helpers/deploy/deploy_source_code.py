@@ -1,6 +1,9 @@
 from .deploy_base import DeployBase
+
+from tools.sftpit import Sftpit
 from tools.zipit import zipdir, zipfilesingle
 
+from .deploy_step_exception import DeployStepException
 import re
 import os
 
@@ -18,16 +21,22 @@ class DeploySourceCode(DeployBase):
         origin = self._node.get("origin", {})
         remote = self._node.get("remote", {})
         return {
-            "repository.url": repo.get("url",""),
-            "repository.branch": repo.get("branch","main"),
+            "sourcecode.repository.url": repo.get("url",""),
+            "sourcecode.repository.branch": repo.get("branch","main"),
             "sourcecode.origin.path": origin.get("path", ""),
             "sourcecode.remote.path": remote.get("path", ""),
         }
 
-    def __get_last_dump(self):
-        filepattern = self._node.get("origin", {}).get("filepattern", "").strip()
-        files = self.__get_files_by_creation_date_desc(filepattern)
-        return files[0] if files else ""
+    def __upload_config(self, pathfrom, pathto):
+        credentials = self._node.get("remote", {}).get("ssh", {})
+        sftp = Sftpit(credentials)
+        sftp.connect()
+        if sftp.is_connected():
+            sftp.upload(pathfrom, pathto)
+            sftp.close()
+            return
+        raise DeployStepException(f"upload error from:{pathfrom} to {pathto}")
+
 
     def __get_files_by_creation_date_desc(self, filepattern):
         dirpath = self._node.get("origin", {}).get("path", "")
@@ -46,11 +55,7 @@ class DeploySourceCode(DeployBase):
     @staticmethod
     def __default_cmds():
         return [
-            "cd %sourcecode.remote.path%",
-            "cp %get_last_dump% temp.sql",
-            "sed -i 's/%sourcecode.origin.database%/%sourcecode.remote.database%/' ./temp.sql",
-            "mysql --host=%sourcecode.remote.server% --user=%sourcecode.remote.user%  --password=\"%sourcecode.remote.password%\" %sourcecode.remote.database% < %sourcecode.remote.path%/temp.sql",
-            "rm temp.sql",
+
         ]
 
     def deploy(self):
