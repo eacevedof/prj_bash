@@ -1,4 +1,5 @@
 from tools.sshit import Sshit
+from tools.sftpit import Sftpit
 from .deploy_step_exception import DeployStepException
 
 
@@ -41,6 +42,26 @@ class DeployBase:
             cmd = cmd.replace(f"%{key}%", self._replace_tags.get(key, ""))
         return cmd
 
+    def __upload(self, pathfrom, pathto):
+        credentials = self._node.get("remote", {}).get("ssh", {})
+        sftp = Sftpit(credentials)
+        sftp.connect()
+        if sftp.is_connected():
+            ok = sftp.upload(pathfrom, pathto)
+            sftp.close()
+            if not ok:
+                raise DeployStepException(f"upload error (nok) from:{pathfrom} to {pathto}")
+            return
+        raise DeployStepException(f"upload error from:{pathfrom} to {pathto}")
+
+    def __cmd_upload(self, cmd):
+        parts = cmd.split(" ")
+        del parts[0]
+        if len(parts)==2:
+            pathfrom = parts[1].trip()
+            pathto = parts[2].strip()
+            self.__upload(pathfrom, pathto)
+
     def _run_groups_of_cmds(self, allcmds):
         for group in allcmds:
             self._ssh.connect()
@@ -50,6 +71,9 @@ class DeployBase:
                 if "end_on_error" in cmd:
                     handle_error = True
                     continue
+                if "%upload%" in cmd:
+                    self.__cmd_upload(cmd)
+
                 self._ssh.cmd(cmd)
             self._ssh.execute()
             self._ssh.close()

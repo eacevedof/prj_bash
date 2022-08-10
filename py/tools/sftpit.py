@@ -63,6 +63,7 @@ class Sftpit:
         objsrv.chdir(pathdirserv)
         objsrv.put(pathlocal)
         print(f"Sftpit: upload of {pathlocal} finished")
+        return 1
 
     def download(self, pathfrom, pathto):
         print(f"Sftpit: downloading from:{pathfrom} to:{pathto}")

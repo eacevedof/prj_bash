@@ -27,15 +27,6 @@ class DeploySourceCode(DeployBase):
             "sourcecode.remote.path": remote.get("path", ""),
         }
 
-    def __upload_config(self, pathfrom, pathto):
-        credentials = self._node.get("remote", {}).get("ssh", {})
-        sftp = Sftpit(credentials)
-        sftp.connect()
-        if sftp.is_connected():
-            sftp.upload(pathfrom, pathto)
-            sftp.close()
-            return
-        raise DeployStepException(f"upload error from:{pathfrom} to {pathto}")
 
 
     def __get_files_by_creation_date_desc(self, filepattern):
@@ -67,5 +58,6 @@ class DeploySourceCode(DeployBase):
             return arcmds
 
         allcmds = list(map(append_default_cms, allcmds))
+
         self._run_groups_of_cmds(allcmds)
 
