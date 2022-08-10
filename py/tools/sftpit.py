@@ -16,7 +16,8 @@ class Sftpit:
         print("Sftpit: trying to connect...")
         config = copy.deepcopy(self.dicaccess)
         host = config["host"]
-        del config["path"]
+        if "path" in config.keys():
+            del config["path"]
         # print(config);sys.exit()
         try:
             # self.objserver = pysftp.Connection(host=host, username=user, password=password, port=port)

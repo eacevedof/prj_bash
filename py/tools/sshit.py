@@ -42,12 +42,10 @@ class Sshit:
         strclenaed = strclenaed.strip()
         return strclenaed
 
-    def _print_cmd(self, strcmd, outdata, error):
+    def _print_cmd_result(self, strcmd, success, error):
         # print(f"\nindata : {indata}")
         # print(f"\noutdata: {outdata.read()}")
         # print(f"\nerror: {error.read()}")
-        strcleaned = self._cleanresponse(outdata.read())
-        error = self._cleanresponse(error.read())
         print(f"\nstart===============================================")
         if error != "":
             print(f"Sshit cmd error:\n\t {strcmd}")
@@ -55,7 +53,7 @@ class Sshit:
             print(f"end================================================\n")
             return
 
-        print(f"Sshit result of:\n\t{strcmd}\n\n {strcleaned}")
+        print(f"Sshit result of:\n\t{strcmd}\n\n {success}")
         print(f"end================================================\n")
 
     def cmd(self, strcmd):
@@ -73,7 +71,7 @@ class Sshit:
             indata, outdata, error = shell.exec_command(onelinecmd)
             self.error = self._cleanresponse(error.read())
             self.success = self._cleanresponse(outdata.read())
-            self._print_cmd(onelinecmd, outdata, error)
+            self._print_cmd_result(onelinecmd, self.success, self.error)
 
     def close(self):
         if self.is_connected():

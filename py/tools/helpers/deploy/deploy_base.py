@@ -57,9 +57,9 @@ class DeployBase:
     def __cmd_upload(self, cmd):
         parts = cmd.split(" ")
         del parts[0]
-        if len(parts)==2:
-            pathfrom = parts[1].trip()
-            pathto = parts[2].strip()
+        if len(parts) == 2:
+            pathfrom = str(parts[0]).strip()
+            pathto = str(parts[1]).strip()
             self.__upload(pathfrom, pathto)
 
     def _run_groups_of_cmds(self, allcmds):

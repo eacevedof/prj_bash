@@ -25,6 +25,7 @@ class DeploySourceCode(DeployBase):
             "sourcecode.repository.branch": repo.get("branch","main"),
             "sourcecode.origin.path": origin.get("path", ""),
             "sourcecode.remote.path": remote.get("path", ""),
+            "sourcecode.remote.path_nohome": remote.get("path_nohome", ""),
         }
 
 
