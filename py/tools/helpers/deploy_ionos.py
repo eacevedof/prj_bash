@@ -4,7 +4,7 @@ from tools.tools import *
 from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
-from deploy_db import DeployDb
+from .deploy_db import DeployDb
 
 class BEDEPLOYTYPE:
     NO_VENDOR = "no-vendor"
@@ -59,8 +59,6 @@ class DeployIonos:
         time.sleep(5)
         # print("end remove zip")
 
-    def db_filerestore(self):
-        self.__deploydb.deploy()
 
     # ====================================================================
     # backend
@@ -141,7 +139,8 @@ class DeployIonos:
         self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):
-        self.db_filerestore()
+        self.__deploydb.deploy()
+
         return
         if not deploytype:
             self.deploy_code()
