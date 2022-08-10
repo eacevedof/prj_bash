@@ -50,13 +50,11 @@ class Sshit:
         error = self._cleanresponse(error.read())
         print(f"\nstart===============================================")
         if error != "":
-            self.error = error
             print(f"Sshit cmd error:\n\t {strcmd}")
             print(f"\n{error}")
             print(f"end================================================\n")
             return
 
-        self.success = strcleaned
         print(f"Sshit result of:\n\t{strcmd}\n\n {strcleaned}")
         print(f"end================================================\n")
 
@@ -73,6 +71,8 @@ class Sshit:
             onelinecmd = self._get_unique_cmd()
             # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
             indata, outdata, error = shell.exec_command(onelinecmd)
+            self.error = self._cleanresponse(error.read())
+            self.success = self._cleanresponse(outdata.read())
             self._print_cmd(onelinecmd, outdata, error)
 
     def close(self):
@@ -88,11 +88,5 @@ class Sshit:
 
     def is_connected(self):
         return self.shell is not None
-
-    def success(self):
-        return self.success
-
-    def error(self):
-        return self.error
 
 # end

@@ -5,6 +5,7 @@ from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 from .deploy.deploy_db import DeployDb
+from .deploy.deploy_step_exception import DeployStepException
 
 class BEDEPLOYTYPE:
     NO_VENDOR = "no-vendor"
@@ -139,7 +140,10 @@ class DeployIonos:
         self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):
-        self.__deploydb.deploy()
+        try:
+            self.__deploydb.deploy()
+        except DeployStepException as e:
+            print(e)
 
         return
         if not deploytype:

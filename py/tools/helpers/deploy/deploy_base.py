@@ -1,5 +1,5 @@
 from tools.sshit import Sshit
-
+from .deploy_step_exception import DeployStepException
 
 class DeployBase:
     _dicproject = {}
@@ -46,12 +46,17 @@ class DeployBase:
 
         for group in allcmds:
             self._ssh.connect()
+            handle_error = False
             for cmd in group:
                 cmd = self.__get_replaced(cmd)
+                if "end_on_error" in cmd:
+                    handle_error = True
+                    continue
                 self._ssh.cmd(cmd)
             self._ssh.execute()
             self._ssh.close()
+            if self._ssh.error and handle_error:
+                raise DeployStepException(self._ssh.error)
             self._ssh.clear()
-
 
 
