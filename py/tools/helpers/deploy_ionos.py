@@ -4,7 +4,7 @@ from tools.tools import *
 from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
-from .deploy_db import DeployDb
+from .deploy.deploy_db import DeployDb
 
 class BEDEPLOYTYPE:
     NO_VENDOR = "no-vendor"
