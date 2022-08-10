@@ -5,6 +5,7 @@ from tools.sftpit import Sftpit
 from tools.sshit import Sshit
 from tools.zipit import zipdir, zipfilesingle
 from .deploy.deploy_db import DeployDb
+from .deploy.deploy_source_code import DeploySourceCode
 from .deploy.deploy_step_exception import DeployStepException
 
 class BEDEPLOYTYPE:
@@ -36,6 +37,7 @@ class DeployIonos:
     def __init__(self, dicproject):
         self.dicproject = dicproject
         self.__deploydb = DeployDb(dicproject)
+        self.__deploysourcecode = DeploySourceCode(dicproject)
 
     def _get_sshaccess_back(self):
         return self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {})
@@ -112,47 +114,25 @@ class DeployIonos:
         os.remove(pathzip)
 
 
-    def deploy_code(self):
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.PRE)
-        self.__run_groups_of_cmds(ssh, cmds)
 
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.SOURCEBE, DEPLOYMOMENT.POST)
-        self.__run_groups_of_cmds(ssh, cmds)
 
-    def deploy_pre_general(self):
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.PRE)
-        if not cmds:
-            return
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        self.__run_groups_of_cmds(ssh, cmds)
-
-    def deploy_post_general(self):
-        cmds = self.__get_deploy_cmds(DEPLOYSTEP.GENERAL, DEPLOYMOMENT.POST)
-        if not cmds:
-            return
-
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        self.__run_groups_of_cmds(ssh, cmds)
 
     def backend(self, deploytype: str = ""):
         try:
             self.__deploydb.deploy()
+            self.__deploysourcecode.deploy()
+
         except DeployStepException as e:
             print(e)
 
         return
         if not deploytype:
-            self.deploy_code()
+            
             self.composer_vendor()
             self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_VENDOR:
-            self.deploy_code()
+            self.deploy_sourcecode()
             self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_CODE:
@@ -160,7 +140,7 @@ class DeployIonos:
             self.db_filerestore()
 
         if deploytype == BEDEPLOYTYPE.NO_DB:
-            self.deploy_code()
+            self.deploy_sourcecode()
             self.composer_vendor()
 
         self.deploy_post_general()
