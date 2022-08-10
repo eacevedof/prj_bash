@@ -14,9 +14,12 @@ class DeploySourceCode(DeployBase):
         self._replace_tags = self.__load_replace_tags()
 
     def __load_replace_tags(self):
+        repo = self._node.get("repository", {})
         origin = self._node.get("origin", {})
         remote = self._node.get("remote", {})
         return {
+            "repository.url": repo.get("url",""),
+            "repository.branch": repo.get("branch","main"),
             "sourcecode.origin.path": origin.get("path", ""),
             "sourcecode.remote.path": remote.get("path", ""),
         }
