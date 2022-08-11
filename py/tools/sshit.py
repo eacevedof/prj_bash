@@ -64,14 +64,17 @@ class Sshit:
         return cmdunique
 
     def execute(self):
-        if self.is_connected():
-            shell = self.shell
-            onelinecmd = self._get_unique_cmd()
-            # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
-            indata, outdata, error = shell.exec_command(onelinecmd)
-            self.error = self._cleanresponse(error.read())
-            self.success = self._cleanresponse(outdata.read())
-            self._print_cmd_result(onelinecmd, self.success, self.error)
+        if not self.is_connected():
+            self.error = "ssh not connected"
+            return
+
+        shell = self.shell
+        onelinecmd = self._get_unique_cmd()
+        # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
+        indata, outdata, error = shell.exec_command(onelinecmd)
+        self.error = self._cleanresponse(error.read())
+        self.success = self._cleanresponse(outdata.read())
+        self._print_cmd_result(onelinecmd, self.success, self.error)
 
     def close(self):
         if self.is_connected():

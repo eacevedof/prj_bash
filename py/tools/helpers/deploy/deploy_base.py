@@ -65,18 +65,18 @@ class DeployBase:
     def _run_groups_of_cmds(self, allcmds):
         for group in allcmds:
             self._ssh.connect()
-            handle_error = False
+            self._ssh.clear()
+            handle_error = True if "%finis_on_error%" in group else False
             for cmd in group:
-                cmd = self.__get_replaced(cmd)
-                if " finish_on_error" in cmd:
-                    handle_error = True
+                if "%finish_on_error%" in cmd:
                     continue
-                if "%upload%" in cmd:
+                cmd = self.__get_replaced(cmd)
+                if "%fn_upload%" in cmd:
                     self.__cmd_upload(cmd)
-
+                    continue
                 self._ssh.cmd(cmd)
             self._ssh.execute()
             self._ssh.close()
             if self._ssh.error and handle_error:
                 raise DeployStepException(self._ssh.error)
-            self._ssh.clear()
+
