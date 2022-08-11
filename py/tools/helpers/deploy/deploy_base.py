@@ -69,7 +69,8 @@ class DeployBase:
         if sftp.is_connected():
             folderzip = os.path.basename(pathfrom)+".zip"
             pathzip = f"{pathfrom}/../{folderzip}"
-            os.remove(pathzip)
+            if os.path.exists(pathzip):
+                os.remove(pathzip)
             zipdir(pathfrom, f"{pathfrom}/../{folderzip}")
             ok = sftp.upload(pathzip, f"{pathto}")
             sftp.close()
