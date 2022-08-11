@@ -1,9 +1,5 @@
 from .deploy_base import DeployBase
-
-from tools.sftpit import Sftpit
 from tools.zipit import zipdir, zipfilesingle
-
-from .deploy_step_exception import DeployStepException
 import re
 import os
 
