@@ -6,29 +6,9 @@ ejemplo:
     <prject-id> esta en el config/json
     py.sh <project-id> index deploy
     py.sh deploy tinymarket  #full deploy front and back
-    py.sh deploy.composer tinymarket
-    py.sh deploy.dbrestore tinymarket
-    py.hs deploy.codeonly tinymarket
 """
 from tools.helpers.deploy_ionos import DeployIonos
 from tools.tools import *
-
-
-# py.sh deploy.composer tinymarket
-def composer(project):
-    timeini = get_now()
-    pr(f"deploy.composer: of {project}. {timeini}")
-
-    dicproject = get_dicconfig(project)
-    if dicproject is None:
-        pr(f"No deployed: project {project} not found")
-        return 0
-
-    ionos = DeployIonos(dicproject)
-    ionos.composer_vendor()
-    timeend = get_now()
-    pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
-
 
 # py.sh deploy.dbrestore tinymarket
 def dbrestore(project):
@@ -96,7 +76,7 @@ def frontbuildembed(project):
     pr(f"...deploy frontbuildembed of {project} has finished. ini:{timeini} - end:{timeend}")
 
 
-def backend(project, options=""):
+def backend(project):
     timeini = get_now()
     pr(f"deploy.backend: of {project}. {timeini}")
 
@@ -106,7 +86,7 @@ def backend(project, options=""):
         return 0
     
     ionos = DeployIonos(dicproject)
-    ionos.backend(options)
+    ionos.backend()
     timeend = get_now()
     pr(f"...deploy backend of {project} has finished. ini:{timeini} - end:{timeend}")
 
@@ -127,7 +107,7 @@ def codeonly(project):
 
 
 # py.sh deploy tinymarket
-def index(project, options=""):
+def index(project):
     timeini = get_now()
     pr(f"starting deploy of {project}. {timeini}")
 
@@ -138,8 +118,6 @@ def index(project, options=""):
 
     # ppr(dicproject,"DICPROJECT RECUPERADO")
     ionos = DeployIonos(dicproject)
-    ionos.backend(options)
-    ionos.frontend()
-    ionos.pictures()
+    ionos.backend()
     timeend = get_now()
     pr(f"...deploy of {project} has finished. ini:{timeini} - end:{timeend}")
