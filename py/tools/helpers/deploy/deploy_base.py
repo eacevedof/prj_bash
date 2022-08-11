@@ -1,8 +1,10 @@
+from tools.tools import sh
 from tools.sshit import Sshit
 from tools.sftpit import Sftpit
 from .deploy_step_exception import DeployStepException
 from tools.zipit import zipdir, zipfilesingle
 import os
+import sys
 
 
 class DeployTag:
@@ -10,6 +12,9 @@ class DeployTag:
     FN_DEFAULT = "%fn_default%"
     FN_UPLOAD = "%fn_upload%"
     FN_UPLOAD_ZIPPED = "%fn_upload_zipped%"
+    FN_SH = "%fn_sh%"
+    DIE = "%die%"
+
 
 class DeployBase:
     _dicproject = {}
@@ -67,7 +72,7 @@ class DeployBase:
         sftp = Sftpit(credentials)
         sftp.connect()
         if sftp.is_connected():
-            folderzip = os.path.basename(pathfrom)+".zip"
+            folderzip = os.path.basename(pathfrom) + ".zip"
             pathzip = f"{pathfrom}/../{folderzip}"
             if os.path.exists(pathzip):
                 os.remove(pathzip)
@@ -110,6 +115,12 @@ class DeployBase:
                 if DeployTag.FN_UPLOAD_ZIPPED in cmd:
                     self.__cmd_upload_zipped(cmd)
                     continue
+                if DeployTag.FN_SH in cmd:
+                    cmd = cmd.replace(DeployTag.FN_SH, "").strip()
+                    sh(cmd)
+                    continue
+                if DeployTag.DIE in cmd:
+                    sys.exit()
                 self._ssh.cmd(cmd)
             self._ssh.execute()
             self._ssh.close()
