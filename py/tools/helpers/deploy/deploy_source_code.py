@@ -54,7 +54,7 @@ class DeploySourceCode(DeployBase):
         allcmds = self._get_step_cmds()
 
         def append_default_cms(arcmds):
-            if "%default_cmds%" in arcmds:
+            if " %fn_default_cmds%" in arcmds:
                 return self.__default_cmds()
             return arcmds
 

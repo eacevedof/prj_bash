@@ -68,7 +68,7 @@ class DeployBase:
             handle_error = False
             for cmd in group:
                 cmd = self.__get_replaced(cmd)
-                if "end_on_error" in cmd:
+                if " finish_on_error" in cmd:
                     handle_error = True
                     continue
                 if "%upload%" in cmd:
