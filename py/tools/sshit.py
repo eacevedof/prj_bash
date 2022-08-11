@@ -3,6 +3,10 @@ from getpass import getpass
 import paramiko
 
 
+class color:
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+
 # http://46.101.4.154/Art%C3%ADculos%20t%C3%A9cnicos/Python/Paramiko%20-%20Conexiones%20SSH%20y%20SFTP.pdf
 class Sshit:
     shell = None
@@ -72,7 +76,9 @@ class Sshit:
         onelinecmd = self._get_unique_cmd()
         # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
         indata, outdata, error = shell.exec_command(onelinecmd)
-        self.error = self._cleanresponse(error.read())
+        error = self._cleanresponse(error.read())
+        if error:
+            self.error = f"{color.FAIL}{error}{color.ENDC}"
         self.success = self._cleanresponse(outdata.read())
         self._print_cmd_result(onelinecmd, self.success, self.error)
 
