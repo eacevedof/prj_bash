@@ -69,8 +69,9 @@ class DeployBase:
         if sftp.is_connected():
             folderzip = os.path.basename(pathfrom)+".zip"
             pathzip = f"{pathfrom}/../{folderzip}"
+            os.remove(pathzip)
             zipdir(pathfrom, f"{pathfrom}/../{folderzip}")
-            ok = sftp.upload(pathzip, f"{pathto}/{folderzip}")
+            ok = sftp.upload(pathzip, f"{pathto}")
             sftp.close()
             if not ok:
                 raise DeployStepException(f"upload error (nok) from:{pathfrom} to {pathto}")
