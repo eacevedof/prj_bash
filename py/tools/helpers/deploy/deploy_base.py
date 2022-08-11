@@ -1,13 +1,15 @@
 from tools.sshit import Sshit
 from tools.sftpit import Sftpit
 from .deploy_step_exception import DeployStepException
+from tools.zipit import zipdir, zipfilesingle
+import os
 
 
 class DeployTag:
     FINISH_ON_ERROR = "%finish_on_error%"
     FN_DEFAULT = "%fn_default%"
     FN_UPLOAD = "%fn_upload%"
-
+    FN_UPLOAD_ZIPPED = "%fn_upload_zipped%"
 
 class DeployBase:
     _dicproject = {}
@@ -60,6 +62,21 @@ class DeployBase:
             return
         raise DeployStepException(f"upload error from:{pathfrom} to {pathto}")
 
+    def __upload_zipped(self, pathfrom, pathto):
+        credentials = self._node.get("remote", {}).get("ssh", {})
+        sftp = Sftpit(credentials)
+        sftp.connect()
+        if sftp.is_connected():
+            folderzip = os.path.basename(pathfrom)+".zip"
+            pathzip = f"{pathfrom}/../{folderzip}"
+            zipdir(pathfrom, f"{pathfrom}/../{folderzip}")
+            ok = sftp.upload(pathzip, f"{pathto}/{folderzip}")
+            sftp.close()
+            if not ok:
+                raise DeployStepException(f"upload error (nok) from:{pathfrom} to {pathto}")
+            return
+        raise DeployStepException(f"upload error from:{pathfrom} to {pathto}")
+
     def __cmd_upload(self, cmd):
         parts = cmd.split(" ")
         del parts[0]
@@ -67,6 +84,14 @@ class DeployBase:
             pathfrom = str(parts[0]).strip()
             pathto = str(parts[1]).strip()
             self.__upload(pathfrom, pathto)
+
+    def __cmd_upload_zipped(self, cmd):
+        parts = cmd.split(" ")
+        del parts[0]
+        if len(parts) == 2:
+            pathfrom = str(parts[0]).strip()
+            pathto = str(parts[1]).strip()
+            self.__upload_zipped(pathfrom, pathto)
 
     def _run_groups_of_cmds(self, allcmds):
         for group in allcmds:
@@ -79,6 +104,9 @@ class DeployBase:
                 cmd = self.__get_replaced(cmd)
                 if DeployTag.FN_UPLOAD in cmd:
                     self.__cmd_upload(cmd)
+                    continue
+                if DeployTag.FN_UPLOAD_ZIPPED in cmd:
+                    self.__cmd_upload_zipped(cmd)
                     continue
                 self._ssh.cmd(cmd)
             self._ssh.execute()

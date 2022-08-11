@@ -66,52 +66,6 @@ class DeployIonos:
     # ====================================================================
     # backend
     # ====================================================================
-    @staticmethod
-    def _composer_zip(pathfrom, pathto):
-        zipdir(pathfrom, pathto)
-
-    def _composer_upload(self, pathfrom, pathto):
-        # la conexión no se hace a un directorio con ruta absoluta sino que 
-        # se toma la carpeta de destino como absoluta, esto es para evitar que se tenga acceso a carpetas padres
-        # por lo tanto para mi "/" seria equivalente a $HOME
-        dicaccess = self._get_sshaccess_back()
-        sftp = Sftpit(dicaccess)
-        sftp.connect()
-        if sftp.is_connected():
-            sftp.upload(pathfrom, pathto)
-            sftp.close()
-
-    def _composer_unzip(self, pathupload):
-        dicaccess = self._get_sshaccess_back()
-        ssh = Sshit(dicaccess)
-        ssh.connect()
-        ssh.cmd(f"cd $HOME/{pathupload}")
-        ssh.cmd("rm -fr vendor")
-        ssh.cmd("unzip vendor.zip -d ./")
-        #  no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
-        # ssh.cmd("rm -f vendor.zip")
-        ssh.execute()
-        ssh.close()
-
-    def composer_vendor(self):
-        # /Users/ioedu/projects/prj_tinymarket/backend_web
-        options = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("deploy", {}).get("options", [])
-        if DEPLOYOPTIONS.VENDOR_BY_COPY not in options:
-            return
-
-        belocal = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("local", "")
-        pathremote = self.dicproject.get(DEPLOYSTEP.SOURCEBE, {}).get("remote", {}).get("path", "")
-        if not belocal or not pathremote:
-            return
-
-        pathvendor = f"{belocal}/vendor"
-        pathzip = f"{belocal}/vendor.zip"
-
-        self._composer_zip(pathvendor, pathzip)
-        # @todo aqui deberia borra e zip que existiera antes del upload
-        self._composer_upload(pathzip, pathremote)  # sftp
-        self._composer_unzip(pathremote)  # ssh
-        os.remove(pathzip)
 
 
 

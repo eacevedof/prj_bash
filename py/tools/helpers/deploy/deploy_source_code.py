@@ -46,9 +46,43 @@ class DeploySourceCode(DeployBase):
 
     @staticmethod
     def __default_cmds():
-        return [
+        return []
 
-        ]
+    @staticmethod
+    def __composer_zip(pathfrom, pathto):
+        zipdir(pathfrom, pathto)
+
+    def __composer_upload(self,sftp, pathfrom, pathto):
+        sftp.connect()
+        if sftp.is_connected():
+            sftp.upload(pathfrom, pathto)
+            sftp.close()
+
+    def __composer_unzip(self, pathupload):
+        dicaccess = self._get_sshaccess_back()
+        ssh = Sshit(dicaccess)
+        ssh.connect()
+        ssh.cmd(f"cd $HOME/{pathupload}")
+        ssh.cmd("rm -fr vendor")
+        ssh.cmd("unzip vendor.zip -d ./")
+        #  no puedo borrarlo inmediatamente pq puede que la descompresion no haya finalizado
+        # ssh.cmd("rm -f vendor.zip")
+        ssh.execute()
+        ssh.close()
+
+    def _copy_vendor(self):
+        # /Users/ioedu/projects/prj_tinymarket/backend_web
+
+
+        pathvendor = f"{belocal}/vendor"
+        pathzip = f"{belocal}/vendor.zip"
+
+        self._composer_zip(pathvendor, pathzip)
+        # @todo aqui deberia borra e zip que existiera antes del upload
+        self._composer_upload(pathzip, pathremote)  # sftp
+        self._composer_unzip(pathremote)  # ssh
+        os.remove(pathzip)
+
 
     def deploy(self):
         allcmds = self._get_step_cmds()
