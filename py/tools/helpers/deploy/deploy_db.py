@@ -13,8 +13,11 @@ class DeployDb(DeployBase):
         self._replace_tags = self.__load_replace_tags()
 
     def __load_replace_tags(self):
+        if not self._node:
+            return {}
         origin = self._node.get("origin", {})
         remote = self._node.get("remote", {})
+
         return {
             "db.origin.pathdumps": origin.get("pathdumps", ""),
             "db.origin.filepattern": origin.get("filepattern", ""),
@@ -64,6 +67,9 @@ class DeployDb(DeployBase):
         ]
 
     def deploy(self):
+        if not self._node:
+            return
+
         allcmds = self._get_step_cmds()
 
         def append_default_cms(arcmds):
