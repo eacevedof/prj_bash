@@ -69,7 +69,7 @@ class Sshit:
 
     def execute(self):
         if not self.is_connected():
-            self.error = "ssh not connected"
+            self.error = self.__get_color_error("ssh not connected")
             return
 
         shell = self.shell
@@ -77,10 +77,15 @@ class Sshit:
         # shell.exec_command abre una instancia nueva por cmd. Este es el motivo de la contactenación con ; de los comandos
         indata, outdata, error = shell.exec_command(onelinecmd)
         error = self._cleanresponse(error.read())
-        if error:
-            self.error = f"{color.FAIL}{error}{color.ENDC}"
+        self.error = self.__get_color_error(error)
         self.success = self._cleanresponse(outdata.read())
         self._print_cmd_result(onelinecmd, self.success, self.error)
+
+    @staticmethod
+    def __get_color_error(error):
+        if error:
+            return f"{color.FAIL}{error}{color.ENDC}"
+        return ""
 
     def close(self):
         if self.is_connected():
