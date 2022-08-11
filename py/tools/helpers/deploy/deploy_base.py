@@ -83,5 +83,5 @@ class DeployBase:
                 self._ssh.cmd(cmd)
             self._ssh.execute()
             self._ssh.close()
-            if self._ssh.error and handle_error:
+            if handle_error and (self._ssh.error or "ERRORS!" in self._ssh.success):
                 raise DeployStepException(self._ssh.error)
