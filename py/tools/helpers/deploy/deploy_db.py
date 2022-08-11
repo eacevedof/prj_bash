@@ -1,4 +1,4 @@
-from .deploy_base import DeployBase
+from .deploy_base import DeployBase, DeployTag
 
 import re
 import os
@@ -67,7 +67,7 @@ class DeployDb(DeployBase):
         allcmds = self._get_step_cmds()
 
         def append_default_cms(arcmds):
-            if " %fn_default_cmds%" in arcmds:
+            if DeployTag.FN_DEFAULT in arcmds:
                 return self.__default_cmds()
             return arcmds
 

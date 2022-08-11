@@ -3,6 +3,12 @@ from tools.sftpit import Sftpit
 from .deploy_step_exception import DeployStepException
 
 
+class DeployTag:
+    FINISH_ON_ERROR = "%finish_on_error%"
+    FN_DEFAULT = "%fn_default%"
+    FN_UPLOAD = "%fn_upload%"
+
+
 class DeployBase:
     _dicproject = {}
     _node = {}
@@ -66,12 +72,12 @@ class DeployBase:
         for group in allcmds:
             self._ssh.connect()
             self._ssh.clear()
-            handle_error = True if "%finis_on_error%" in group else False
+            handle_error = True if DeployTag.FINISH_ON_ERROR in group else False
             for cmd in group:
-                if "%finish_on_error%" in cmd:
+                if DeployTag.FINISH_ON_ERROR in cmd:
                     continue
                 cmd = self.__get_replaced(cmd)
-                if "%fn_upload%" in cmd:
+                if DeployTag.FN_UPLOAD in cmd:
                     self.__cmd_upload(cmd)
                     continue
                 self._ssh.cmd(cmd)
@@ -79,4 +85,3 @@ class DeployBase:
             self._ssh.close()
             if self._ssh.error and handle_error:
                 raise DeployStepException(self._ssh.error)
-
