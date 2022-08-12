@@ -14,5 +14,5 @@ class DeployStepException(Exception):
     """Forces exception from tag"""
 
     def __init__(self, message):
-        self.message = f"DeployStpeException: {message}"
+        self.message = f"DeployStpeException:[ {message} ]"
         super().__init__(self.message)
