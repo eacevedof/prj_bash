@@ -14,6 +14,7 @@ class DeployTag:
     FN_UPLOAD_ZIPPED = "%fn_upload_zipped%"
     FN_SH = "%fn_sh%"
     DIE = "%die%"
+    SKIP = "%skip%"
 
 
 class DeployBase:
@@ -102,6 +103,8 @@ class DeployBase:
 
     def _run_groups_of_cmds(self, allcmds):
         for group in allcmds:
+            if DeployTag.SKIP in group:
+                continue
             self._ssh.connect()
             self._ssh.clear()
             handle_error = True if DeployTag.FINISH_ON_ERROR in group else False
