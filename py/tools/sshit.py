@@ -5,6 +5,7 @@ class color:
     FAIL = "\033[91m"
     ENDC = "\033[0m"
 
+
 # http://46.101.4.154/Art%C3%ADculos%20t%C3%A9cnicos/Python/Paramiko%20-%20Conexiones%20SSH%20y%20SFTP.pdf
 class Sshit:
     shell = None
@@ -25,8 +26,7 @@ class Sshit:
         if dicaccess.get("private_key", ""):
             self.dicaccess["key_filename"] = dicaccess.get("private_key", "")
             self.dicaccess.pop("private_key")
-        #passphrase
-
+        # passphrase
 
     def connect(self):
         if self.dicaccess is None:
@@ -40,7 +40,7 @@ class Sshit:
 
         try:
             print(f"Sshit: ...trying to connect to {hostname}")
-            self.shell.connect(**self.dicaccess,port=self.dicaccess.get("port",22))
+            self.shell.connect(**self.dicaccess, port=self.dicaccess.get("port", 22))
         except Exception as error:
             self.shell = None
             print(f"Sshit: not connected to host: {hostname}. error: {error}")
