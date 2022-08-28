@@ -8,7 +8,7 @@ class DeployDb(DeployBase):
     def __init__(self, dicproject):
         DeployBase.__init__(self, dicproject)
         self._node = self._dicproject.get("db", {})
-        self._ssh = self._load_ssh()
+        self._ssh = self._load_ssh() if self._node else None
         self._replace_tags = self.__load_replace_tags()
 
     def __load_replace_tags(self):

@@ -1,5 +1,3 @@
-import sys
-from getpass import getpass
 import paramiko
 
 
@@ -21,23 +19,31 @@ class Sshit:
         self.error = ""
         self.success = ""
         self.dicaccess = dicaccess
+        self.dicaccess["hostname"] = dicaccess.get("host", "")
+        self.dicaccess.pop("host")
+        self.dicaccess.pop("private_key_pass")
+        if dicaccess.get("private_key", ""):
+            self.dicaccess["key_filename"] = dicaccess.get("private_key", "")
+            self.dicaccess.pop("private_key")
+        #passphrase
+
 
     def connect(self):
         if self.dicaccess is None:
             print(f"Sshit: no acces data supplied")
             return None
 
-        host = self.dicaccess["host"]
+        hostname = self.dicaccess["hostname"]
 
         self.shell = paramiko.SSHClient()
         self.shell.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
-            print(f"Sshit: ...trying to connect to {host}")
-            self.shell.connect(self.dicaccess["host"], 22, self.dicaccess["username"], self.dicaccess["password"])
+            print(f"Sshit: ...trying to connect to {hostname}")
+            self.shell.connect(**self.dicaccess,port=self.dicaccess.get("port",22))
         except Exception as error:
             self.shell = None
-            print(f"Sshit: not connected to host: {host}. error: {error}")
+            print(f"Sshit: not connected to host: {hostname}. error: {error}")
 
     @staticmethod
     def _cleanresponse(strrespose):
