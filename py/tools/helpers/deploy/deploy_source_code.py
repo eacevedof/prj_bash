@@ -66,8 +66,6 @@ class DeploySourceCode(DeployBase):
         ssh.close()
 
     def _copy_vendor(self):
-        # /Users/ioedu/projects/prj_tinymarket/backend_web
-
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
 

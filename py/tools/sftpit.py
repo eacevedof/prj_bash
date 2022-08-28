@@ -10,7 +10,15 @@ class Sftpit:
 
     def __init__(self, dicaccess):
         print("Sftpit: initializing...")
-        self.dicaccess = dicaccess
+        self.dicaccess = dicaccess.copy()
+
+        if "hostname" in self.dicaccess:
+            self.dicaccess["host"] = self.dicaccess.get("hostname")
+            self.dicaccess.pop("hostname")
+
+        if "key_filename" in self.dicaccess:
+            self.dicaccess["private_key"] = self.dicaccess.get("key_filename")
+            self.dicaccess.pop("key_filename")
 
     def connect(self):
         print("Sftpit: trying to connect...")

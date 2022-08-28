@@ -19,21 +19,25 @@ class Sshit:
         self.commands = []
         self.error = ""
         self.success = ""
-        self.dicaccess = dicaccess
-        self.dicaccess["hostname"] = dicaccess.get("host", "")
-        self.dicaccess.pop("host")
-        self.dicaccess.pop("private_key_pass")
-        if dicaccess.get("private_key", ""):
+        self.dicaccess = dicaccess.copy()
+
+        if "host" in self.dicaccess:
+            self.dicaccess["hostname"] = dicaccess.get("host", "")
+            self.dicaccess.pop("host")
+
+        if "private_key" in self.dicaccess:
             self.dicaccess["key_filename"] = dicaccess.get("private_key", "")
             self.dicaccess.pop("private_key")
-        # passphrase
+
+        if "private_key_pass" in self.dicaccess:
+            self.dicaccess.pop("private_key_pass")
 
     def connect(self):
         if self.dicaccess is None:
             print(f"Sshit: no acces data supplied")
             return None
 
-        hostname = self.dicaccess["hostname"]
+        hostname = self.dicaccess.get("hostname", "xxx")
 
         self.shell = paramiko.SSHClient()
         self.shell.set_missing_host_key_policy(paramiko.AutoAddPolicy())
