@@ -95,7 +95,7 @@ class Sshit:
 
     def close(self):
         if self.is_connected():
-            host = self.dicaccess["host"]
+            host = self.dicaccess.get("hostname", "")
             print(f"Sshit: clossing connection to: {host}")
             self.shell.close()
 
