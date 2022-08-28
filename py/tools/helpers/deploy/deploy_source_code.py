@@ -4,12 +4,19 @@ import re
 import os
 
 
+def __composer_upload(sftp, pathfrom, pathto):
+    sftp.connect()
+    if sftp.is_connected():
+        sftp.upload(pathfrom, pathto)
+        sftp.close()
+
+
 class DeploySourceCode(DeployBase):
 
     def __init__(self, dicproject):
         DeployBase.__init__(self, dicproject)
         self._node = self._dicproject.get("sourcecode", {})
-        self._ssh = self._load_ssh()
+        self._ssh = self._load_ssh() if self._node else None
         self._replace_tags = self.__load_replace_tags()
 
     def __load_replace_tags(self):
@@ -17,14 +24,12 @@ class DeploySourceCode(DeployBase):
         origin = self._node.get("origin", {})
         remote = self._node.get("remote", {})
         return {
-            "sourcecode.repository.url": repo.get("url",""),
-            "sourcecode.repository.branch": repo.get("branch","main"),
+            "sourcecode.repository.url": repo.get("url", ""),
+            "sourcecode.repository.branch": repo.get("branch", "main"),
             "sourcecode.origin.path": origin.get("path", ""),
             "sourcecode.remote.path": remote.get("path", ""),
             "sourcecode.remote.path_nohome": remote.get("path_nohome", ""),
         }
-
-
 
     def __get_files_by_creation_date_desc(self, filepattern):
         dirpath = self._node.get("origin", {}).get("path", "")
@@ -48,12 +53,6 @@ class DeploySourceCode(DeployBase):
     def __composer_zip(pathfrom, pathto):
         zipdir(pathfrom, pathto)
 
-    def __composer_upload(self,sftp, pathfrom, pathto):
-        sftp.connect()
-        if sftp.is_connected():
-            sftp.upload(pathfrom, pathto)
-            sftp.close()
-
     def __composer_unzip(self, pathupload):
         dicaccess = self._get_sshaccess_back()
         ssh = Sshit(dicaccess)
@@ -69,7 +68,6 @@ class DeploySourceCode(DeployBase):
     def _copy_vendor(self):
         # /Users/ioedu/projects/prj_tinymarket/backend_web
 
-
         pathvendor = f"{belocal}/vendor"
         pathzip = f"{belocal}/vendor.zip"
 
@@ -78,7 +76,6 @@ class DeploySourceCode(DeployBase):
         self._composer_upload(pathzip, pathremote)  # sftp
         self._composer_unzip(pathremote)  # ssh
         os.remove(pathzip)
-
 
     def deploy(self):
         allcmds = self._get_step_cmds()
@@ -91,4 +88,3 @@ class DeploySourceCode(DeployBase):
         allcmds = list(map(append_default_cms, allcmds))
 
         self._run_groups_of_cmds(allcmds)
-
