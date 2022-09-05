@@ -21,7 +21,7 @@ def index(pathin, pathto, min_duration=0):
         sys.exit()
 
     cmd = f"ffmpeg -i {pathin} -b 3800k {pathto} -y"
-    cmd = "ls -lat"
+    # cmd = "ls -lat"
 
     result = run(cmd, capture_output=True, shell=True)
     if result.stderr.decode("utf-8"):
