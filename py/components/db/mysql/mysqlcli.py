@@ -1,10 +1,15 @@
-#python -m pip install mysql-connector-python
+"""
+python -m pip install mysql-connector-python
+
+si hay varias versiones de python
+c:\python39\python -m pip install mysql-connector-python
+"""
 import mysql.connector
 #from typing import Union, Optional, Dict, List
 from typing import Dict, List
 
 
-class ComponentMysql:
+class MysqlCli:
 
     def __init__(self, arconn = Dict):
         self.__arerrors = []
@@ -16,22 +21,17 @@ class ComponentMysql:
 
     def __get_connection(self):
         if not self.__connection:
-            self.__connection = mysql.connector.connect(
-                host=self.__arconn.get("server",""),
-                user=self.__arconn.get("user",""),
-                password=self.__arconn.get("password",""),
-                database=self.__arconn.get("database",""),
-                port=self.__arconn.get("port",3306),
-                charset = "utf8"
-            )
+            self.__connection = mysql.connector.connect(**self.__arconn)
         return self.__connection
 
     def close(self) -> None:
         if self.__connection and self.__connection.is_connected():
             self.__connection.close()
+            self.__connection.disconnect()
         self.__connection = None
 
     def query(self, sql: str) -> List:
+        cursor = None
         try:
             conn = self.__get_connection()
             cursor = conn.cursor(dictionary=True)
@@ -43,7 +43,8 @@ class ComponentMysql:
         except mysql.connector.Error as error:
             self.__arerrors.append(error)
         finally:
-            cursor.close()
+            if cursor:
+                cursor.close()
 
     @staticmethod
     def __get_found_rows(cursor) -> int:
@@ -55,18 +56,24 @@ class ComponentMysql:
 
     @staticmethod
     def __get_last_insert_id(cursor) -> int:
-        cursor.execute("LAST_INSERT_ID() id")
+        cursor.execute("SELECT LAST_INSERT_ID() id")
         result = cursor.fetchall()
         if result:
-            return int(result[0].get("id",-1))
+            return int(result[0][0])
         return -1
 
-    def exec(self, sql: str):
+    def exec(self, sql: str, ismulti:bool = False) -> None:
+        cursor = None
         try:
             conn = self.__get_connection()
             cursor = conn.cursor()
-            cursor.execute(sql)
+            if not ismulti:
+                cursor.execute(sql)
+            else:
+                for r in cursor.execute(sql, multi=ismulti): pass;
+
             conn.commit()
+
             self.__iaffectedrows = cursor.rowcount
             if sql.find("INSERT INTO ("):
                 self.__ilastid = self.__get_last_insert_id(cursor)
@@ -74,7 +81,8 @@ class ComponentMysql:
         except mysql.connector.Error as error:
             self.__arerrors.append(error)
         finally:
-            cursor.close()
+            if cursor:
+                cursor.close()
 
     def is_error(self) -> bool:
         return True if self.__arerrors else False
