@@ -1,6 +1,7 @@
 #!/bin/bash
 #loop-2.sh
 
+# $PATHPRJ variable de entorno que tiene una ruta como /my-space/projects
 pathdir=$PATHPRJ
 # carpetas que no se tomarán en cuenta
 arexclude=("temper" "lacia" "tmp")
