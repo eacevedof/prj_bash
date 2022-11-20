@@ -6,7 +6,7 @@ do
 done
 
 # loop todos los directorios
-pathdir="/Users/ioedu"
+pathdir=$PATHPRJ
 for file in $(ls $pathdir) 
 do
 	echo "check file $pathdir/$file"
@@ -16,15 +16,6 @@ do
 	echo "is a dir $file"
 done
 
-pathdir="/Users/ioedu"
-for file in $(ls $pathdir) 
-do
-	echo "check file $pathdir/$file"
-	if [ ! -d "$pathdir/$file" ]; then
-		continue
-	fi
-	ls "$pathdir/$file"
-done
 
 for file in $(ls ./*); do if [ ! -d "./$file" ]; then continue; fi done
 
