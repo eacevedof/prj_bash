@@ -9,11 +9,21 @@ done
 pathdir="/Users/ioedu"
 for file in $(ls $pathdir) 
 do
-	echo "handling file $file"
+	echo "check file $pathdir/$file"
 	if [ ! -d "$pathdir/$file" ]; then
 		continue
 	fi
 	echo "is a dir $file"
+done
+
+pathdir="/Users/ioedu"
+for file in $(ls $pathdir) 
+do
+	echo "check file $pathdir/$file"
+	if [ ! -d "$pathdir/$file" ]; then
+		continue
+	fi
+	ls "$pathdir/$file"
 done
 
 for file in $(ls ./*); do if [ ! -d "./$file" ]; then continue; fi done
