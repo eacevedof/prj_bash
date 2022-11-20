@@ -8,15 +8,16 @@ arexclude=("temper" "lacia" "tmp")
 
 for file in $(ls $pathdir) 
 do
-	pathfile="$pathdir/$file"
+	# si el nombre del archivo está en los strings excluidos salta al siguiente valor
 	if [[ ${arexclude[*]} =~ $file ]]; then continue; fi
 	
-	if [ ! -d $pathfile ]; then
-		continue
-	fi
+	pathfile="$pathdir/$file"	
+	# si el archivo no es un directorio salta al siguiente valor
+	if [ ! -d $pathfile ]; then continue; fi
+
 	# el fichero es un dicrectorio por lo tanto se puede ejecutar
 	# cualquier comando con esta ruta. por ejemplo un ls 
 	# -e permite entender \n como salto de linea
 	echo -e "\n===========\n$pathfile is a dir\n==========\n"
-	ls $pathfile
+	ls -lat $pathfile
 done
