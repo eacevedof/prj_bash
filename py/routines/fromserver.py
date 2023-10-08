@@ -12,23 +12,27 @@ from py.tools.sftpit import Sftpit
 def database(project):
     dicproject = get_dicconfig(project)
     # ppr(dicproject);
-    dicaccess = dicproject["backend"]["prod"]
+    dicaccess = dicproject["db"]["remote"]["ssh"]
     # pd(dicaccess);
     sftp = Sftpit(dicaccess)
     sftp.connect()
     if sftp.is_connected():
-        host = dicproject["db"]["prod"]["server"]
-        user = dicproject["db"]["prod"]["user"]
-        password = dicproject["db"]["prod"]["password"]
-        database = dicproject["db"]["prod"]["database"]
+        db_remote = dicproject["db"]["remote"]
+        host = db_remote["server"]
+        user = db_remote["user"]
+        password = db_remote["password"]
+        database = db_remote["database"]
+
+        db_local = dicproject["db"]["origin"]
+
         now = get_datetime()
-        dblocal = dicproject["db"]["dblocal"]
+        dblocal = db_local["database"]
         dbfile = f"{dblocal}_{now}.sql"
 
         cmd = f"cd backup_bd; mysqldump --no-tablespaces --host={host} --user={user} --password=\"{password}\" {database} > {dbfile}"
         sftp.execute(cmd)
         pathfrom = f"backup_bd/{dbfile}"
-        pathto = dicproject["db"]["pathyog"]+"/prod_"+dbfile
+        pathto = db_local["pathdumps"] +"/prod_"+dbfile
 
         sftp.download(pathfrom, pathto)
         sftp.close()
