@@ -6,8 +6,8 @@ descarga recursos de produccion
 ejemplo:
     py.sh fromserver.database tinymarket
 """
-from tools.tools import *
-from tools.sftpit import Sftpit
+from py.tools.tools import *
+from py.tools.sftpit import Sftpit
 
 def database(project):
     dicproject = get_dicconfig(project)
