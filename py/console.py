@@ -7,7 +7,7 @@ from importlib import import_module
 from tools.argit import *
 
 
-def die(strmsg):
+def die(strmsg: str):
     print(f"console.py: {strmsg}")
     sys.exit()
 
@@ -19,6 +19,8 @@ if modulename == "--help" or modulename == "-help" or modulename == "-h":
 
 
 def run():
+    global modulename
+    # die(modulename)
     if get_nargs() < 2:
         die("\n\tWrong request!!. \n\tError: Missing arguments!. \n\tTry: \n\t  py.sh -h to check manual")
 
@@ -27,7 +29,7 @@ def run():
     #  importlib.import_module(f"routines.{module}") nok
     try:
         # print("argv"); pprint(sys.argv); die("-- end argv--")
-        imodule = import_module(f"routines.{modulename}")
+        imodule = import_module(f"routines.{modulename}", "..")
         funcname = get_funcname()
         objfunc = getattr(imodule, funcname)
         numparams = get_nfuncparams(objfunc)

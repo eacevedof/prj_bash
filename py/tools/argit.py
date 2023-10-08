@@ -37,5 +37,5 @@ def get_funcname():
 
 
 def showhelp():
-    from help import index
+    from py.help import index
     index()

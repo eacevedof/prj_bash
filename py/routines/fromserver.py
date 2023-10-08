@@ -54,11 +54,7 @@ def download(pathfom):
     sftp.connect()
     if sftp.is_connected():
         print("downloading: \n"+pathfom)
-        host = dicproject["db"]["prod"]["server"]
-        user = dicproject["db"]["prod"]["user"]
-        password = dicproject["db"]["prod"]["password"]
-        database = dicproject["db"]["prod"]["database"]
-        
+
         filename = get_basename(pathfom)
         pathto = dicproject["db"]["pathyog"]+"/"+filename
 
