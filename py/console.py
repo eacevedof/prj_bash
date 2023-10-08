@@ -29,7 +29,7 @@ def run():
     #  importlib.import_module(f"routines.{module}") nok
     try:
         # print("argv"); pprint(sys.argv); die("-- end argv--")
-        imodule = import_module(f"routines.{modulename}", "..")
+        imodule = import_module(f"routines.{modulename}")
         funcname = get_funcname()
         objfunc = getattr(imodule, funcname)
         numparams = get_nfuncparams(objfunc)
