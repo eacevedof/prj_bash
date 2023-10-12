@@ -104,7 +104,9 @@ class DeployBase:
     def _run_groups_of_cmds(self, allcmds):
         for group in allcmds:
             if DeployTag.SKIP in group:
+                print(f"...skipping group {allcmds[1]}")
                 continue
+
             self._ssh.connect()
             self._ssh.clear()
             handle_error = True if DeployTag.FINISH_ON_ERROR in group else False
