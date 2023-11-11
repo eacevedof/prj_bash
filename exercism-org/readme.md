@@ -1,1 +1,5 @@
-[https://exercism.org/tracks/bash/exercises/two-fer/edit](https://exercism.org/tracks/bash/exercises/two-fer/edit)
+## bash
+- [https://exercism.org/tracks/bash](https://exercism.org/tracks/bash)
+
+## vim
+- [https://exercism.org/tracks/vimscript](https://exercism.org/tracks/vimscript)
