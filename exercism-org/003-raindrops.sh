@@ -21,15 +21,21 @@ is_7_factored() {
 
 main() {
   result=""
-  if [ is_3_factored $1 ]; then
+  number="$1"
+  if is_3_factored "$number"; then
       result=$result"Pling"
   fi
-  if [ is_5_factores $1 ]; then
+  if is_5_factored "$number"; then
       result=$result"Plang"
   fi
-  if [ is_7_factores $1 ]; then
+  if is_7_factored "$number"; then
       result=$result"Plong"
   fi
+  if [ -z $result ]; then
+    echo "$number"
+    return
+  fi
+  echo $result
 }
 
 main "$@"
