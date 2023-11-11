@@ -1,12 +1,14 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 
 main() {
-    cookie_by_name "$1"
+    # cuando entra "John Smith"
+    # si se pasa $1 => John
+    # sino "$1" => "John Smith"
+    cookies_for "$1"
 }
 
-cookie_by_name() {
-    name=$1
+cookies_for() {
+    name="$1"
     if [ -z "$name" ]; then
         echo "One for you, one for me."
     else
@@ -14,4 +16,5 @@ cookie_by_name() {
     fi
 }
 
-main "$1"
+# two-fer.sh "John Smith" "Mary Ann"
+main "$@"
