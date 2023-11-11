@@ -7,8 +7,29 @@
 #has 7 as a factor, add 'Plong' to the result.
 #does not have any of 3, 5, or 7 as a factor, the result should be the digits of the number.
 
+is_3_factored() {
+  (( $1 % 3 == 0 )) && return 0 || return 1
+}
+
+is_5_factored() {
+  (( $1 % 5 == 0 )) && return 0 || return 1
+}
+
+is_7_factored() {
+  (( $1 % 7 == 0 )) && return 0 || return 1
+}
+
 main() {
-  echo ""
+  result=""
+  if [ is_3_factored $1 ]; then
+      result=$result"Pling"
+  fi
+  if [ is_5_factores $1 ]; then
+      result=$result"Plang"
+  fi
+  if [ is_7_factores $1 ]; then
+      result=$result"Plong"
+  fi
 }
 
 main "$@"
