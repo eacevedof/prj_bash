@@ -23,13 +23,13 @@ is_7_factored() {
 main() {
   result=""
   number="$1"
-  if is_3_factored "$number"; then
+  if (( $1 % 3 == 0 )); then
     result="Pling"
   fi
-  if is_5_factored "$number"; then
+  if (( $1 % 5 == 0 )); then
     result="${result}Plang"
   fi
-  if is_7_factored "$number"; then
+  if (( $1 % 7 == 0 )); then
     result+="Plong"
   fi
   if [[ -z "$result" ]]; then
