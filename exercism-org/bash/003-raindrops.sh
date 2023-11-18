@@ -33,10 +33,9 @@ main() {
     result+="Plong"
   fi
   if [[ -z "$result" ]]; then
-    echo "${number}"
-    return
+    result=$number
   fi
-  echo $result
+  echo "$result"
 }
 
 main "$@"
