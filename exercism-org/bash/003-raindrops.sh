@@ -27,13 +27,13 @@ main() {
     result="Pling"
   fi
   if is_5_factored "$number"; then
-    result="$result""Plang"
+    result="${result}Plang"
   fi
   if is_7_factored "$number"; then
-    result="$result""Plong"
+    result+="Plong"
   fi
-  if [ -z "$result" ]; then
-    echo "$number"
+  if [[ -z "$result" ]]; then
+    echo "${number}"
     return
   fi
   echo $result
