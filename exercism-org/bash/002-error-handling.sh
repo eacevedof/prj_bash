@@ -6,16 +6,11 @@
 # print a greeting message. Otherwise print an error message and exit with a non-zero status.
 
 main() {
-    hello "$@"
-}
-
-hello() {
     num_args=$#
-    if [ $num_args -lt 1 ] || [ $num_args -gt 1 ]; then
+    if [[ $num_args -lt 1 ]] || [[ $num_args -gt 1 ]]; then
         echo "Usage: error_handling.sh <person>"
-        exit 1
+        return
     fi
-
     echo "Hello, $1"
 }
 
