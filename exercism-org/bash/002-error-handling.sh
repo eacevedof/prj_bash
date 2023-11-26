@@ -7,13 +7,16 @@
 
 main() {
     num_args=$#
-    if  (( $num_args < 1  ||  $num_args > 1 )); then
-        echo "Usage: error_handling.sh <person>"
-        # is required fot testing because it checks the function state
-        return 1
+    if  (( $num_args == 1 ))
+    then
+        echo "Hello, $1"
+        return 0
     fi
-    echo "Hello, $1"
-    return 0
+    echo "Usage: error_handling.sh <person>"
+    # is required fot testing because it checks the function state
+    return 1
 }
+
+main "$@"
 
 main "$@"
