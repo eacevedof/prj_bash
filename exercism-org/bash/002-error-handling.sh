@@ -10,9 +10,10 @@ main() {
     if  (( $num_args < 1 ))  ||  (( $num_args > 1 )); then
         echo "Usage: error_handling.sh <person>"
         # is required fot testing because it checks the function state
-        exit 1
+        return 1
     fi
     echo "Hello, $1"
+    return 0
 }
 
 main "$@"
