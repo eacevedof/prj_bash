@@ -7,9 +7,10 @@
 
 main() {
     num_args=$#
-    if [[ $num_args -lt 1 ]] || [[ $num_args -gt 1 ]]; then
+    if  (( $num_args < 1 ))  ||  (( $num_args > 1 )); then
         echo "Usage: error_handling.sh <person>"
-        return
+        # is required fot testing because it checks the function state
+        exit 1
     fi
     echo "Hello, $1"
 }
