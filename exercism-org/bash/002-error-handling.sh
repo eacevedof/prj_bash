@@ -7,7 +7,7 @@
 
 main() {
     num_args=$#
-    if  (( $num_args < 1 ))  ||  (( $num_args > 1 )); then
+    if  (( $num_args < 1  ||  $num_args > 1 )); then
         echo "Usage: error_handling.sh <person>"
         # is required fot testing because it checks the function state
         return 1
