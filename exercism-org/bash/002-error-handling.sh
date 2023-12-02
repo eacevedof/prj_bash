@@ -7,7 +7,7 @@
 
 main() {
     num_args=$#
-    if  (( $num_args == 1 ))
+    if  (( num_args == 1 ))
     then
         echo "Hello, $1"
         return 0
