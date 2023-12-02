@@ -35,6 +35,7 @@ main () {
 
   hamming_distance=$(get_hamming_distance arr_sequence1 arr_sequence2)
   echo "$hamming_distance"
+  return 0
 }
 
 
