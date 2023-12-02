@@ -38,10 +38,11 @@ main () {
   arr_sequence2=()
 
   #error aqui no pudo partir el string en varios
+  # -r raw input, -n1 read only 1 char at a time, -a some_array sotre chars in the array
   IFS= read -r -n1 -a arr_sequence1 <<< "$str_sequence1"
   IFS= read -r -n1 -a arr_sequence2 <<< "$str_sequence2"
 
-  printf "array: %s " "${arr_sequence1[@]}"; return 1;
+  printf "array: %s " "${arr_sequence1[2]}"; return 1;
 
 
   printf "%s %s " "$len_seq1 $len_seq2"
